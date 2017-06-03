@@ -1,4 +1,4 @@
-var app = angular.module('losasApp',['ngRoute', 'losasApp.form1Ctrl']);
+var app = angular.module('jscrumApp',['ngRoute', 'jscrumApp.form1Ctrl']);
 
 app.controller('mainCtrl', ['$scope','$http', function($scope,$http){
 

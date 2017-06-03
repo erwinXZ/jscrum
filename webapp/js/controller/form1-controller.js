@@ -1,4 +1,4 @@
-var app = angular.module('losasApp.form1Ctrl',[]);
+var app = angular.module('jscrumApp.form1Ctrl',[]);
 
 app.controller('form1Ctrl', ['$scope', function($scope){
 	
