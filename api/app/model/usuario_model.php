@@ -113,6 +113,23 @@ class  UsuarioModel
 		return $this->response->setResponse(true);
 			 
 	}
+
+	public function login($data){
+
+		//$this->db->insertInto($this->table, $data)
+		//		 ->execute();
+		$this->db_pdo->multi_query("CALL login('".$data['_login']."',
+											'".$data['_password']."')");
+		$res = $this->db_pdo->store_result();
+			$res = $res->fetch_assoc();
+			mysqli_close($this->db_pdo);
+
+			$res = array("mesagge"=>$res);
+			$res["response"]=true;
+			return $res;										 
+
+			 
+	}
 	//actualizar
 	public function update($data, $id){
 
