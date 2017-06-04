@@ -1,4 +1,7 @@
-var app = angular.module('jscrumApp',['ngRoute', 'jscrumApp.form1Ctrl']);
+var app = angular.module('jscrumApp',
+	['ngRoute', 'jscrumApp.form1Ctrl',
+	'jscrumApp.registroCtrl']
+	);
 
 app.controller('mainCtrl', ['$scope','$http', function($scope,$http){
 
@@ -13,6 +16,10 @@ app.controller('mainCtrl', ['$scope','$http', function($scope,$http){
 	.when('/form1', {
 		templateUrl: 'pages/form1.html',
 		controller: 'form1Ctrl'
+	})
+	.when('/registro', {
+		templateUrl: 'pages/registro.html',
+		controller: 'registroCtrl'
 	})
 	.otherwise({ 
 		redirectTo: '/' 

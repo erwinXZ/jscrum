@@ -2,6 +2,8 @@ nav{
 	margin-bottom: 0px !important;
 }
 footer{
+	position: absolute;
+    width: 100%;
 	border-top: 1px solid #2d2d2d;
 	margin-top: 5%;
 	bottom: 0;
@@ -39,4 +41,12 @@ footer span{
 	text-align: center;
 	font-weight: 800px;
 	margin: 3% 0;
+}
+
+/*login view*/
+.container-login{
+	margin-top: 10%;
+}
+.container-registro{
+	margin-top: 5%;
 }
