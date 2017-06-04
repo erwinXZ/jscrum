@@ -9,12 +9,12 @@ use App\Lib\Response;
             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
 });
 
-$app->group('/manager',function(){
+$app->group('/pilaSprint',function(){
 
 	$this->get('/',function($req, $res, $args){
 		return $res->withHeader('Content-type', 'aplication/json')
 				   ->write(
-				   		json_encode($this->model->Manager->listar())
+				   		json_encode($this->model->pilaSprint->listar())
 				   	);	
 	});
 
@@ -29,7 +29,7 @@ $app->group('/manager',function(){
 	$this->get('/{id}',function($req, $res, $args){
 		return $res->withHeader('Content-type', 'aplication/json')
 				   ->write(
-				   		json_encode($this->model->Manager->getManager($args['id']))
+				   		json_encode($this->model->pilaSprint->getPilaSprint($args['id']))
 				   		
 				   	);
 	});
@@ -45,25 +45,12 @@ $app->group('/manager',function(){
 
 		return $res->withHeader('Content-type', 'aplication/json')
 			       -> write(
-						json_encode($this->model->Manager->insert($req->getParsedBody()))
+						json_encode($this->model->pilaSprint->insert($req->getParsedBody()))
 
 				   	);
 	});
-	$this->post('/asignarEquipo/',function($req, $res, $args){
-		// $r = UserValidation::validate($req->getParsedBody());
 
-		// if(!$r->response){
-		// 	return $res->withHeader('Content-type', 'aplication/json')
-		// 			   ->withStatus(422)
-		// 			   ->write(json_encode($r->errors));
-		// }
 
-		return $res->withHeader('Content-type', 'aplication/json')
-			       -> write(
-						json_encode($this->model->Manager->insertEquipoE($req->getParsedBody()))
-
-				   	);
-	});
 	$this->put('/{id}',function($req, $res, $args){
 
 		// $r = UserValidation::validate($req->getParsedBody());
@@ -76,7 +63,7 @@ $app->group('/manager',function(){
 		
 		return $res->withHeader('Content-type', 'aplication/json')
 				   ->write(
-				   		json_encode($this->model->Manager->update($req->getParsedBody(), $args['id'] ))
+				   		json_encode($this->model->pilaSprint->update($req->getParsedBody(), $args['id'] ))
 				   		
 				   	);
 	});
@@ -84,7 +71,7 @@ $app->group('/manager',function(){
 	$this->delete('/{id}',function($req, $res, $args){
 		return $res->withHeader('Content-type', 'aplication/json')
 				   ->write(
-				   		json_encode($this->model->Manager->delete($args['id']))
+				   		json_encode($this->model->pilaSprint->delete($args['id']))
 				   		
 				   	);
 

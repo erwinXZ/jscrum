@@ -8,10 +8,10 @@ use App\Lib\Response,
 /**
 * Modelo usuario
 */
-class  PilaModel
+class  pilaSprintModel
 {
 	private $db;
-	private $table = 'pila';
+	private $table = 'pila_sprint';
 	private $response;
 
 
@@ -57,7 +57,7 @@ class  PilaModel
 		];				  						 
 	}
 	//obtener
-	public function getPila($id){
+	public function getPilaSprint($id){
 
 		return $data = $this->db->from($this->table, $id)
 								->fetch();  						 
@@ -65,27 +65,17 @@ class  PilaModel
 	//registrar
 
 	public function insert($data){
+		// $data['password'] = md5($data['password']);
+		$data['password'] = $this->security->encriptar($data['password']);	
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL crearPila(	'".$data['_codigo']."',
+		$this->db_pdo->prepare(" CALL insertarPila_sprint('".$data['_codigo']."',
 													'".$data['_historia']."',
 													'".$data['_importancia']."',
-                                                    '".$data['_estimado_horas']."',
-													'".$data['_id_proyecto']."')")
-					  ->execute();
-
-		return $this->response->setResponse(true);
-			 
-	}
-
-	public function insertDias($data){
-
-		//$this->db->insertInto($this->table, $data)
-		//		 ->execute();
-		$this->db_pdo->prepare(" CALL diasInhabiles(	'".$data['_dia']."',
-													'".$data['_descripcion']."',
-													'".$data['_id_sprint']."')")
+													'".$data['_estimado']."',
+                                                    '".$data['_codigoS']."',
+													'".$data['_id_pila']."')")
 					  ->execute();
 
 		return $this->response->setResponse(true);

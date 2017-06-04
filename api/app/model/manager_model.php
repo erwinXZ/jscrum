@@ -83,6 +83,21 @@ class  ManagerModel
 		return $this->response->setResponse(true);
 			 
 	}
+
+	public function insertEquipoE($data){
+		// $data['password'] = md5($data['password']);
+		$data['password'] = $this->security->encriptar($data['password']);	
+
+		//$this->db->insertInto($this->table, $data)
+		//		 ->execute();
+		$this->db_pdo->prepare(" CALL asignarEquipoE('".$data['_email']."',
+													'".$data['_cargo']."',
+													'".$data['_id_equipo']."')")
+					  ->execute();
+
+		return $this->response->setResponse(true);
+			 
+	}
 	//actualizar
 	public function update($data, $id){
 
