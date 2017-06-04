@@ -14,8 +14,8 @@ app.controller('registroCtrl', ['$scope','userServices' ,function($scope,userSer
 
     $scope.registrar = function(user){
         
-			console.log(user);
-            console.log($scope.visible);
+			// console.log(user);
+            console.log($scope.user.visible);
 			datos = $scope.datos
             $scope.user.visible = true;
 			userServices.insertar(user).then(function(){

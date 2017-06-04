@@ -79,14 +79,14 @@ class  UsuarioModel
 		// return $this->response->setResponse(true);
 		$this->db_pdo->multi_query(" CALL insertarUsuario(	'".$data['_nombre']."',
 		 											'".$data['_apellidos']."',
-		 											'".$data['_email']."',
+		 											'".$data['_email']."',fetch_array
                                                      '".$data['_login']."',
                                                      '".$data['_password']."',
 		 											'".$data['_profesion']."');");
 			$res = $this->db_pdo->store_result();
 			$res = $res->fetch_array();
 			mysqli_close($this->db_pdo);
-			$res = array("message"=>$res[0]);
+			$res = array("message"=>$res[0],"response"=>true);
 			return $res;										 
 
 			 
