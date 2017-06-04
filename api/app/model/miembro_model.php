@@ -70,7 +70,7 @@ class  MiembroModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL insertarMiembro(	'".$data['_nombre']."',
+		$this->db_pdo->prepare("CALL insertarMiembro('".$data['_nombre']."',
 													'".$data['_apellidos']."',
 													'".$data['_email']."',
 													'".$data['_login']."',

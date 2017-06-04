@@ -1,6 +1,8 @@
 var app = angular.module('jscrumApp',
-	['ngRoute', 'jscrumApp.form1Ctrl',
-	'jscrumApp.registroCtrl']
+	['ngRoute', 
+	'jscrumApp.form1Ctrl',
+	'jscrumApp.registroCtrl',
+	'jscrumApp.userServices']
 	);
 
 app.controller('mainCtrl', ['$scope','$http', function($scope,$http){

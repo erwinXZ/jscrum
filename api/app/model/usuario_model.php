@@ -68,15 +68,27 @@ class  UsuarioModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL insertarUsuario(	'".$data['_nombre']."',
-													'".$data['_apellidos']."',
-													'".$data['_email']."',
-                                                    '".$data['_login']."',
-                                                    '".$data['_password']."',
-													'".$data['_profesion']."')")
-					  ->execute();
+		// $this->db_pdo->prepare(" CALL insertarUsuario(	'".$data['_nombre']."',
+		// 											'".$data['_apellidos']."',
+		// 											'".$data['_email']."',
+        //                                             '".$data['_login']."',
+        //                                             '".$data['_password']."',
+		// 											'".$data['_profesion']."')")
+		// 			  ->execute();
 
-		return $this->response->setResponse(true);
+		// return $this->response->setResponse(true);
+		$this->db_pdo->multi_query(" CALL insertarUsuario(	'".$data['_nombre']."',
+		 											'".$data['_apellidos']."',
+		 											'".$data['_email']."',
+                                                     '".$data['_login']."',
+                                                     '".$data['_password']."',
+		 											'".$data['_profesion']."');");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0]);
+			return $res;										 
+
 			 
 	}
 

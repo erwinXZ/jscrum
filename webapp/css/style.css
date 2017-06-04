@@ -50,3 +50,9 @@ footer span{
 .container-registro{
 	margin-top: 5%;
 }
+.img-loading{
+	width: 24px;
+    display: block;
+    margin: 0 auto;
+    margin-top: 20px;
+}
