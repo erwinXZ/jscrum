@@ -4,37 +4,41 @@
         <div class="col-md-4 col-md-offset-2">
             <h3 class="text-success">Registro de Usuario</h3>
                 <!--nombre-->
-                <div class="form-group">
-					<label for="nombreInput">Nombre</label>
-					<input type="text" class="form-control" ng-model="user.name" id="nombreInput" placeholder="Nombre">
-				</div>
-                <!--apellido-->
-				<div class="form-group">
-					<label for="apeInput">Apellido</label>
-					<input type="text" class="form-control" ng-model="user.lasname" id="apeInput" placeholder="Apellido">
-				</div>
-                <!--email-->
-                <div class="form-group">
-					<label for="emailInput">Email</label>
-					<input type="email" class="form-control" ng-model="user.email" id="emailInput" placeholder="Email">
-				</div>
-                <!--user-->
-                <div class="form-group">
-					<label for="userInput">Usuario</label>
-					<input type="text" class="form-control" ng-model="user.nick" id="userInput" placeholder="Nombre de Usuario">
-				</div>
-                <!--pass-->
-                <div class="form-group">
-					<label for="passInput">Contraseña</label>
-					<input type="password" class="form-control" ng-model="user.password" id="passInput" placeholder="Contraseña">
-				</div>
-                <!--profession-->
-                <div class="form-group">
-					<label for="proInput">Profesion</label>
-					<input type="text" class="form-control" ng-model="user.profession" id="proInput" placeholder="Profesion">
-				</div>
+                <form name="frmUser" ng-submit="insertar(user)">
+                    <div class="form-group">
+                        <label for="nombreInput">Nombre</label>
+                        <input type="text" class="form-control" ng-model="user.name" id="nombreInput" placeholder="Nombre" requiered>
+                    </div>
+                    <!--apellido-->
+                    <div class="form-group">
+                        <label for="apeInput">Apellido</label>
+                        <input type="text" class="form-control" ng-model="user.lasname" id="apeInput" placeholder="Apellido" required>
+                    </div>
+                    <!--email-->
+                    <div class="form-group">
+                        <label for="emailInput">Email</label>
+                        <input type="email" class="form-control" ng-model="user.email" id="emailInput" placeholder="Email" required>
+                    </div>
+                    <!--user-->
+                    <div class="form-group">
+                        <label for="userInput">Usuario</label>
+                        <input type="text" class="form-control" ng-model="user.nick" id="userInput" placeholder="Nombre de Usuario" required>
+                    </div>
+                    <!--pass-->
+                    <div class="form-group">
+                        <label for="passInput">Contraseña</label>
+                        <input type="password" class="form-control" ng-model="user.password" id="passInput" placeholder="Contraseña" required>
+                    </div>
+                    <!--profession-->
+                    <div class="form-group">
+                        <label for="proInput">Profesion</label>
+                        <input type="text" class="form-control" ng-model="user.profession" id="proInput" placeholder="Profesion" required>
+                    </div>
 
-                <button class="btn btn-success btn-block" ng-click="registrar()">Registrar</button>
+                <button type="submit" class="btn btn-success btn-block" >Registrar</button>
+                </form>
+
+                
 
         </div>
         <div class="col-md-4">
