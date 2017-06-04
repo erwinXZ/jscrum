@@ -1,12 +1,39 @@
-var app = angular.module('jscrumApp.form1Ctrl',[]);
+var app = angular.module('jscrumApp.form1Ctrl',["ngStorage"]);
 
-app.controller('form1Ctrl', ['$scope', function($scope){
+app.controller('form1Ctrl', ['$scope','userServices','$window','$sessionStorage', function($scope,userServices,$window,$sessionStorage){
+	$scope.user = {};
+	$scope.login = "";
+	$scope.password = "";
+	$scope.user.visible = false;
+    $scope.user.respuesta = "";
 	
-	$scope.divi =  function(){
-		var n1 = parseFloat($scope.num1);
-		var n2 = parseFloat($scope.num2);
-		var res = n1/n2;
-		$scope.result = res;
-	}
+	$scope.logIn = function(user){
 
+			datos = $scope.datos
+            $scope.user.visible = true;
+			userServices.logIn(user).then(function(){
+				$scope.response = userServices.response;
+				$scope.user.visible = true;
+				objeto = $scope.response;
+				if(objeto.mesagge.response == "0"){
+					$scope.user.visible = false;
+					console.log("incorrecto");
+					console.log(objeto.mesagge);
+					$scope.user.respuesta = "Login Incorrecto";
+				}else{
+					$scope.user.visible = false;
+					$scope.user.respuesta = "Login Correcto";
+					console.log("correcto");
+					console.log(objeto.mesagge);
+					$sessionStorage.data = objeto.mesagge;
+					 setTimeout(function() {
+                        $window.location.href = '#/admin';
+                    }, 2000);
+
+					console.log(objeto.mesagge);
+				}
+
+                
+			});
+	}
 }])

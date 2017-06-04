@@ -15,12 +15,11 @@ app.controller('registroCtrl', ['$scope','userServices','$window' ,function($sco
             $scope.user.visible = true;
 			userServices.insertar(user).then(function(){
 				$scope.response = userServices.response;
-				//console.log($scope.response.message)
+
                 if($scope.response.message == "0"){
                     $scope.user.visible = false;
                     console.log($scope.user.visible);
-                    // console.log("correo invalido");
-                    // console.log("El correo ya fue registrado");
+
                     $scope.user.respuesta = "El correo ya fue registrado, intente otro";
                     
 
