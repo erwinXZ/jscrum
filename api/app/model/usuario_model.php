@@ -97,7 +97,7 @@ class  UsuarioModel
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
 		$this->db_pdo->prepare(" CALL insertarManager(	'".$data['_experiencia']."',
-													'".$data['_id_usuario']."')")
+													'".$data['_email']."')")
 					  ->execute();
 		return $this->response->setResponse(true);
 			 
@@ -108,7 +108,7 @@ class  UsuarioModel
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
 		$this->db_pdo->prepare(" CALL insertarMiembro(	'".$data['_destrezas']."',
-													'".$data['_id_usuario']."')")
+													'".$data['_email']."')")
 					  ->execute();
 		return $this->response->setResponse(true);
 			 
