@@ -39,13 +39,14 @@ $container['db_mysqli'] = function ($c) {
 $container['model']	= function($c){
 
 	return (object)[
-		'Manager'	=>	new App\Model\ManagertModel($c->db, $c->db_mysqli),
-		'Miembro'	=>	new App\Model\MiembrotModel($c->db, $c->db_mysqli),
+		'Manager'	=>	new App\Model\ManagerModel($c->db, $c->db_mysqli),
+		'Miembro'	=>	new App\Model\MiembroModel($c->db, $c->db_mysqli),
 		'Proyecto'	=>	new App\Model\ProyectoModel($c->db, $c->db_mysqli),
 		'Equipo'	=>	new App\Model\EquipoModel($c->db, $c->db_mysqli),
 		'Pila'	=>	new App\Model\PilaModel($c->db, $c->db_mysqli),
 		'Sprint'	=>	new App\Model\SprintModel($c->db, $c->db_mysqli),
 		'Tarea'	=>	new App\Model\TareaModel($c->db, $c->db_mysqli),
+		'Usuario'	=>	new App\Model\UsuarioModel($c->db, $c->db_mysqli),
 		'Esfuerzo'	=>	new App\Model\EsfuerzoModel($c->db, $c->db_mysqli)
 	];
 };
