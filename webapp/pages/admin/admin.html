@@ -31,16 +31,53 @@
 	</nav>
 
 <br>
-<div class="row">
-    <div class="col-md-2">
-        <div class="well well-lg">
-            <span class="glyphicon glyphicon-user"></span>  <span class="text-info">{{ data.nombre }}</span><br>
-            <span>{{ data.rol }}</span>
 
-            
-            
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="well well-lg">
+                <span class="glyphicon glyphicon-user"></span>  <span class="text-info">{{ data.nombre }}</span><br>
+                <span>{{ data.rol }}</span>
+
+            </div>
         </div>
+
+        <div class="col-md-10">
+            <!--<section ng-view>
+
+    	    </section>-->
+            <!--<div ng-include="'pages/users.html'">-->
+            <h2 class="text-center text-info">Usuarios</h2>
+            <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th class="text-success">Nombre</th>
+                    <th class="text-success">Apellido</th>
+                    <th class="text-success">Correo</th>
+                    <th class="text-success">Profesion</th>
+                    <th class="text-success">Rol</th>
+                    <th class="text-success">Modificar Rol</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="user in response">
+                    <td>{{ user.nombre }}</td>
+                    <td>{{ user.apellidos }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.profesion }}</td>
+                    <td>{{ user.rol }}</td>
+                    
+                    <td> <button ng-click="mostrarModal(user)" class="btn btn-warning"> <span class="glyphicon glyphicon-edit"></span> </button></td>
+                </tr>
+            </tbody>
+             </table> 
+
+            </div>
+        </div>
+
     </div>
 </div>
+<div ng-include="'pages/admin/modal.html'"></div>
+
 
 

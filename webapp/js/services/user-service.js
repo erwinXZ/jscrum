@@ -28,11 +28,9 @@ var self ={
 								// console.log("Service"+response);
 								return d.resolve()	
                             }, function errorCallback(response) {
-                            // ko
-                            	return d.resolve()	
-                                // self.cargado		= true;
-    							// self.cargando		= false;
+								
 								self.response 	= response.data
+								return d.resolve();
                         });
                        return d.promise;	 
 	
@@ -48,6 +46,30 @@ var self ={
 								_login:datos.login,
 								_password:datos.password
 						}
+                    	})
+                        .then(function successCallback(response) {
+                                // ok
+                                // self.cargado		= true;
+    							// self.cargando		= false;
+								self.response 	= response.data;
+								
+								return d.resolve()	
+                            }, function errorCallback(response) {
+                            // ko
+                            	return d.resolve()	
+                                // self.cargado		= true;
+    							// self.cargando		= false;
+								self.response 	= response.data
+                        });
+                       return d.promise;	 
+	
+				},
+				listar : function(){
+					var d = $q.defer();
+				
+                    $http({
+                      method: 'GET',
+					  	url: 'http://192.168.1.11/Web/jscrum/api/public/usuario/',
                     	})
                         .then(function successCallback(response) {
                                 // ok
