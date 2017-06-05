@@ -6,11 +6,20 @@
         <h4 class="modal-title">Modificar Rol</h4>
       </div>
       <div class="modal-body">
-        <p>One fine body&hellip;</p>
+        <!--{{ userMod }}-->
+        <p> <span class="text-info">Usuario: </span> {{ userMod.nombre }} {{ userMod.apellidos }} </p>
+        <p> <span class="text-info">Correo: </span> {{ userMod.email }} </p>
+        <p> <span class="text-info">Profesion: </span> {{ userMod.profesion }} </p>
+
+         <select name="repeatSelect" id="repeatSelect" ng-model="data.model">
+            <option ng-repeat="option in data.availableOptions" value="{{ option.name }}" ng-selected="userMod.rol">{{option.name}}</option>
+        </select>
+
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" ng-click="modificar(userMod)" class="btn btn-primary">Save changes</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->

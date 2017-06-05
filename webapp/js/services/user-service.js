@@ -87,7 +87,34 @@ var self ={
                         });
                        return d.promise;	 
 	
-				}
+				},
+				modificar : function(user){
+					var d = $q.defer();
+				
+                    $http({
+                      method: 'POST',
+					  	url: 'http://192.168.1.11/Web/jscrum/api/public/usuario/rol/',
+						  data:{
+								_id:user.id,
+								_rol:user.rol
+						}
+                    	})
+                        .then(function successCallback(response) {
+                                // ok
+                                // self.cargado		= true;
+    							// self.cargando		= false;
+								self.response 	= response.data;
+								
+								return d.resolve()	
+                            }, function errorCallback(response) {
+                            // ko
+                            	return d.resolve()	
+                                // self.cargado		= true;
+    							// self.cargando		= false;
+								self.response 	= response.data
+                        });
+                       return d.promise;	 
+				}	   
 					
 				// listar : function(){
 				// 	var doc = 2;
