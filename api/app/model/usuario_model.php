@@ -114,6 +114,19 @@ class  UsuarioModel
 			 
 	}
 
+	public function asignRol($data){
+
+		$this->db_pdo->multi_query(" CALL asignarRol('".$data['_id']."',
+		 											'".$data['_rol']."');");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;										 
+
+			 
+	}
+
 	public function login($data){
 
 		//$this->db->insertInto($this->table, $data)
