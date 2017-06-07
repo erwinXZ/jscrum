@@ -9,7 +9,7 @@ var self ={
 					console.log(datos);
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.1.11/Web/jscrum/api/public/usuario/',
+					  	url: 'http://192.168.1.14/Web/jscrum/api/public/usuario/',
                         // url: 'http://localhost/gitgrad/APIPOLLO/public/observation/read/',
                         data:{
 								_nombre:datos.name,
@@ -40,7 +40,7 @@ var self ={
 					console.log(datos);
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.1.11/Web/jscrum/api/public/usuario/login/',
+					  	url: 'http://192.168.1.14/Web/jscrum/api/public/usuario/login/',
                         // url: 'http://localhost/gitgrad/APIPOLLO/public/observation/read/',
                         data:{
 								_login:datos.login,
@@ -69,7 +69,7 @@ var self ={
 				
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.1.11/Web/jscrum/api/public/usuario/',
+					  	url: 'http://192.168.1.14/Web/jscrum/api/public/usuario/',
                     	})
                         .then(function successCallback(response) {
                                 // ok
@@ -93,7 +93,7 @@ var self ={
 				
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.1.11/Web/jscrum/api/public/usuario/rol/',
+					  	url: 'http://192.168.1.14/Web/jscrum/api/public/usuario/rol/',
 						  data:{
 								_id:user.id,
 								_rol:user.rol
