@@ -30,7 +30,6 @@ app.controller('registroCtrl', ['$scope','userServices','$window' ,function($sco
                     console.log($scope.user.visible);
                     console.log("INsertado correctament");
                     $scope.user.respuesta = "Registro Relizado Correctamente";
-
                     setTimeout(function() {
                         $window.location.href = '#/form1.html';
                     }, 2000);

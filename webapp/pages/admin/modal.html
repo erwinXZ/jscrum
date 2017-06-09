@@ -14,6 +14,17 @@
          <select name="repeatSelect" id="repeatSelect" ng-model="data.model">
             <option ng-repeat="option in data.availableOptions" value="{{ option.name }}" ng-selected="userMod.rol">{{option.name}}</option>
         </select>
+        <!--<pre>
+                  {{ data | json }} 
+        </pre>-->
+        <br>
+        <br>
+        <label for="#" ng-show="v_age">Años de Experiencia:</label>
+        <input type="text" class="form-control" placeholder="Años de Experiencia" ng-show="v_age" ng-model="userMod.age" required>
+        <br>
+        <label for="#" ng-show="v_des">Destrezas:</label>
+        <input type="text" class="form-control" placeholder="Destrezas" ng-show="v_des" ng-model="userMod.des" required>
+
 
 
       </div>

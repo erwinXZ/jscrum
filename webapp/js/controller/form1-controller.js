@@ -35,7 +35,7 @@ app.controller('form1Ctrl', ['$scope','userServices','$window','$sessionStorage'
     	                }, 2000);
 
 					}
-					if(objeto.mesagge.rol == "Admin")
+					if(objeto.mesagge.rol == "Administrador")
 					{
 						console.log("Bienvenido Admin");
 						setTimeout(function() {

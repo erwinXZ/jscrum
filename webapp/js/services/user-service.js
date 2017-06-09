@@ -114,6 +114,33 @@ var self ={
 								self.response 	= response.data
                         });
                        return d.promise;	 
+				},
+				insertarUsuario : function(user){
+					var d = $q.defer();
+				
+                    $http({
+                      method: 'POST',
+					  	url: 'http://192.168.1.14/Web/jscrum/api/public/usuario/insertarMiembro/',
+						  data:{
+								_id_usuario:user.id,
+								_destrezas:user.des
+						}
+                    	})
+                        .then(function successCallback(response) {
+                                // ok
+                                // self.cargado		= true;
+    							// self.cargando		= false;
+								self.response 	= response.data;
+								
+								return d.resolve()	
+                            }, function errorCallback(response) {
+                            // ko
+                            	return d.resolve()	
+                                // self.cargado		= true;
+    							// self.cargando		= false;
+								self.response 	= response.data
+                        });
+                       return d.promise;	 
 				}	   
 					
 				// listar : function(){
