@@ -16,9 +16,10 @@ class  EquipoModel
 
 
 
-	public function __CONSTRUCT($db, $db_pdo){
+	public function __CONSTRUCT($db, $db_pdo, $pdo){
 		$this->db 		= $db;
 		$this->db_pdo   = $db_pdo;
+		$this->pdo      = $pdo;
 		$this->response = new Response();
 		$this->security = new Security();
 	}
@@ -75,6 +76,18 @@ class  EquipoModel
 			$res = $res->fetch_array();
 			mysqli_close($this->db_pdo);
 			$res = array("message"=>$res[0],"response"=>true);
+			return $res;	
+			
+	}
+	public function listarEquipos($data){
+		$this->db_pdo->multi_query(" CALL listarEquipos(".$data.")");
+			$res = $this->db_pdo->store_result();
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res,"response"=>true);
 			return $res;	
 			 
 	}

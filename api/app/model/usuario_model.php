@@ -82,8 +82,7 @@ class  UsuarioModel
 		 											'".$data['_email']."',
                                                      '".$data['_login']."',
                                                      '".$data['_password']."',
-                                                     '".$data['_profesion']."',
-		 											'".$data['_rol']."');");
+		 											'".$data['_profesion']."');");
 			$res = $this->db_pdo->store_result();
 			$res = $res->fetch_array();
 			mysqli_close($this->db_pdo);
@@ -97,22 +96,26 @@ class  UsuarioModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL insertarManager(	'".$data['_experiencia']."',
-													'".$data['_email']."')")
-					  ->execute();
-		return $this->response->setResponse(true);
-			 
+		$this->db_pdo->multi_query(" CALL insertarManager(	'".$data['_experiencia']."',
+													'".$data['_id_usuario']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;	
 	}
 
     public function insertMiembro($data){
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL insertarMiembro(	'".$data['_destrezas']."',
-													'".$data['_email']."')")
-					  ->execute();
-		return $this->response->setResponse(true);
-			 
+		$this->db_pdo->multi_query(" CALL insertarMiembro(	'".$data['_destrezas']."',
+													'".$data['_id_usuario']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;	
 	}
 
 	public function asignRol($data){
@@ -124,7 +127,6 @@ class  UsuarioModel
 			mysqli_close($this->db_pdo);
 			$res = array("message"=>$res[0],"response"=>true);
 			return $res;										 
-
 			 
 	}
 
