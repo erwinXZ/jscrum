@@ -70,7 +70,7 @@ class  ManagerModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL insertarManager(	'".$data['_nombre']."',
+		$this->db->prepare(" CALL insertarManager(	'".$data['_nombre']."',
 													'".$data['_apellidos']."',
 													'".$data['_email']."',
 													'".$data['_login']."',

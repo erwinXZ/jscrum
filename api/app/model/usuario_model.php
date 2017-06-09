@@ -82,7 +82,8 @@ class  UsuarioModel
 		 											'".$data['_email']."',
                                                      '".$data['_login']."',
                                                      '".$data['_password']."',
-		 											'".$data['_profesion']."');");
+                                                     '".$data['_profesion']."',
+		 											'".$data['_rol']."');");
 			$res = $this->db_pdo->store_result();
 			$res = $res->fetch_array();
 			mysqli_close($this->db_pdo);

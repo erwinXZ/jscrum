@@ -68,13 +68,14 @@ class  EquipoModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL crearEquipo(	'".$data['_nombre']."',
+		$this->db_pdo->multi_query(" CALL crearEquipo(	'".$data['_nombre']."',
 													'".$data['_jornada']."',
-													'".$data['_id_proyecto']."',
-													'".$data['_id_manager']."')")
-					  ->execute();
-
-		return $this->response->setResponse(true);
+													'".$data['_id_manager']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;	
 			 
 	}
 	//actualizar
