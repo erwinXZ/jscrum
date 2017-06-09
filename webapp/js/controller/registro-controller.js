@@ -7,6 +7,7 @@ app.controller('registroCtrl', ['$scope','userServices','$window' ,function($sco
 
     $scope.user.visible = false;
     $scope.user.respuesta = "";
+    
     $scope.registrar = function(user){
         
 			// console.log(user);

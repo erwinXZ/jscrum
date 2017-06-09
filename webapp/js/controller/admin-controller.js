@@ -27,7 +27,7 @@ app.controller('adminCtrl', ['$scope','$window','$sessionStorage','userServices'
             model: $scope.userMod.rol,
             availableOptions: [
             {name: 'Usuario'},
-            {name: 'Admin'},
+            {name: 'Administrador'},
             {name: 'Manager'}
             ]
         };
