@@ -32,6 +32,7 @@ $container['db_mysqli'] = function ($c) {
 	$connectionString = $c->get('settings')['connectionString'];
 
 	$mysqli = new mysqli($connectionString['host'], $connectionString['user'], $connectionString['pass'], $connectionString['name_db']);
+	$mysqli->set_charset("utf8");
 	return $mysqli;
 };
 // Models
