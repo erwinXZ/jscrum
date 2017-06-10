@@ -3,12 +3,13 @@ var app = angular.module('jscrumApp.usuarioServices',[])
 app.factory('usuarioServices', ['$http','$q','$rootScope', function($http,$q,$rootScope){
 
 var self ={
+
 				listar : function(id){
 					var d = $q.defer();
-                    
+				
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.1.14/Web/jscrum/api/public/equipo/listarEquipos/'+id,
+					  	url: 'http://192.168.1.14/Web/jscrum/api/public/equipo/listarEquiposM/'+id,
                     	})
                         .then(function successCallback(response) {
                                 // ok
@@ -27,8 +28,7 @@ var self ={
                        return d.promise;	 
 	
 				},
-				
-					
+
 				// listar : function(){
 				// 	var doc = 2;
 				// 	var d = $q.defer()
