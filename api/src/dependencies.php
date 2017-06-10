@@ -48,6 +48,7 @@ $container['model']	= function($c){
 
 	return (object)[
 		'Proyecto'	=>	new App\Model\ProyectoModel($c->db, $c->db_mysqli),
+		'Manager'	=>	new App\Model\ManagerModel($c->db, $c->db_mysqli),
 		'Equipo'	=>	new App\Model\EquipoModel($c->db, $c->db_mysqli,$c->db_pdo),
 		'Pila'	=>	new App\Model\PilaModel($c->db, $c->db_mysqli),
 		'Sprint'	=>	new App\Model\SprintModel($c->db, $c->db_mysqli),

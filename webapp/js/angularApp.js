@@ -6,7 +6,8 @@ var app = angular.module('jscrumApp',
 	'jscrumApp.usersCtrl',
 	'jscrumApp.managerCtrl',
 	'jscrumApp.userServices',
-	'jscrumApp.equipoServices']
+	'jscrumApp.equipoServices',
+	'jscrumApp.usuarioServices']
 	);
 
 app.controller('mainCtrl', ['$scope','$http', function($scope,$http){
