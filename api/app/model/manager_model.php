@@ -65,24 +65,32 @@ class  ManagerModel
 	//registrar
 
 	public function insert($data){
-		// $data['password'] = md5($data['password']);
-		$data['password'] = $this->security->encriptar($data['password']);	
 
-		//$this->db->insertInto($this->table, $data)
-		//		 ->execute();
-		$this->db->prepare(" CALL insertarManager(	'".$data['_nombre']."',
-													'".$data['_apellidos']."',
-													'".$data['_email']."',
-													'".$data['_login']."',
-													'".$data['_password']."',
-													'".$data['_profesion']."',
-													'".$data['_rol']."',
-													'".$data['_experiencia']."')")
-					  ->execute();
+		$this->db_pdo->multi_query(" CALL insertarUsuario(	'".$data['_nombre']."',
+		 											'".$data['_apellidos']."',
+		 											'".$data['_email']."',
+                                                     '".$data['_login']."',
+                                                     '".$data['_password']."',
+		 											'".$data['_profesion']."');");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;										 
 
-		return $this->response->setResponse(true);
 			 
 	}
+
+	public function idManager($data){
+		$this->db_pdo->multi_query(" CALL idManager(".$data.")");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;
+			 
+	}
+	
 
 	public function insertEquipoE($data){
 		// $data['password'] = md5($data['password']);
