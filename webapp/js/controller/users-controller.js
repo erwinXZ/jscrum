@@ -1,10 +1,10 @@
-var app = angular.module('jscrumApp.usersCtrl',[]);
+var app = angular.module('jscrumApp.usersCtrl',["ngStorage"]);
 
-app.controller('usersCtrl', ['$scope','userServices','$window' ,function($scope,userServices,$window){
+app.controller('usersCtrl', ['$scope','userServices','$window','$sessionStorage' ,function($scope,userServices,$window,$sessionStorage){
 	
 
     $scope.user = "Vista usuario";
-
+    $scope.data = $sessionStorage.data;
 
 
 }])

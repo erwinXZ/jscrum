@@ -7,17 +7,28 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     id = data.id
     // $scope.user.visible = false;
     // $scope.user.respuesta = "";
-    $scope.listar = function(){
+      $scope.idManager = function(id){
         
-			// console.log(id);
-            // console.log($scope.user.visible);
-            // $scope.user.visible = true;
+			equipoServices.idManager(id).then(function(){
+				$scope.idM = equipoServices.response;
+                $scope.id_m = $scope.idM.message; 
+               
+                $scope.listar($scope.id_m);
+			});
+           
+    }
+    $scope.idManager(id)
+    $scope.listar = function(id){
+        
+            console.log(id);
 			equipoServices.listar(id).then(function(){
-				$scope.response = equipoServices.response;
+				$scope.response = equipoServices.response.message;
                 console.log($scope.response);
 			});
     }
-    $scope.listar();
+  
+    
+    
     
     
     // $scope.mostrarModal = function(user){
