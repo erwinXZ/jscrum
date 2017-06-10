@@ -5,8 +5,7 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     $scope.data = $sessionStorage.data;
     data = $scope.data;
     id = data.id
-    // $scope.user.visible = false;
-    // $scope.user.respuesta = "";
+    
       $scope.idManager = function(id){
         
 			equipoServices.idManager(id).then(function(){
