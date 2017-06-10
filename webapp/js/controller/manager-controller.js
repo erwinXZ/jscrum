@@ -5,8 +5,19 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     $scope.data = $sessionStorage.data;
     data = $scope.data;
     id = data.id
-    
-      $scope.idManager = function(id){
+ 
+
+    $scope.perfil = false;
+
+    // $scope.perfil = function(){
+    //     if($scope.perfil == false){
+    //         $scope.perfil = true;
+    //     }else{
+    //         $scope.perfil = false;
+    //     }
+    // }
+
+    $scope.idManager = function(id){
         
 			equipoServices.idManager(id).then(function(){
 				$scope.idM = equipoServices.response;
@@ -19,13 +30,28 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     $scope.idManager(id)
     $scope.listar = function(id){
         
-            console.log(id);
+            // console.log(id);
 			equipoServices.listar(id).then(function(){
 				$scope.response = equipoServices.response.message;
+                // console.log($scope.response[0].id);
                 console.log($scope.response);
+                $scope.response.forEach(function(element) {
+                    // console.log(element.id);
+                    $scope.listarProyectos(element.id);
+                }, this);
 			});
     }
-  
+    $scope.listarProyectos = function(id){
+        
+            // console.log(id);
+			equipoServices.listarProyectos(id).then(function(){
+				$scope.responseProyecto = equipoServices.response.message;
+                // console.log($scope.responseProyecto);
+                $scope.responseProyecto.push($scope.responseProyecto) 
+			});
+    }
+    
+    
     
     
     
