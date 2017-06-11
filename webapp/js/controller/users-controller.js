@@ -1,6 +1,6 @@
 var app = angular.module('jscrumApp.usersCtrl',["ngStorage"]);
 
-app.controller('usersCtrl', ['$scope','usuarioServices','$window','$sessionStorage', 'equiposervices',function($scope,usuarioServices,$window,$sessionStorage, equipoServices){
+app.controller('usersCtrl', ['$scope','usuarioServices','$window','$sessionStorage', 'equipoServices',function($scope,usuarioServices,$window,$sessionStorage, equipoServices){
 	
     $scope.user = "usuario";
     $scope.data = $sessionStorage.data;
@@ -18,7 +18,7 @@ app.controller('usersCtrl', ['$scope','usuarioServices','$window','$sessionStora
 				$scope.idM = equipoServices.response;
                 $scope.id_m = $scope.idM.message; 
                
-                $scope.listar($scope.id_m);
+                $scope.listarM($scope.id_m);
 			});
            
     }
@@ -41,7 +41,8 @@ app.controller('usersCtrl', ['$scope','usuarioServices','$window','$sessionStora
     $scope.listarProyectos = function(equipo){
             
            $scope.equipoProyecto = equipo.nombre;
-			equipoServices.listarProyectos(equipo.id).then(function(){
+           console.log(equipo.id_equipo);
+			equipoServices.listarProyectos(equipo.id_equipo).then(function(){
 				$scope.responseProyecto = equipoServices.response.message;
                 console.log($scope.responseProyecto)
 			});
