@@ -111,3 +111,31 @@ footer span{
 	display: block;
 	text-align: center;
 }
+
+/*manager vista proyectos*/
+.card-proyecto{
+	position: relative;
+}
+.card-proyecto p{
+	margin: 10px 0 10px;
+}
+ .btn-m-pro{
+	position: absolute;
+    right: 0;
+    top: 6px;
+    right: 6px;
+ }
+ .nombre-equipo{
+	font-size: 18px;
+ }
+ .nombre-proyecto{
+     font-size: 22px;
+    font-weight: bold;
+ }
+ .well::before{
+	 position: relative;
+	 content: "";
+	 height: 100%;
+	 width: 3px;
+	 background: red;
+ }	

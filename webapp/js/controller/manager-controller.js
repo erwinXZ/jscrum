@@ -5,17 +5,10 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     $scope.data = $sessionStorage.data;
     data = $scope.data;
     id = data.id
- 
+    $scope.responseProyecto = "";
 
     $scope.perfil = false;
 
-    // $scope.perfil = function(){
-    //     if($scope.perfil == false){
-    //         $scope.perfil = true;
-    //     }else{
-    //         $scope.perfil = false;
-    //     }
-    // }
 
     $scope.idManager = function(id){
         
@@ -32,25 +25,39 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
         
             // console.log(id);
 			equipoServices.listar(id).then(function(){
-				$scope.response = equipoServices.response.message;
-                // console.log($scope.response[0].id);
-                console.log($scope.response);
-                $scope.response.forEach(function(element) {
-                    // console.log(element.id);
-                    $scope.listarProyectos(element.id);
-                }, this);
+				$scope.equipos = equipoServices.response.message;
+                console.log($scope.equipos);
+                // console.log($scope.response);
+                // $scope.response.forEach(function(element) {
+                    
+                //     $scope.listarProyectos(element.id);
+
+                // }, this);
 			});
+
     }
-    $scope.listarProyectos = function(id){
-        
-            // console.log(id);
-			equipoServices.listarProyectos(id).then(function(){
+    $scope.listarProyectos = function(equipo){
+            
+           $scope.equipoProyecto = equipo.nombre;
+			equipoServices.listarProyectos(equipo.id).then(function(){
 				$scope.responseProyecto = equipoServices.response.message;
-                // console.log($scope.responseProyecto);
-                $scope.responseProyecto.push($scope.responseProyecto) 
+                console.log($scope.responseProyecto)
 			});
     }
+
+
     
+//     $scope.juntarProyectos  = function (){
+//            proyectos = $scope.proyectos;
+//            equipos    = $scope.response;
+           
+//            console.log($scope.response);
+//            console.log($scope.proyectos); 
+
+//     }
+//    setTimeout(function() {
+//        $scope.juntarProyectos();
+//    }, 1000);
     
     
     

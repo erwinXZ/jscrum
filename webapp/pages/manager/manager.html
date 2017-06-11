@@ -55,29 +55,40 @@
             <button class="btn btn-success btn-add-equipo">+ Añadir</button>
             <h2 class="text-primary">Equipos</h2> 
             
-            <div class="col-md-12">
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+            <div class="col-md-4">
 
-                    <div class="panel panel-default" ng-repeat="equipo in response">
-                        <div class="panel-heading" role="tab" id="headingOne">
-                        <h4 class="panel-title">
-                            <a role="button" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            {{ equipo.nombre }}
-                            </a>
-                        </h4>
-                        </div>
-                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
-                        <div class="panel-body">
-                            <ul  ng-repeat="proyecto in responseProyecto">
-                                <li>{{ proyecto.nombre }}</li>
-                            </ul>
-                        </div>
-                        </div>
-                    </div>
-        
+      
+                <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos">
+                     <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo )">Proyectos</button>
+ 
+                    <span class="nombre-equipo">{{ equipo.nombre }}</span> 
+                    <p>
+                         <span class="glyphicon glyphicon-time"></span> 
+                         <span class="text-default">Horas de Trabajo :</span>    
+                         <span>{{ equipo.jornada }}</span>
+                    </p>
                 </div>
                 
             </div>
+
+            <div class="col-md-6">
+                    <blockquote>
+                    {{ equipoProyecto }}
+                    </blockquote>
+                    
+
+                
+                <div class="well" ng-repeat=" proyecto in responseProyecto">
+                    <span class="nombre-proyecto">{{ proyecto.nombre }}</span><br>
+                    <p>{{proyecto.descripcion}}</p>
+                    <p>Objetivo : {{ proyecto.objetivo }}</p>
+                    <p><span>{{ proyecto.fecha }}</span>  <span>{{ proyecto.estado}}</span></p>
+                </div>
+
+                
+
+            </div>
+
         </div>
     </div>
 </div>
