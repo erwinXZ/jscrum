@@ -5,7 +5,7 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     $scope.data = $sessionStorage.data;
     data = $scope.data;
     id = data.id
-    $scope.responseProyecto = "";
+    $scope.responseProyect = "";
 
     $scope.perfil = false;
     $scope.nombreEquipo = false;
@@ -26,13 +26,6 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
             // console.log(id);
 			equipoServices.listar(id).then(function(){
 				$scope.equipos = equipoServices.response.message;
-                console.log($scope.equipos);
-                // console.log($scope.response);
-                // $scope.response.forEach(function(element) {
-                    
-                //     $scope.listarProyectos(element.id);
-
-                // }, this);
 			});
 
     }
@@ -41,14 +34,58 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
            $scope.equipoProyecto = equipo;
 			equipoServices.listarProyectos(equipo.id).then(function(){
 				$scope.responseProyecto = equipoServices.response.message;
-                console.log($scope.responseProyecto)
+                // console.log($scope.responseProyecto)
 			});
     }
     
     
-    $scope.mostrarInsertarProyecto = function(){
+    $scope.mostrarInsertarProyecto = function(equipo){
+        console.log(equipo);
+        proyecto = {
+            id_equipo:equipo.id,
+            id_manager:equipo.id_manager
+        };
 
+        $scope.proyect = proyecto;
         $("#modal-insertar-pro").modal();
+
+    }
+
+    $scope.insertarProyecto = function(proyecto){
+        
+			console.log(proyecto);
+            // console.log($scope.user.visible);
+			// datos = $scope.datos
+            // $scope.user.visible = true;
+			equipoServices.insertarProyecto(proyecto).then(function(){
+				$scope.responseP = equipoServices.response;
+                console.log($scope.responseP);
+                 $("#modal-insertar-pro").modal("hide");
+                $scope.listarProyectos(proyecto.id_equipo);
+                // if($scope.response.message == "0"){
+                //     $scope.user.visible = false;
+                //     console.log($scope.user.visible);
+
+                //     $scope.user.respuesta = "El correo ya fue registrado, intente otro";
+                    
+
+                // }
+                // if($scope.response.message == "1"){
+                //     $scope.user.visible = false;
+                //     console.log($scope.user.visible);
+                //     console.log("INsertado correctament");
+                //     $scope.user.respuesta = "Registro Relizado Correctamente";
+                //     setTimeout(function() {
+                //         $window.location.href = '#/form1.html';
+                //     }, 2000);
+                // }
+                // if($scope.response.message == "2"){
+                //     $scope.user.visible = false;
+                //     $scope.user.respuesta = "El usuario ya fue registrado, intente otro";
+                //     console.log($scope.user.visible);
+                //     console.log("Usuario incorrecto");
+                // }
+			});
     }
 
 }])
