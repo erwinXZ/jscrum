@@ -128,14 +128,33 @@ footer span{
  .nombre-equipo{
 	font-size: 18px;
  }
+
+ .cardPro{
+	 position: relative;
+ }
  .nombre-proyecto{
      font-size: 22px;
     font-weight: bold;
  }
- .well::before{
-	 position: relative;
-	 content: "";
-	 height: 100%;
-	 width: 3px;
-	 background: red;
+
+ .cardPro::before{
+	position: absolute;
+    left: 4px;
+    content: "";
+    height: 77%;
+    width: 3px;
+    background: #2196F3;
+ }
+ .cardPro .fecha-estado{
+	text-align: center;
  }	
+ .cardPro .objetivo{
+	font-weight: bold;
+ }	
+  .cardPro .fecha-estado .estado{
+	font-weight: bold;
+	margin-left: 15%;
+ }
+   .cardPro .fecha-estado .proyecto-fecha{
+	    margin-left: 5px;
+ }

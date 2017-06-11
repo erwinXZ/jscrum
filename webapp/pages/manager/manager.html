@@ -78,11 +78,11 @@
                     
 
                 
-                <div class="well" ng-repeat=" proyecto in responseProyecto">
+                <div class="well cardPro" ng-repeat=" proyecto in responseProyecto">
                     <span class="nombre-proyecto">{{ proyecto.nombre }}</span><br>
                     <p>{{proyecto.descripcion}}</p>
-                    <p>Objetivo : {{ proyecto.objetivo }}</p>
-                    <p><span>{{ proyecto.fecha }}</span>  <span>{{ proyecto.estado}}</span></p>
+                    <p> <span class="objetivo">Objetivo :</span> {{ proyecto.objetivo }}</p>
+                    <p class="fecha-estado"> <span class="glyphicon glyphicon-calendar"></span><span class="proyecto-fecha">{{ proyecto.fecha }}</span> <span class="estado">Estado</span> <span>{{ proyecto.estado}}</span></p>
                 </div>
 
                 
