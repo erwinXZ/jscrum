@@ -64,25 +64,35 @@ class  MiembroModel
 	}
 	//registrar
 
-	public function insert($data){
-		// $data['password'] = md5($data['password']);
-		$data['password'] = $this->security->encriptar($data['password']);	
+	// public function insert($data){
+	// 	// $data['password'] = md5($data['password']);
+	// 	$data['password'] = $this->security->encriptar($data['password']);	
 
-		//$this->db->insertInto($this->table, $data)
-		//		 ->execute();
-		$this->db_pdo->prepare("CALL insertarMiembro('".$data['_nombre']."',
-													'".$data['_apellidos']."',
-													'".$data['_email']."',
-													'".$data['_login']."',
-													'".$data['_password']."',
-													'".$data['_profesion']."',
-                                                    '".$data['_rol']."',
-													'".$data['_destrezas']."')")
-					  ->execute();
+	// 	//$this->db->insertInto($this->table, $data)
+	// 	//		 ->execute();
+	// 	$this->db_pdo->prepare("CALL insertarMiembro('".$data['_nombre']."',
+	// 												'".$data['_apellidos']."',
+	// 												'".$data['_email']."',
+	// 												'".$data['_login']."',
+	// 												'".$data['_password']."',
+	// 												'".$data['_profesion']."',
+    //                                                 '".$data['_rol']."',
+	// 												'".$data['_destrezas']."')")
+	// 				  ->execute();
 
-		return $this->response->setResponse(true);
+	// 	return $this->response->setResponse(true);
 			 
+	// }
+
+	public function idMiembro($data){
+		$this->db_pdo->multi_query(" CALL idMiembro(".$data.")");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;
 	}
+
 	//actualizar
 	public function update($data, $id){
 

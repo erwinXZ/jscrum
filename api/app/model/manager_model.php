@@ -81,6 +81,18 @@ class  ManagerModel
 			 
 	}
 
+	public function listarEquiposProyectos($data){
+		$this->db_pdo->multi_query(" CALL listarEquiposProyectos(".$data.")");
+			$res = $this->db_pdo->store_result();
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res,"response"=>true);
+			return $res;	
+	}
+
 	public function idManager($data){
 		$this->db_pdo->multi_query(" CALL idManager(".$data.")");
 			$res = $this->db_pdo->store_result();
@@ -106,6 +118,9 @@ class  ManagerModel
 		return $this->response->setResponse(true);
 			 
 	}
+
+
+	
 	//actualizar
 	public function update($data, $id){
 

@@ -4,30 +4,30 @@ app.factory('usuarioServices', ['$http','$q','$rootScope', function($http,$q,$ro
 
 var self ={
 
-				listar : function(id){
-					var d = $q.defer();
+				// listar : function(id){
+				// 	var d = $q.defer();
 				
-                    $http({
-                      method: 'GET',
-					  	url: 'http://192.168.1.14/Web/jscrum/api/public/equipo/listarEquiposM/'+id,
-                    	})
-                        .then(function successCallback(response) {
-                                // ok
-                                // self.cargado		= true;
-    							// self.cargando		= false;
-								self.response 	= response.data;
+                //     $http({
+                //       method: 'GET',
+				// 	  	url: 'http://192.168.1.14/Web/jscrum/api/public/equipo/listarEquiposM/'+id,
+                //     	})
+                //         .then(function successCallback(response) {
+                //                 // ok
+                //                 // self.cargado		= true;
+    			// 				// self.cargando		= false;
+				// 				self.response 	= response.data;
 								
-								return d.resolve()	
-                            }, function errorCallback(response) {
-                            // ko
-                            	return d.resolve()	
-                                // self.cargado		= true;
-    							// self.cargando		= false;
-								self.response 	= response.data
-                        });
-                       return d.promise;	 
+				// 				return d.resolve()	
+                //             }, function errorCallback(response) {
+                //             // ko
+                //             	return d.resolve()	
+                //                 // self.cargado		= true;
+    			// 				// self.cargando		= false;
+				// 				self.response 	= response.data
+                //         });
+                //        return d.promise;	 
 	
-				},
+				// },
 
 				// listar : function(){
 				// 	var doc = 2;

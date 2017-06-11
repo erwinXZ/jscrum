@@ -34,6 +34,14 @@ $app->group('/proyecto',function(){
 				   	);
 	});
 
+	$this->get('/listarProyectos/{id}',function($req, $res, $args){
+		return $res->withHeader('Content-type', 'aplication/json')
+				   ->write(
+				   		json_encode($this->model->Proyecto->listarProyectos($args['id']))
+				   		
+				   	);
+	});
+
 	$this->post('/',function($req, $res, $args){
 		// $r = UserValidation::validate($req->getParsedBody());
 
