@@ -8,7 +8,7 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     $scope.responseProyecto = "";
 
     $scope.perfil = false;
-
+    $scope.nombreEquipo = false;
 
     $scope.idManager = function(id){
         
@@ -37,57 +37,18 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
 
     }
     $scope.listarProyectos = function(equipo){
-            
-           $scope.equipoProyecto = equipo.nombre;
+            $scope.nombreEquipo = true;
+           $scope.equipoProyecto = equipo;
 			equipoServices.listarProyectos(equipo.id).then(function(){
 				$scope.responseProyecto = equipoServices.response.message;
                 console.log($scope.responseProyecto)
 			});
     }
+    
+    
+    $scope.mostrarInsertarProyecto = function(){
 
-
-    
-//     $scope.juntarProyectos  = function (){
-//            proyectos = $scope.proyectos;
-//            equipos    = $scope.response;
-           
-//            console.log($scope.response);
-//            console.log($scope.proyectos); 
-
-//     }
-//    setTimeout(function() {
-//        $scope.juntarProyectos();
-//    }, 1000);
-    
-    
-    
-    
-    
-    // $scope.mostrarModal = function(user){
-    //     // console.log(user);
-    //     $scope.userMod = user;
-    //     $scope.data = {
-    //         model: $scope.userMod.rol,
-    //         availableOptions: [
-    //         {name: 'Usuario'},
-    //         {name: 'Admin'},
-    //         {name: 'Manager'}
-    //         ]
-    //     };
-    //     $("#modificarModal").modal();
-    // }
-
-    // $scope.modificar = function(userMod){
-    //     var rolMod = $scope.data.model;
-    //     userMod.rol = rolMod;
-    //     userServices.modificar(userMod).then(function(){
-	// 	    $scope.response = userServices.response;
-    //         console.log($scope.response);
-    //         $("#modificarModal").modal("hide");
-    //          $scope.listar();
-	// 	});
-
-        
-    // }
+        $("#modal-insertar-pro").modal();
+    }
 
 }])

@@ -1,0 +1,37 @@
+<div class="modal fade" id="modal-insertar-pro" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Insertar Proyecto</h4>
+      </div>
+      <div class="modal-body">
+        <!--{{ userMod }}-->
+        <!--<p> <span class="text-info">Usuario: </span> {{ userMod.nombre }} {{ userMod.apellidos }} </p>
+        <p> <span class="text-info">Correo: </span> {{ userMod.email }} </p>
+        <p> <span class="text-info">Profesion: </span> {{ userMod.profesion }} </p>
+
+         <select name="repeatSelect" id="repeatSelect" ng-model="data.model">
+            <option ng-repeat="option in data.availableOptions" value="{{ option.name }}" ng-selected="userMod.rol">{{option.name}}</option>
+        </select>-->
+        <!--<pre>
+                  {{ data | json }} 
+        </pre>-->
+        <!--<br>
+        <br>
+        <label for="#" ng-show="v_age">Años de Experiencia:</label>
+        <input type="text" class="form-control" placeholder="Años de Experiencia" ng-show="v_age" ng-model="userMod.age" required>
+        <br>
+        <label for="#" ng-show="v_des">Destrezas:</label>
+        <input type="text" class="form-control" placeholder="Destrezas" ng-show="v_des" ng-model="userMod.des" required>-->
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" ng-click="modificar(userMod)" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
