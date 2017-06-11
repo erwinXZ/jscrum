@@ -67,16 +67,31 @@ class  ProyectoModel
 	public function insert($data){
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL crearProyecto('".$data['_codigo']."',
+		$this->db_pdo->multi_query(" CALL crearProyecto('".$data['_codigo']."',
 													'".$data['_nombre']."',
 													'".$data['_descripcion']."',
 													'".$data['_objetivo']."',
-													'".$data['_id_manager']."')")
-					  ->execute();
-
-		return $this->response->setResponse(true);
-			 
+													'".$data['_id_manager']."',
+													'".$data['_id_equipo']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;		
 	}
+
+	public function listarProyectos($data){
+		$this->db_pdo->multi_query(" CALL listarProyectos(".$data.")");
+			$res = $this->db_pdo->store_result();
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res,"response"=>true);
+			return $res;	
+	}
+
 	//actualizar
 	public function update($data, $id){
 

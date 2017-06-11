@@ -1,25 +1,51 @@
 var app = angular.module('jscrumApp.usersCtrl',["ngStorage"]);
 
-app.controller('usersCtrl', ['$scope','usuarioServices','$window','$sessionStorage' ,function($scope,usuarioServices,$window,$sessionStorage){
+app.controller('usersCtrl', ['$scope','usuarioServices','$window','$sessionStorage', 'equiposervices',function($scope,usuarioServices,$window,$sessionStorage, equipoServices){
 	
-
-    $scope.user = "Vista usuario";
+    $scope.user = "usuario";
     $scope.data = $sessionStorage.data;
     data = $scope.data;
-    $scope.user.visible = false;
-    $scope.user.respuesta = "";
-    $scope.listar = function(){
+    // $scope.user.visible = false;
+    // $scope.user.respuesta = "";
+    id = data.id
+    $scope.responseProyecto = "";
+
+    $scope.perfil = false;
+
+    $scope.idMiembro = function(id){
         
-			// console.log(user);
-            console.log($scope.user.visible);
-            $scope.user.visible = true;
-			usuarioServices.listar().then(function(){
-				$scope.response = usuarioServices.response;
-                console.log($scope.response);
+			equipoServices.idMiembro(id).then(function(){
+				$scope.idM = equipoServices.response;
+                $scope.id_m = $scope.idM.message; 
+               
+                $scope.listar($scope.id_m);
+			});
+           
+    }
+    $scope.idMiembro(id)
+    $scope.listarM = function(id){
+        
+            // console.log(id);
+			equipoServices.listarM(id).then(function(){
+				$scope.equipos = equipoServices.response.message;
+                console.log($scope.equipos);
+                // console.log($scope.response);
+                // $scope.response.forEach(function(element) {
+                    
+                //     $scope.listarProyectos(element.id);
+
+                // }, this);
+			});
+
+    }
+    $scope.listarProyectos = function(equipo){
+            
+           $scope.equipoProyecto = equipo.nombre;
+			equipoServices.listarProyectos(equipo.id).then(function(){
+				$scope.responseProyecto = equipoServices.response.message;
+                console.log($scope.responseProyecto)
 			});
     }
-
-    $scope.listar();
 
 
 }])

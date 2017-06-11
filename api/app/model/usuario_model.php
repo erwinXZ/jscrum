@@ -66,17 +66,6 @@ class  UsuarioModel
 
 	public function insert($data){
 
-		//$this->db->insertInto($this->table, $data)
-		//		 ->execute();
-		// $this->db_pdo->prepare(" CALL insertarUsuario(	'".$data['_nombre']."',
-		// 											'".$data['_apellidos']."',
-		// 											'".$data['_email']."',
-        //                                             '".$data['_login']."',
-        //                                             '".$data['_password']."',
-		// 											'".$data['_profesion']."')")
-		// 			  ->execute();
-
-		// return $this->response->setResponse(true);
 		$this->db_pdo->multi_query(" CALL insertarUsuario(	'".$data['_nombre']."',
 		 											'".$data['_apellidos']."',
 		 											'".$data['_email']."',

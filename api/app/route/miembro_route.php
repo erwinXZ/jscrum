@@ -34,6 +34,14 @@ $app->group('/miembro',function(){
 				   	);
 	});
 
+	$this->get('/idMiembro/{id}',function($req, $res, $args){
+		return $res->withHeader('Content-type', 'aplication/json')
+				   ->write(
+				   		json_encode($this->model->Miembro->idMiembro($args['id']))
+				   		
+				   	);
+	});
+
 	$this->post('/',function($req, $res, $args){
 		// $r = UserValidation::validate($req->getParsedBody());
 
