@@ -35,6 +35,34 @@ var self ={
                        return d.promise;	 
 	
 				},
+				insertarEquipo : function(datos){
+					var d = $q.defer();
+					console.log(datos);
+                    $http({
+                      method: 'POST',
+					  	url: 'http://192.168.1.14/Web/jscrum/api/public/equipo/',
+                        // url: 'http://localhost/gitgrad/APIPOLLO/public/observation/read/',
+                        data:{
+								_nombre:datos.nombre,
+								_jornada:datos.jornada,
+								_id_manager:datos.id_manager
+						}
+                    	})
+                        .then(function successCallback(response) {
+                                // ok
+                                // self.cargado		= true;
+    							// self.cargando		= false;
+								self.response 	= response.data;
+								// console.log("Service"+response);
+								return d.resolve()	
+                            }, function errorCallback(response) {
+								
+								self.response 	= response.data
+								return d.resolve();
+                        });
+                       return d.promise;	 
+	
+				},
 				listar : function(id){
 					var d = $q.defer();
                     
