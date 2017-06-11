@@ -41,19 +41,12 @@
 
 <br>
     <div class="container">
+
+        <span class="text-primary titulo-equipo">Equipos</span> 
+            <div class="btn-plus" ng-click="mostrarInsertarEquipo()">+</div>
         <div class="row row-equipo">
-            <!--<div class="col-md-2">
-                <div class="well well-lg">
-                    <span class="glyphicon glyphicon-user"></span>  <span class="text-info">{{ data.nombre }}</span><br>
-                    <span>{{ data.rol }}</span>
 
-                </div>
-            </div>
-            <div class="col-md-10">
-
-            </div>-->
-            <button class="btn btn-success btn-add-equipo">+ Añadir</button>
-            <h2 class="text-primary">Equipos</h2> 
+            
             
             <div class="col-md-4">
 
@@ -95,3 +88,4 @@
 </div>
 
 <div ng-include="'pages/manager/modal-insertar.html'"></div>
+<div ng-include="'pages/manager/modal-insertar-equipo.html'"></div>
