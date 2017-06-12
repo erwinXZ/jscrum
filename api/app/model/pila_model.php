@@ -68,16 +68,18 @@ class  PilaModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL crearPila(	'".$data['_codigo']."',
+		$this->db_pdo->multi_query(" CALL crearPila('".$data['_codigo']."',
 													'".$data['_historia']."',
 													'".$data['_importancia']."',
                                                     '".$data['_estimado_horas']."',
-													'".$data['_id_proyecto']."')")
-					  ->execute();
-
-		return $this->response->setResponse(true);
-			 
+													'".$data['_id_proyecto']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;	
 	}
+
 
 	public function insertDias($data){
 
@@ -91,6 +93,23 @@ class  PilaModel
 		return $this->response->setResponse(true);
 			 
 	}
+
+	public function listarPila($data){
+		$this->db_pdo->multi_query(" CALL listarPila(".$data.")");
+			$res = $this->db_pdo->store_result();
+
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			$res = array("message"=>$res,"response"=>true);
+			
+			// $res = $res->fetch_array();
+			// mysqli_close($this->db_pdo);
+			
+			return $res;
+	}
+
 	//actualizar
 	public function update($data, $id){
 

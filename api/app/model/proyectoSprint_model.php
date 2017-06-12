@@ -11,7 +11,7 @@ use App\Lib\Response,
 class  pilaSprintModel
 {
 	private $db;
-	private $table = 'pila_sprint';
+	private $table = 'proyecto_sprint';
 	private $response;
 
 
@@ -70,12 +70,12 @@ class  pilaSprintModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL insertarPila_sprint('".$data['_codigo']."',
+		$this->db_pdo->prepare(" CALL insertarProyectoSprint('".$data['_codigo']."',
 													'".$data['_historia']."',
 													'".$data['_importancia']."',
 													'".$data['_estimado']."',
                                                     '".$data['_codigoS']."',
-													'".$data['_id_pila']."')")
+													'".$data['_id_proyecto']."')")
 					  ->execute();
 
 		return $this->response->setResponse(true);

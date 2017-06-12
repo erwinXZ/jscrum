@@ -34,11 +34,18 @@
 
 	<section class="div-perfil" ng-show="isReplyFormOpen" >
 
-        <form action="php/procesar.php" enctype="multipart/form-data" method="post">
+        <!--<form name="frmPhoto"action="php/procesar.php" enctype="multipart/form-data" method="post">
             <input id="imagen" name="imagen" size="30" type="file" />
+            <input name="email" style="display:none" value="{{ data.email }}"/>
             <input name="submit" type="submit" value="Modificar" />
-        </form> 
-        
+        </form> -->
+
+        <form nombre="upload" ng-submit="uploadFile()">
+            <input type="text" ng-model="name"/><br>
+            <input type="file" name="file" uploader-model="file"/><br>
+            <input type="submit" value="Modificar">
+        </form>
+
         <figure style="background-image:url(images/{{ data.foto }})">
 
         </figure>
@@ -55,7 +62,7 @@
             
             <div class="col-md-4">
 
-      
+
                 <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos">
                      <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo)">Proyectos</button>
  

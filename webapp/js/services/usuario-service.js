@@ -3,6 +3,28 @@ var app = angular.module('jscrumApp.usuarioServices',[])
 app.factory('usuarioServices', ['$http','$q','$rootScope', function($http,$q,$rootScope){
 
 var self ={
+                uploadFile : function(file, name)
+                {
+                    var deferred = $q.defer();
+                    var formData = new FormData();
+                    formData.append("name", name);
+                    formData.append("file", file);
+                    return $http.post("server.php", formData, {
+                        headers: {
+                            "Content-type": undefined
+                        },
+                        transformRequest: formData
+                    })
+                    .success(function(res)
+                    {
+                        deferred.resolve(res);
+                    })
+                    .error(function(msg, code)
+                    {
+                        deferred.reject(msg);
+                    })
+                    return deferred.promise
+                }
 
 				// listar : function(id){
 				// 	var d = $q.defer();
