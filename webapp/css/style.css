@@ -187,3 +187,18 @@ footer span{
    .cardPro .fecha-estado .proyecto-fecha{
 	    margin-left: 5px;
  }
+/*proyecto*/
+.text-backlog{
+	font-size: 26px;
+	margin-right: 10px;
+}
+.table-pila{
+	margin-top: 5%;
+}
+.no-historia{
+	display: block;
+	text-align: center;
+	font-size: 22px;
+	padding: 20px;
+    font-weight: 200;
+}

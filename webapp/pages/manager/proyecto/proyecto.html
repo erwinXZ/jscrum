@@ -49,10 +49,11 @@
 
    
         <div class="row">
-            <span class="text-primary">Backlog</span>
+            <span class="text-primary text-backlog">Backlog</span>
             <div class="btn-plus" ng-click="mostrarInsertarPila()">+</div>
             <div class="col-md-12">
-            <table class="table table-striped table-hover ">
+             <p class="no-historia" ng-show="verpila2">No existen Historias</p>   
+            <table class="table table-striped table-hover table-pila" ng-show="verPila">
             <thead>
                 <tr>
                     <th class="text-success">Codigo</th>
