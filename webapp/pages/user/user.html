@@ -33,6 +33,12 @@
 	</nav>
 
 	<section class="div-perfil" ng-show="isReplyFormOpen" >
+
+        <form action="php/procesar.php" enctype="multipart/form-data" method="post">
+            <input id="imagen" name="imagen" size="30" type="file" />
+            <input name="submit" type="submit" value="Modificar" />
+        </form> 
+        
         <figure style="background-image:url(images/{{ data.foto }})">
 
         </figure>
@@ -44,14 +50,14 @@
     <div class="container">
         <div class="row row-equipo">
 
-            </div>-->
+            </div>
             <h2 class="text-primary">Equipos</h2> 
             
             <div class="col-md-4">
 
       
                 <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos">
-                     <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo )">Proyectos</button>
+                     <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo)">Proyectos</button>
  
                     <span class="nombre-equipo">{{ equipo.nombre }}</span> 
                     <p>
@@ -64,17 +70,18 @@
             </div>
 
             <div class="col-md-6">
-                    <blockquote>
-                    {{ equipoProyecto }}
+                    <blockquote ng-show="nombreEquipo">
+                    {{ equipoProyecto.nombre }}
+                    <button class="btn btn-info" ng-click="mostrarInsertarProyecto()">Insertar Proyecto</button>
                     </blockquote>
                     
 
                 
-                <div class="well" ng-repeat=" proyecto in responseProyecto">
+                <div class="well cardPro" ng-repeat=" proyecto in responseProyecto">
                     <span class="nombre-proyecto">{{ proyecto.nombre }}</span><br>
                     <p>{{proyecto.descripcion}}</p>
-                    <p>Objetivo : {{ proyecto.objetivo }}</p>
-                    <p><span>{{ proyecto.fecha }}</span>  <span>{{ proyecto.estado}}</span></p>
+                    <p> <span class="objetivo">Objetivo :</span> {{ proyecto.objetivo }}</p>
+                    <p class="fecha-estado"> <span class="glyphicon glyphicon-calendar"></span><span class="proyecto-fecha">{{ proyecto.fecha }}</span> <span class="estado">Estado</span> <span>{{ proyecto.estado}}</span></p>
                 </div>
 
                 
