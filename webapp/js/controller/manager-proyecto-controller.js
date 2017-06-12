@@ -24,13 +24,13 @@ app.controller('managerProyectoCtrl', ['$scope','$window','$sessionStorage','equ
                 
 
                 $scope.pilas = equipoServices.response.message;
+                console.log($scope.pilas)
                 if($scope.pilas[0].respuesta){
                     console.log("No existe Proyecto");
                 }else{
                     $scope.verPila = true;
                     $scope.verpila2 = false;
                 }
-
 
 			});
     }
