@@ -65,19 +65,45 @@ class  SprintModel
 	//registrar
 
 	public function insert($data){
-		// $data['password'] = md5($data['password']);
-		$data['password'] = $this->security->encriptar($data['password']);	
+		$this->db_pdo->multi_query(" CALL crearSprint('".$data['_codigo']."',
+													'".$data['_fecha_entrega']."')");		
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;
+			 
+	}
+
+	public function insertPS($data){
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL crearSprint(	'".$data['_duracion']."',
-													'".$data['_horas_persona']."',
-													'".$data['_horas_grupo']."',
-													'".$data['_fecha_entrega']."',
-													'".$data['_feriado']."')")
-					  ->execute();
+		$this->db_pdo->multi_query(" CALL insertarProyectoSprint('".$data['_codigo']."',
+													'".$data['_historia']."',
+													'".$data['_importancia']."',
+													'".$data['_estimado_horas']."',
+                                                    '".$data['_id_sprint']."',
+													'".$data['_id_proyecto']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;
+			 
+	}
 
-		return $this->response->setResponse(true);
+	public function insertDiasInhabiles($data){
+
+		//$this->db->insertInto($this->table, $data)
+		//		 ->execute();
+		$this->db_pdo->multi_query(" CALL insertarDiaInhabil('".$data['_dia_inhabil']."',
+													'".$data['_id_sprint']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;
 			 
 	}
 
