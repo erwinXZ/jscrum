@@ -150,4 +150,13 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
 			});
     }
 
+    //proyecto
+    $scope.verProyecto =function(proyecto){
+        console.log(proyecto)
+        $window.location.href = '#/manager/proyecto/'+proyecto.id;
+
+    }
+
+
+
 }])
