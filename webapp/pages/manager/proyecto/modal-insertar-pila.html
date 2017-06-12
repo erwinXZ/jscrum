@@ -1,0 +1,39 @@
+<div class="modal fade" id="modal-insertar-pila" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Insertar Backlog</h4>
+      </div>
+      <div class="modal-body">
+            <form name="frmUser" ng-submit="insertarPila(pila)">
+                <div class="form-group">
+                    <label for="codigoInput">Codigo</label>
+                    <input type="text" class="form-control" ng-model="pila.codigo" id="codigoInput" placeholder="Codigo" requiered>
+                </div>
+                <!--jornada-->
+                <div class="form-group">
+                    <label for="horasInput">Horas Estimadas</label>
+                    <input type="number" class="form-control" min="1"  ng-model="pila.horas_estimadas" id="horasInput" placeholder="Horas Estimadas" required>
+                </div>
+                <!--historia-->
+                <div class="form-group">
+                    <label for="historiaInput">Historia</label>
+                    <input type="text" class="form-control" ng-model="pila.historia" id="historiaInput" placeholder="Historia" required>
+                </div>
+                <!--importancia-->
+                <div class="form-group">
+                    <label for="importanciaInput">Importancia</label>
+                    <input type="number" class="form-control" min="1" max="10" ng-model="pila.importancia" id="importanciaInput" placeholder="Importancia" required>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-block" >Registrar</button> 
+                <h3 class="text-center text-success"> {{ pila | json}} </h3>
+
+            </form>
+
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
