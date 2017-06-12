@@ -4,6 +4,8 @@ app.controller('managerProyectoCtrl', ['$scope','$window','$sessionStorage','equ
 	$scope.saludo = "Vista Proyecto";
     $scope.data = $sessionStorage.data;
     $scope.idProyecto = $routeParams.proyecto;
+    $scope.verPila = false;
+    $scope.verpila2 =true;
 
     console.log($scope.idProyecto);  
     
@@ -11,15 +13,25 @@ app.controller('managerProyectoCtrl', ['$scope','$window','$sessionStorage','equ
 
 			equipoServices.listarProyecto(id).then(function(){
 				$scope.proyecto= equipoServices.response;
-                console.log($scope.proyecto)
+                // console.log($scope.proyecto)
 			});
     }
     $scope.listarProyecto($scope.idProyecto);
 
     $scope.listarPila = function(id){
+
             equipoServices.listarPila(id).then(function(){
-				$scope.pilas= equipoServices.response.message;
-                console.log($scope.pilas)
+                
+
+                $scope.pilas = equipoServices.response.message;
+                if($scope.pilas[0].respuesta){
+                    console.log("No existe Proyecto");
+                }else{
+                    $scope.verPila = true;
+                    $scope.verpila2 = false;
+                }
+
+
 			});
     }
 
