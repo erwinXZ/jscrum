@@ -132,8 +132,20 @@ class  UsuarioModel
 			$res = array("mesagge"=>$res);
 			$res["response"]=true;
 			return $res;										 
+	}
 
-			 
+	public function updatePhoto($data){
+
+		//$this->db->insertInto($this->table, $data)
+		//		 ->execute();
+		$this->db_pdo->multi_query("CALL cambiarFoto('".$data['_email']."')");
+		$res = $this->db_pdo->store_result();
+			$res = $res->fetch_assoc();
+			mysqli_close($this->db_pdo);
+			$res = array("mesagge"=>$res);
+			$res["response"]=true;
+			return $res;	
+			
 	}
 	//actualizar
 	public function update($data, $id){

@@ -80,6 +80,21 @@ class  ProyectoModel
 			return $res;		
 	}
 
+	public function insertProyectoSprint($data){
+
+		$this->db_pdo->multi_query(" CALL insertarProyectoSprint('".$data['_codigo']."',
+													'".$data['_historia']."',
+													'".$data['_importancia']."',
+													'".$data['_estimado']."',
+                                                    '".$data['_codigoS']."',
+													'".$data['_id_proyecto']."')");		
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;	 
+	}
+
 	public function listarProyectos($data){
 		$this->db_pdo->multi_query(" CALL listarProyectos(".$data.")");
 			$res = $this->db_pdo->store_result();

@@ -48,5 +48,29 @@ app.controller('usersCtrl', ['$scope','usuarioServices','$window','$sessionStora
 			});
     }
 
+    $scope.uploadFile = function()
+    {
+        var name = $scope.name;
+        var file = $scope.file;
+        
+        usuarioServices.uploadFile(file, name).then(function(res){
+            console.log(res);
+        })
+    }
 
+
+
+}])
+
+.directive('uploaderModel', ["$parse", function ($parse) {
+    return {
+        restric: 'A',
+        link: function (scope, iElement, iAttrs)
+        {
+            iElement.on("change", function(e)
+            {
+                    $parse(iAttrs.uploaderModel).assign(scope, iElement[0].files[0]);
+            });
+        }
+    };
 }])
