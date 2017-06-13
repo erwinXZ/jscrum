@@ -61,7 +61,6 @@ app.controller('usersCtrl', ['$scope','usuarioServices','$window','$sessionStora
     $scope.verProyecto =function(proyecto){
         console.log(proyecto)
         $window.location.href = '#/user/proyecto/'+proyecto.id;
-
     }
 
 }])
