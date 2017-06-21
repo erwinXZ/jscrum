@@ -6,6 +6,8 @@ app.controller('form1Ctrl', ['$scope','userServices','$window','$sessionStorage'
 	$scope.password = "";
 	$scope.user.visible = false;
     $scope.user.respuesta = "";
+	$scope.loginC = false;
+	$scope.loginI = false;
 	
 	$scope.logIn = function(user){
 
@@ -21,9 +23,13 @@ app.controller('form1Ctrl', ['$scope','userServices','$window','$sessionStorage'
 					//console.log("incorrecto");
 					// console.log(objeto.mesagge);
 					$scope.user.respuesta = "Login Incorrecto";
+					$scope.loginI = true;
+					$scope.loginC = false;
 				}else{
 					$scope.user.visible = false;
 					$scope.user.respuesta = "Login Correcto";
+					$scope.loginI = false;
+					$scope.loginC = true;
 					//console.log("correcto");
 					// console.log(objeto.mesagge);
 					$sessionStorage.data = objeto.mesagge;
