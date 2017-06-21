@@ -154,12 +154,13 @@ footer span{
 
  .cardPro{
 	 position: relative;
-	 transition: all 1s ease-out;
+	box-shadow: inset 0 2px 0 rgba(0,0,0,0.05);
+	 transition: all 1s;
  }
  .cardPro:hover{
 	cursor: pointer;
 	box-shadow: 0 3px 3px 0 rgba(0,0,0,0.14), 0 1px 7px 0 rgba(0,0,0,0.12), 0 3px 1px -1px rgba(0,0,0,0.2);
-	 
+	/*background: red*/
  }
  .nombre-proyecto{
      font-size: 22px;
@@ -201,4 +202,23 @@ footer span{
 	font-size: 22px;
 	padding: 20px;
     font-weight: 200;
+}
+
+/*sprint*/
+.row-sprint{
+	position: relative;
+	margin-top:50px;
+	background: #fafafa;
+	box-shadow: inset 0 1px 1px rgba(0,0,0,0.05);
+}
+.text-sprint{
+	font-size: 26px;
+	margin-right: 10px;
+}
+.container-sprint{
+	margin-top:50px;	
+}
+.text-e-horas{
+	right: 20px;
+    position: absolute;
 }

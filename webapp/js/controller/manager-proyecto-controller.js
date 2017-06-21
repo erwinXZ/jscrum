@@ -6,7 +6,8 @@ app.controller('managerProyectoCtrl', ['$scope','$window','$sessionStorage','equ
     $scope.idProyecto = $routeParams.proyecto;
     $scope.verPila = false;
     $scope.verpila2 =true;
-
+    $scope.verSprint = false;
+    $scope.verSprint2 = true;
     console.log($scope.idProyecto);  
     
     $scope.listarProyecto = function(id){
@@ -24,7 +25,7 @@ app.controller('managerProyectoCtrl', ['$scope','$window','$sessionStorage','equ
                 
 
                 $scope.pilas = equipoServices.response.message;
-                console.log($scope.pilas)
+                // console.log($scope.pilas)
                 if($scope.pilas[0].respuesta){
                     console.log("No existe Proyecto");
                 }else{
@@ -52,12 +53,27 @@ app.controller('managerProyectoCtrl', ['$scope','$window','$sessionStorage','equ
 
 			equipoServices.insertarPila(pila).then(function(){
 				$scope.pilaInsertada = equipoServices.response;
-                console.log($scope.pilaInsertada);
+                // console.log($scope.pilaInsertada);
                  $("#modal-insertar-pila").modal("hide");
-                 console.log($scope.id_equipo);
+                //  console.log($scope.id_equipo);
                  $scope.listarPila($scope.idProyecto);
 			});
     }    
 
+    $scope.listarSprint = function(id){
+        equipoServices.listarSprint(id).then(function(){
+				$scope.sprints = equipoServices.response.message;
+                console.log($scope.sprints)
+                if($scope.sprints[0].respuesta){
+                    console.log("No existen Sprints")
+                }else{
+                    $scope.verSprint = true;
+                    
+                    $scope.verSprint2 = false;
+                }
+			});
+    }
+    $scope.listarSprint($scope.idProyecto)
+    console.log($scope.idProyecto)
 
 }])

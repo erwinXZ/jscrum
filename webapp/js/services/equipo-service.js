@@ -263,34 +263,27 @@ var self ={
                         });
                        return d.promise;	 
 	
-				}
-				// modificar : function(user){
-				// 	var d = $q.defer();
-				
-                //     $http({
-                //       method: 'POST',
-				// 	  	url: 'http://192.168.43.178/Web/jscrum/api/public/usuario/rol/',
-				// 		  data:{
-				// 				_id:user.id,
-				// 				_rol:user.rol
-				// 		}
-                //     	})
-                //         .then(function successCallback(response) {
-                //                 // ok
-                //                 // self.cargado		= true;
-    			// 				// self.cargando		= false;
-				// 				self.response 	= response.data;
+				},
+				listarSprint : function(id){
+					var d = $q.defer();
+                    
+                    $http({
+                      method: 'GET',
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/sprint/listarSprint/'+id,
+                    	})
+                        .then(function successCallback(response) {
+								self.response 	= response.data;
 								
-				// 				return d.resolve()	
-                //             }, function errorCallback(response) {
-                //             // ko
-                //             	return d.resolve()	
-                //                 // self.cargado		= true;
-    			// 				// self.cargando		= false;
-				// 				self.response 	= response.data
-                //         });
-                //        return d.promise;	 
-				// }	   
+								return d.resolve()	
+                            }, function errorCallback(response) {
+                            	return d.resolve()	
+								self.response 	= response.data
+                        });
+                       return d.promise;	 
+	
+				}
+
+
 
 	}
 
