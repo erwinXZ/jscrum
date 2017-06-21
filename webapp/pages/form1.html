@@ -15,7 +15,8 @@
 					</div>
 					<button submit class="btn btn-block btn-success">Ingresar</button>
 					<img class="img-loading" ng-show="user.visible" src="images/loading-circle.gif" alt="">
-					<h2 class="text-center text-success">{{ user.respuesta }}</h2>
+					<h2 class="text-center text-success animated bounce" ng-show="loginC">Login Correcto</h2>
+					<h2 class="text-center text-danger animated tada" ng-show="loginI">Login Incorrecto</h2>
 				</form>	
 
 
