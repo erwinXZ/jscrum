@@ -9,7 +9,7 @@ var self ={
 					console.log(datos);
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/proyecto/',
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/proyecto/',
                         // url: 'http://localhost/gitgrad/APIPOLLO/public/observation/read/',
                         data:{
 								_codigo:datos.codigo,
@@ -40,7 +40,7 @@ var self ={
 					console.log(datos);
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/equipo/',
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/equipo/',
                         // url: 'http://localhost/gitgrad/APIPOLLO/public/observation/read/',
                         data:{
 								_nombre:datos.nombre,
@@ -68,7 +68,7 @@ var self ={
 					console.log(datos);
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/pila/',
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/pila/',
                         // url: 'http://localhost/gitgrad/APIPOLLO/public/observation/read/',
                         data:{
 								_codigo:datos.codigo,
@@ -98,7 +98,7 @@ var self ={
                     
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/equipo/listarEquipos/'+id,
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/equipo/listarEquipos/'+id,
                     	})
                         .then(function successCallback(response) {
                                 // ok
@@ -123,7 +123,7 @@ var self ={
                     
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/equipo/listarEquiposM/'+id,
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/equipo/listarEquiposM/'+id,
                     	})
                         .then(function successCallback(response) {
                                 // ok
@@ -148,7 +148,7 @@ var self ={
                     
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/proyecto/listarProyectos/'+id,
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/proyecto/listarProyectos/'+id,
                     	})
                         .then(function successCallback(response) {
                                 // ok
@@ -172,7 +172,7 @@ var self ={
                     
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/proyecto/'+id,
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/proyecto/'+id,
                     	})
                         .then(function successCallback(response) {
                                 // ok
@@ -196,7 +196,7 @@ var self ={
                     
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/pila/listarPila/'+id,
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/pila/listarPila/'+id,
                     	})
                         .then(function successCallback(response) {
                                 // ok
@@ -220,7 +220,7 @@ var self ={
                     
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/manager/idManager/'+id,
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/manager/idManager/'+id,
                     	})
                         .then(function successCallback(response) {
                                 // ok
@@ -245,7 +245,7 @@ var self ={
                     
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.43.178/Web/jscrum/api/public/miembro/idMiembro/'+id,
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/miembro/idMiembro/'+id,
                     	})
                         .then(function successCallback(response) {
                                 // ok
