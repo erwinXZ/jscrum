@@ -9,7 +9,7 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
     $scope.verpila2 =true;
     $scope.verSprint = false;
     $scope.verSprint2 = true;
-    console.log($scope.idProyecto);  
+        // console.log($scope.idProyecto);  
 
     //fecha
     	
@@ -73,7 +73,7 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
 
     $scope.insertarPila = function(pila){
         
-			console.log(pila);
+			// console.log(pila);
 
 			equipoServices.insertarPila(pila).then(function(){
 				$scope.pilaInsertada = equipoServices.response;
@@ -88,20 +88,21 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
 
 			//console.log(sprint);
            sprint.fechaEntrega = $scope.convertDate(sprint.fechaEntrega)
-           console.log(sprint)
-			// equipoServices.insertarPila(pila).then(function(){
-			// 	$scope.pilaInsertada = equipoServices.response;
-            //     // console.log($scope.pilaInsertada);
-            //      $("#modal-insertar-pila").modal("hide");
-            //     //  console.log($scope.id_equipo);
-            //      $scope.listarPila($scope.idProyecto);
-			// });
+           sprint.idProyecto = $scope.idProyecto;
+           console.log(sprint) 
+			equipoServices.insertarSprint(sprint).then(function(){
+				$scope.sprintInsertado = equipoServices.response;
+                 console.log($scope.sprintInsertado);
+                 $("#modal-insertar-sprint").modal("hide");
+                
+                 $scope.listarSprint($scope.idProyecto);
+			});
     }  
 
     $scope.listarSprint = function(id){
         equipoServices.listarSprint(id).then(function(){
 				$scope.sprints = equipoServices.response.message;
-                console.log($scope.sprints)
+                // console.log($scope.sprints)
                 if($scope.sprints[0].respuesta){
                     console.log("No existen Sprints")
                 }else{
