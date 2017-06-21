@@ -88,7 +88,7 @@
       <div class="row">
         <div class="col-md-4">
           <span class="text-sprint text-primary">Sprint</span>
-          <div class="btn-plus" ng-click="mostrarInsertarPila()">+</div>
+          <div class="btn-plus" ng-click="mostrarInsertarSprint()">+</div>
           <br><br>
           
           <!--card-sprint-->
@@ -109,7 +109,25 @@
 
         </div>
         <div class="col-md-8">
-          
+          <table class="table table-striped table-hover table-pila" ng-show="verPila">
+            <thead>
+                <tr>
+                    <th class="text-success">Indice</th>
+                    <th class="text-success">Codigo</th>
+                    <th class="text-success">Historia</th>
+                    <th class="text-success">Importancia</th>
+                    <th class="text-success">Estimado Horas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ pila.codigo }}</td>
+                    <td>{{ pila.estimado_horas }}</td>
+                    <td>{{ pila.historia }}</td>
+                    <td>{{ pila.importancia }}</td>
+                </tr>
+            </tbody>
+          </table> 
         </div>
       </div>
     </div>
@@ -117,4 +135,5 @@
 
 
 <div ng-include="'pages/manager/proyecto/modal-insertar-pila.html'"></div>
+<div ng-include="'pages/manager/proyecto/modal-insertar-sprint.html'"></div>
 
