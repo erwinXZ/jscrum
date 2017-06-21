@@ -66,7 +66,8 @@ class  SprintModel
 
 	public function insert($data){
 		$this->db_pdo->multi_query(" CALL crearSprint('".$data['_codigo']."',
-													'".$data['_fecha_entrega']."')");		
+													'".$data['_fecha_entrega']."',
+													'".$data['_id_proyecto']."')");		
 			$res = $this->db_pdo->store_result();
 			$res = $res->fetch_array();
 			mysqli_close($this->db_pdo);
