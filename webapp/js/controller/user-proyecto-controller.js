@@ -46,5 +46,21 @@ app.controller('userProyectoCtrl', ['$scope','$window','$sessionStorage','equipo
         $("#modal-insertar-pila").modal();
     }
 
+    $scope.listarSprint = function(id){
+        equipoServices.listarSprint(id).then(function(){
+				$scope.sprints = equipoServices.response.message;
+                console.log($scope.sprints)
+                if($scope.sprints[0].respuesta){
+                    console.log("No existen Sprints")
+                }else{
+                    $scope.verSprint = true;
+                    
+                    $scope.verSprint2 = false;
+                }
+			});
+    }
+    $scope.listarSprint($scope.idProyecto)
+    console.log($scope.idProyecto)
+
 
 }])

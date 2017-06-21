@@ -34,6 +34,14 @@ $app->group('/esfuerzo',function(){
 				   	);
 	});
 
+	$this->get('/listarEsfuerzo/{id}',function($req, $res, $args){
+		return $res->withHeader('Content-type', 'aplication/json')
+				   ->write(
+				   		json_encode($this->model->Esfuerzo->listarEsfuerzo($args['id']))
+				   		
+				   	);
+	});
+
 	$this->post('/',function($req, $res, $args){
 		// $r = UserValidation::validate($req->getParsedBody());
 

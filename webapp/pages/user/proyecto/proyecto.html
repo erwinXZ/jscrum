@@ -83,3 +83,35 @@
 
 
 
+<!--sprints-->
+    </div>   
+
+    <div class="container container-sprint">
+      <div class="row">
+        <div class="col-md-4">
+          <span class="text-sprint text-primary">Sprint</span>
+          <div class="btn-plus" ng-click="mostrarInsertarPila()">+</div>
+          <br><br>
+          
+          <!--card-sprint-->
+           <p class="no-historia" ng-show="verSprint2">No existen Sprints</p>
+          <div class="well cardPro" ng-show="verSprint" ng-repeat="sprint in sprints">
+              <span class="text-codigo"><b>Código:</b>&nbsp;{{ sprint.codigo }}</span>
+              <span class="text-e-horas"><b>Horas Estimadas:</b>&nbsp;{{ sprint.total_horas }}</span>
+              <br>
+              <span class="text-fecha-ini"><b>Comienzo de Sprint:</b>&nbsp;{{ sprint.fecha_inicio }}</span>
+              <br>
+              <span class="text-fecha-fin"><b>Fecha de Entrega:</b>&nbsp;{{ sprint.fecha_entrega }}</span>
+              <center>
+                <span class="estado-sprint"><b>Estado:</b> &nbsp;{{ sprint.estado }}</span>
+              </center>  
+          </div>
+
+          
+
+        </div>
+        <div class="col-md-8">
+          
+        </div>
+      </div>
+    </div>

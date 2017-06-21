@@ -79,7 +79,8 @@ class  SprintModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->multi_query(" CALL insertarProyectoSprint('".$data['_codigo']."',
+		$this->db_pdo->multi_query(" CALL insertarProyectoSprint('".$data['_indice']."',
+													'".$data['_codigo']."',
 													'".$data['_historia']."',
 													'".$data['_importancia']."',
 													'".$data['_estimado_horas']."',
@@ -107,6 +108,27 @@ class  SprintModel
 			 
 	}
 
+	public function listarProyectoSprint($data){
+
+		//$this->db->insertInto($this->table, $data)
+		//		 ->execute();
+		$this->db_pdo->multi_query(" CALL listarProyectoSprint('".$data['_id_sprint']."',
+													'".$data['_id_proyecto']."')");
+			$res = $this->db_pdo->store_result();
+
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			$res = array("message"=>$res,"response"=>true);
+			
+			// $res = $res->fetch_array();
+			// mysqli_close($this->db_pdo);
+			
+			return $res;
+			 
+	}
+
 	public function listarSprint($data){
 		$this->db_pdo->multi_query(" CALL listarSprint(".$data.")");
 			$res = $this->db_pdo->store_result();
@@ -122,7 +144,17 @@ class  SprintModel
 			
 			return $res;	
 	}
-
+	public function listarDias($data){
+		$this->db_pdo->multi_query(" CALL listarDias(".$data.")");
+			$res = $this->db_pdo->store_result();
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res,"response"=>true);
+			return $res;
+	}
 	//actualizar
 	public function update($data, $id){
 

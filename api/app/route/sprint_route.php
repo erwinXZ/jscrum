@@ -42,6 +42,14 @@ $app->group('/sprint',function(){
 				   	);
 	});
 
+	$this->get('/listarDias/{id}',function($req, $res, $args){
+		return $res->withHeader('Content-type', 'aplication/json')
+				   ->write(
+				   		json_encode($this->model->Sprint->listarDias($args['id']))
+				   		
+				   	);
+	});
+
 	
 
 	$this->post('/',function($req, $res, $args){
@@ -72,7 +80,7 @@ $app->group('/sprint',function(){
 
 		return $res->withHeader('Content-type', 'aplication/json')
 			       -> write(
-						json_encode($this->model->Sprint->insertarDiaInhabil($req->getParsedBody()))
+						json_encode($this->model->Sprint->insertDiasInhabiles($req->getParsedBody()))
 
 				   	);
 	});
@@ -89,6 +97,22 @@ $app->group('/sprint',function(){
 		return $res->withHeader('Content-type', 'aplication/json')
 			       -> write(
 						json_encode($this->model->Sprint->insertPS($req->getParsedBody()))
+
+				   	);
+	});
+
+	$this->post('/listarProyectoSprint/',function($req, $res, $args){
+		// $r = UserValidation::validate($req->getParsedBody());
+
+		// if(!$r->response){
+		// 	return $res->withHeader('Content-type', 'aplication/json')
+		// 			   ->withStatus(422)
+		// 			   ->write(json_encode($r->errors));
+		// }
+
+		return $res->withHeader('Content-type', 'aplication/json')
+			       -> write(
+						json_encode($this->model->Sprint->listarProyectoSprint($req->getParsedBody()))
 
 				   	);
 	});

@@ -68,14 +68,45 @@ class  TareaModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL asignarTarea(	'".$data['_descripcion']."',
+		$this->db_pdo->multi_query(" CALL asignarTarea('".$data['_indice']."',
+													'".$data['_codigo']."',
+													'".$data['_descripcion']."',
 													'".$data['_tipo']."',
 													'".$data['_total_horas']."',
-                                                    '".$data['_id_sprint']."',
-													'".$data['_id_miembro']."')")
-					  ->execute();
+													'".$data['_id_sprint']."',
+													'".$data['_id_miembro']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;										
+			 
+	}
 
-		return $this->response->setResponse(true);
+	public function listarTareas($data){
+		$this->db_pdo->multi_query(" CALL listarTareas(".$data.")");
+			$res = $this->db_pdo->store_result();
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res,"response"=>true);
+			return $res;	
+	}
+
+
+	public function modificarEstado($data){
+
+		//$this->db->insertInto($this->table, $data)
+		//		 ->execute();
+		$this->db_pdo->multi_query(" CALL modificarEstado('".$data['_estaado']."',
+													'".$data['_id_tarea']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;										
 			 
 	}
 	//actualizar
