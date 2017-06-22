@@ -329,6 +329,35 @@ var self ={
                        return d.promise;	 
 	
 				},
+				insertarProyectoSprint : function(datos){
+					var d = $q.defer();
+					console.log(datos);
+                    $http({
+                      method: 'POST',
+					  	url: 'http://192.168.1.7/Web/jscrum/api/public/sprint/insertarProyectoSprint/',
+                        data:{
+								_id_sprint:datos.id,
+								_codigo:datos.idProyecto,
+								_codigo:datos.idProyecto,
+								_historia:datos.idProyecto,
+								_importancia:datos.idProyecto,
+								_id_sprint:datos.idProyecto,
+								_id_proyecto:datos.idProyecto,
+
+						}
+                    	})
+                        .then(function successCallback(response) {
+
+								self.response 	= response.data;
+								return d.resolve()	
+                            }, function errorCallback(response) {
+								
+								self.response 	= response.data
+								return d.resolve();
+                        });
+                       return d.promise;	 
+	
+				}
 
 
 	}

@@ -1,0 +1,31 @@
+<div class="modal fade" id="modal-insertar-proyecto-sprint" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Crear Historias</h4>
+      </div>
+      <div class="modal-body">
+            <form name="frmUser" ng-submit="insertarSprint(sprint)">
+                <div class="form-group">
+                    <label for="codigoInput">Codigo</label>
+                    <input type="text" class="form-control" ng-model="sprint.codigo" id="codigoInput" placeholder="Codigo" requiered>
+                </div>
+                <!--historia-->
+                <div class="form-group">
+                    <label for="fechaInput">Fecha de Entrega</label>
+                    <input type="date" class="form-control" ng-model="sprint.fechaEntrega"  id="date" min="2013-01-01" required>
+                </div>
+
+                
+
+                <button type="submit" class="btn btn-success btn-block" >Registrar</button> 
+                <!--<h3 class="text-center text-success"> {{ pila | json}} </h3>-->
+                <!--<h2>{{ sprint }}</h2>-->
+            </form>
+
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->j

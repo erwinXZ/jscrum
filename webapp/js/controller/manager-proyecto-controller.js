@@ -141,6 +141,36 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
                 }
 			});
     }
+    $scope.mostrarinsertarProyectoSprint = function(){
+        // $scope.pila = {
+        //     id_proyecto : $scope.idProyecto
+        // }
+         console.log("hola")
+        $("#modal-insertar-proyecto-sprint").modal();
+    }
+    $scope.insertarProyectoSprint = function(datos){
+        // datos.idProyecto = $scope.idProyecto;
+        console.log(datos);
+
+			// equipoServices.insertarProyectoSprint(datos).then(function(){
+			// 	$scope.listaProyectoSprint = equipoServices.response.message;
+            //     // console.log($scope.listaProyectoSprint.response.message)
+            //     if($scope.listaProyectoSprint[0].respuesta){
+            //         // console.log("No existe Proyecto");
+            //         console.log($scope.listaProyectoSprint);
+            //         $scope.verProSpri = false;
+            //         $scope.verProSpri2 = true;
+            //         $scope.verProSpri3 = false;
+                    
+            //     }else{
+            //         console.log($scope.listaProyectoSprint);
+            //         $scope.verProSpri = true;
+            //         $scope.verProSpri2 = false;
+            //         $scope.verProSpri3 = false
+            //     }
+			// });
+    }
+
     $scope.listarSprint($scope.idProyecto)
     console.log($scope.idProyecto)
 
