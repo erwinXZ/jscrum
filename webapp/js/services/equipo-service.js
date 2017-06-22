@@ -305,7 +305,31 @@ var self ={
                         });
                        return d.promise;	 
 	
-				}
+				},
+				listarProyectoSprint : function(datos){
+					var d = $q.defer();
+					console.log(datos);
+                    $http({
+                      method: 'POST',
+					  	url: 'http://192.168.1.2/Web/jscrum/api/public/sprint/listarProyectoSprint/',
+                        data:{
+								_id_sprint:datos.id,
+								_id_proyecto:datos.idProyecto
+						}
+                    	})
+                        .then(function successCallback(response) {
+
+								self.response 	= response.data;
+								return d.resolve()	
+                            }, function errorCallback(response) {
+								
+								self.response 	= response.data
+								return d.resolve();
+                        });
+                       return d.promise;	 
+	
+				},
+
 
 	}
 

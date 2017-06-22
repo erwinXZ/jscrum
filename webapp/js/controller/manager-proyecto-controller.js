@@ -9,6 +9,10 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
     $scope.verpila2 =true;
     $scope.verSprint = false;
     $scope.verSprint2 = true;
+    $scope.verProSpri = false;
+    $scope.verProSpri2 = false;
+    $scope.verProSpri3 = true;
+    
         // console.log($scope.idProyecto);  
 
     //fecha
@@ -109,6 +113,31 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
                     $scope.verSprint = true;
                     
                     $scope.verSprint2 = false;
+                }
+			});
+    }
+
+    //listarProyectoSprint
+
+    $scope.listarProyectoSprint = function(datos){
+        datos.idProyecto = $scope.idProyecto;
+        console.log(datos);
+
+			equipoServices.listarProyectoSprint(datos).then(function(){
+				$scope.listaProyectoSprint = equipoServices.response.message;
+                // console.log($scope.listaProyectoSprint.response.message)
+                if($scope.listaProyectoSprint[0].respuesta){
+                    // console.log("No existe Proyecto");
+                    console.log($scope.listaProyectoSprint);
+                    $scope.verProSpri = false;
+                    $scope.verProSpri2 = true;
+                    $scope.verProSpri3 = false;
+                    
+                }else{
+                    console.log($scope.listaProyectoSprint);
+                    $scope.verProSpri = true;
+                    $scope.verProSpri2 = false;
+                    $scope.verProSpri3 = false
                 }
 			});
     }
