@@ -308,7 +308,7 @@ var self ={
 				},
 				listarProyectoSprint : function(datos){
 					var d = $q.defer();
-					console.log(datos);
+					// console.log(datos);
                     $http({
                       method: 'POST',
 					  	url: 'http://192.168.1.2/Web/jscrum/api/public/sprint/listarProyectoSprint/',
@@ -334,15 +334,15 @@ var self ={
 					console.log(datos);
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.1.7/Web/jscrum/api/public/sprint/insertarProyectoSprint/',
+					  	url: 'http://192.168.1.2/Web/jscrum/api/public/sprint/insertarProyectoSprint/',
                         data:{
-								_id_sprint:datos.id,
-								_codigo:datos.idProyecto,
-								_codigo:datos.idProyecto,
-								_historia:datos.idProyecto,
-								_importancia:datos.idProyecto,
-								_id_sprint:datos.idProyecto,
-								_id_proyecto:datos.idProyecto,
+								_codigo:datos.codigo,
+								_indice:datos.indice,
+								_historia:datos.historia,
+								_importancia:datos.importancia,
+								_id_sprint:datos.idSprint,
+								_estimado_horas:datos.horasEstimadas,
+								_id_proyecto:datos.idProyecto
 
 						}
                     	})

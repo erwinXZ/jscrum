@@ -12,6 +12,7 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
     $scope.verProSpri = false;
     $scope.verProSpri2 = false;
     $scope.verProSpri3 = true;
+    $scope.historiaInsert = false;
     
         // console.log($scope.idProyecto);  
 
@@ -120,21 +121,25 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
     //listarProyectoSprint
 
     $scope.listarProyectoSprint = function(datos){
+        
         datos.idProyecto = $scope.idProyecto;
-        console.log(datos);
+        // console.log(datos);
+        $scope.sprintId = datos.id;
+        // console.log($scope.sprintId)
+        console.log(datos)
 
 			equipoServices.listarProyectoSprint(datos).then(function(){
 				$scope.listaProyectoSprint = equipoServices.response.message;
                 // console.log($scope.listaProyectoSprint.response.message)
                 if($scope.listaProyectoSprint[0].respuesta){
                     // console.log("No existe Proyecto");
-                    console.log($scope.listaProyectoSprint);
+                    // console.log($scope.listaProyectoSprint);
                     $scope.verProSpri = false;
                     $scope.verProSpri2 = true;
                     $scope.verProSpri3 = false;
                     
                 }else{
-                    console.log($scope.listaProyectoSprint);
+                    // console.log($scope.listaProyectoSprint);
                     $scope.verProSpri = true;
                     $scope.verProSpri2 = false;
                     $scope.verProSpri3 = false
@@ -142,33 +147,29 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
 			});
     }
     $scope.mostrarinsertarProyectoSprint = function(){
-        // $scope.pila = {
-        //     id_proyecto : $scope.idProyecto
-        // }
-         console.log("hola")
+
         $("#modal-insertar-proyecto-sprint").modal();
     }
-    $scope.insertarProyectoSprint = function(datos){
-        // datos.idProyecto = $scope.idProyecto;
-        console.log(datos);
 
-			// equipoServices.insertarProyectoSprint(datos).then(function(){
-			// 	$scope.listaProyectoSprint = equipoServices.response.message;
-            //     // console.log($scope.listaProyectoSprint.response.message)
-            //     if($scope.listaProyectoSprint[0].respuesta){
-            //         // console.log("No existe Proyecto");
-            //         console.log($scope.listaProyectoSprint);
-            //         $scope.verProSpri = false;
-            //         $scope.verProSpri2 = true;
-            //         $scope.verProSpri3 = false;
-                    
-            //     }else{
-            //         console.log($scope.listaProyectoSprint);
-            //         $scope.verProSpri = true;
-            //         $scope.verProSpri2 = false;
-            //         $scope.verProSpri3 = false
-            //     }
-			// });
+    $scope.insertarProyectoSprint = function(datos){
+        datos.idProyecto = $scope.idProyecto;
+        datos.idSprint = $scope.sprintId;
+        datos.id = $scope.sprintId;
+        
+			equipoServices.insertarProyectoSprint(datos).then(function(){
+				$scope.insertarPS = equipoServices.response;
+                console.log($scope.insertarPS)
+                if($scope.insertarPS.message == 0){
+                    $scope.historiaInsert = true;
+                }else{
+                    $scope.historiaInsert = false;
+                    $scope.listarProyectoSprint(datos);   
+                }
+                $("#modal-insertar-proyecto-sprint").modal("hide");
+               
+			});
+         
+         
     }
 
     $scope.listarSprint($scope.idProyecto)
