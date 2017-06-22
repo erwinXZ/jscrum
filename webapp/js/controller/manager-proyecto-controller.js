@@ -174,4 +174,8 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
     $scope.listarSprint($scope.idProyecto)
     console.log($scope.idProyecto)
 
+    $scope.removeItem = function(){
+      $sessionStorage.$reset();
+      console.log("Sesión finalizada");
+    }
 }])

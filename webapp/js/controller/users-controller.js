@@ -63,6 +63,11 @@ app.controller('usersCtrl', ['$scope','usuarioServices','$window','$sessionStora
         $window.location.href = '#/user/proyecto/'+proyecto.id;
     }
 
+    $scope.removeItem = function(){
+      $sessionStorage.$reset();
+      console.log("Sesión finalizada");
+    }
+
 }])
 
 .directive('uploaderModel', ["$parse", function ($parse) {

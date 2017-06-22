@@ -66,7 +66,8 @@ class  SprintModel
 
 	public function insert($data){
 		$this->db_pdo->multi_query(" CALL crearSprint('".$data['_codigo']."',
-													'".$data['_fecha_entrega']."')");		
+													'".$data['_fecha_entrega']."',
+													'".$data['_id_proyecto']."')");		
 			$res = $this->db_pdo->store_result();
 			$res = $res->fetch_array();
 			mysqli_close($this->db_pdo);
@@ -146,6 +147,19 @@ class  SprintModel
 	}
 	public function listarDias($data){
 		$this->db_pdo->multi_query(" CALL listarDias(".$data.")");
+			$res = $this->db_pdo->store_result();
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res,"response"=>true);
+			return $res;
+	}
+
+
+	public function graficoHoras($data){
+		$this->db_pdo->multi_query(" CALL graficoHoras(".$data.")");
 			$res = $this->db_pdo->store_result();
 			while($fila = $res->fetch_assoc()){
 				$arreglo[] = $fila;

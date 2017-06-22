@@ -49,7 +49,7 @@ app.controller('userProyectoCtrl', ['$scope','$window','$sessionStorage','equipo
     $scope.listarSprint = function(id){
         equipoServices.listarSprint(id).then(function(){
 				$scope.sprints = equipoServices.response.message;
-                console.log($scope.sprints)
+                // console.log($scope.sprints)
                 if($scope.sprints[0].respuesta){
                     console.log("No existen Sprints")
                 }else{
@@ -59,8 +59,37 @@ app.controller('userProyectoCtrl', ['$scope','$window','$sessionStorage','equipo
                 }
 			});
     }
+
+    //listarProyectoSprint
+
+    $scope.listarProyectoSprint = function(datos){
+        datos.idProyecto = $scope.idProyecto;
+        console.log(datos);
+
+			equipoServices.listarProyectoSprint(datos).then(function(){
+				$scope.listaProyectoSprint = equipoServices.response.message;
+                // console.log($scope.listaProyectoSprint.response.message)
+                if($scope.listaProyectoSprint[0].respuesta){
+                    // console.log("No existe Proyecto");
+                    console.log($scope.listaProyectoSprint);
+                    $scope.verProSpri = false;
+                    $scope.verProSpri2 = true;
+                    $scope.verProSpri3 = false;
+                    
+                }else{
+                    console.log($scope.listaProyectoSprint);
+                    $scope.verProSpri = true;
+                    $scope.verProSpri2 = false;
+                    $scope.verProSpri3 = false
+                }
+			});
+    }
     $scope.listarSprint($scope.idProyecto)
     console.log($scope.idProyecto)
 
+    $scope.removeItem = function(){
+      $sessionStorage.$reset();
+      console.log("Sesión finalizada");
+    }
 
 }])

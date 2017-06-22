@@ -24,7 +24,7 @@
 	          <ul class="dropdown-menu">
 	            <li><a href="#/">Ayuda</a></li>
 	            <li><a href="#/">Acerca de</a></li>
-	            <li><a href="#/">Salir</a></li>
+	            <li><a href="#/" ng-click="removeItem()">Salir</a></li>
 	          </ul>
 	        </li>
 	        <!--<li class="dropdown">
@@ -84,18 +84,15 @@
 
 
 <!--sprints-->
-    </div>   
-
-    <div class="container container-sprint">
+   <div class="container container-sprint">
       <div class="row">
         <div class="col-md-4">
           <span class="text-sprint text-primary">Sprint</span>
-          <div class="btn-plus" ng-click="mostrarInsertarPila()">+</div>
           <br><br>
           
           <!--card-sprint-->
            <p class="no-historia" ng-show="verSprint2">No existen Sprints</p>
-          <div class="well cardPro" ng-show="verSprint" ng-repeat="sprint in sprints">
+          <div class="well cardPro" ng-show="verSprint" ng-repeat="sprint in sprints" ng-click="listarProyectoSprint(sprint)">
               <span class="text-codigo"><b>Código:</b>&nbsp;{{ sprint.codigo }}</span>
               <span class="text-e-horas"><b>Horas Estimadas:</b>&nbsp;{{ sprint.total_horas }}</span>
               <br>
@@ -107,11 +104,31 @@
               </center>  
           </div>
 
-          
-
         </div>
         <div class="col-md-8">
-          
+          <p class="no-historia animated jello" ng-show="verProSpri3">Datos </p>
+          <p class="no-historia animated jello" ng-show="verProSpri2">No Existe Datos</p>
+          <table class="table table-striped animated zoomIn table-hover table-pila" ng-show="verProSpri">
+            <thead>
+                <tr>
+                    <th class="text-success">Indice</th>
+                    <th class="text-success">Codigo</th>
+                    <th class="text-success">Historia</th>
+                    <th class="text-success">Importancia</th>
+                    <th class="text-success">Estimado Horas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-show="verProSpri" ng-repeat="proSpri in listaProyectoSprint">
+                    <td>{{ proSpri.indice }}</td>
+                    <td>{{ proSpri.codigo }}</td>
+                    <td>{{ proSpri.estimado_horas }}</td>
+                    <td>{{ proSpri.historia }}</td>
+                    <td>{{ proSpri.importancia }}</td>
+                </tr>
+                
+            </tbody>
+          </table> 
         </div>
       </div>
     </div>

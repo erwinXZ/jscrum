@@ -50,6 +50,14 @@ $app->group('/sprint',function(){
 				   	);
 	});
 
+	$this->get('/graficoHoras/{id}',function($req, $res, $args){
+		return $res->withHeader('Content-type', 'aplication/json')
+				   ->write(
+				   		json_encode($this->model->Sprint->graficoHoras($args['id']))
+				   		
+				   	);
+	});
+
 	
 
 	$this->post('/',function($req, $res, $args){

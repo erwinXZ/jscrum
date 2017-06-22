@@ -104,4 +104,9 @@ app.controller('adminCtrl', ['$scope','$window','$sessionStorage','userServices'
         
     }
 
+    $scope.removeItem = function(){
+      $sessionStorage.$reset();
+      console.log("Sesión finalizada");
+    }
+
 }])
