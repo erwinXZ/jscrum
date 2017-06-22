@@ -87,5 +87,9 @@ app.controller('userProyectoCtrl', ['$scope','$window','$sessionStorage','equipo
     $scope.listarSprint($scope.idProyecto)
     console.log($scope.idProyecto)
 
+    $scope.removeItem = function(){
+      $sessionStorage.$reset();
+      console.log("Sesión finalizada");
+    }
 
 }])

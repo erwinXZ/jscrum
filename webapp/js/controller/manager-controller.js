@@ -157,6 +157,11 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
 
     }
 
+    $scope.removeItem = function(){
+      $sessionStorage.$reset();
+      console.log("Sesión finalizada");
+    }
+
 
 
 }])
