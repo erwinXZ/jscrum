@@ -173,7 +173,13 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
     }
 
     $scope.listarSprint($scope.idProyecto)
-    console.log($scope.idProyecto)
+    // console.log($scope.idProyecto);
+
+    $scope.verAvance = function(sprint){
+        console.log(sprint);
+       $sessionStorage.sprint = sprint;
+        $window.location.href = '#/maneger/proyecto/sprint';
+    }
 
     $scope.removeItem = function(){
       $sessionStorage.$reset();

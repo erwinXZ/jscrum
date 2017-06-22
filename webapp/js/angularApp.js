@@ -5,11 +5,13 @@ var app = angular.module('jscrumApp',
 	'jscrumApp.adminCtrl',
 	'jscrumApp.usersCtrl',
 	'jscrumApp.managerCtrl',
+	'jscrumApp.sprintCtrl',
 	'jscrumApp.managerProyectoCtrl',
 	'jscrumApp.userProyectoCtrl',
 	'jscrumApp.userServices',
 	'jscrumApp.equipoServices',
-	'jscrumApp.usuarioServices']
+	'jscrumApp.usuarioServices',
+	'jscrumApp.sprintServices']
 	);
 
 app.controller('mainCtrl', ['$scope','$http', function($scope,$http){
@@ -46,9 +48,9 @@ app.controller('mainCtrl', ['$scope','$http', function($scope,$http){
 		templateUrl: 'pages/manager/proyecto/proyecto.html',
 		controller: 'managerProyectoCtrl'
 	})
-	.when('/user/proyecto/:proyecto', {
-		templateUrl: 'pages/user/proyecto/proyecto.html',
-		controller: 'userProyectoCtrl'
+	.when('/maneger/proyecto/sprint', {
+		templateUrl: 'pages/manager/proyecto/sprint/sprint.html',
+		controller: 'sprintCtrl'
 	})
 	.otherwise({ 
 		redirectTo: '/' 
