@@ -93,7 +93,7 @@
           
           <!--card-sprint-->
            <p class="no-historia" ng-show="verSprint2">No existen Sprints</p>
-          <div class="well cardPro" ng-show="verSprint" ng-repeat="sprint in sprints">
+          <div class="well cardPro" ng-show="verSprint" ng-repeat="sprint in sprints" ng-click="listarProyectoSprint(sprint)">
               <span class="text-codigo"><b>Código:</b>&nbsp;{{ sprint.codigo }}</span>
               <span class="text-e-horas"><b>Horas Estimadas:</b>&nbsp;{{ sprint.total_horas }}</span>
               <br>
@@ -109,7 +109,9 @@
 
         </div>
         <div class="col-md-8">
-          <table class="table table-striped table-hover table-pila" ng-show="verPila">
+          <p class="no-historia" ng-show="verProSpri3">Datos </p>
+          <p class="no-historia" ng-show="verProSpri2">No Existe Datos</p>
+          <table class="table table-striped table-hover table-pila" ng-show="verProSpri">
             <thead>
                 <tr>
                     <th class="text-success">Indice</th>
@@ -120,12 +122,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>{{ pila.codigo }}</td>
-                    <td>{{ pila.estimado_horas }}</td>
-                    <td>{{ pila.historia }}</td>
-                    <td>{{ pila.importancia }}</td>
+                <tr ng-show="verProSpri" ng-repeat="proSpri in listaProyectoSprint">
+                    <td>{{ proSpri.indice }}</td>
+                    <td>{{ proSpri.codigo }}</td>
+                    <td>{{ proSpri.estimado_horas }}</td>
+                    <td>{{ proSpri.historia }}</td>
+                    <td>{{ proSpri.importancia }}</td>
                 </tr>
+                
             </tbody>
           </table> 
         </div>
