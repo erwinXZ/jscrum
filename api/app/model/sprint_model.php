@@ -129,6 +129,7 @@ class  SprintModel
 			return $res;
 			 
 	}
+	
 
 	public function listarSprint($data){
 		$this->db_pdo->multi_query(" CALL listarSprint(".$data.")");
@@ -145,6 +146,23 @@ class  SprintModel
 			
 			return $res;	
 	}
+
+	public function listarInhabiles($data){
+		$this->db_pdo->multi_query(" CALL listarInhabiles(".$data.")");
+			$res = $this->db_pdo->store_result();
+
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			$res = array("message"=>$res,"response"=>true);
+			
+			// $res = $res->fetch_array();
+			// mysqli_close($this->db_pdo);
+			
+			return $res;	
+	}
+	
 	public function listarDias($data){
 		$this->db_pdo->multi_query(" CALL listarDias(".$data.")");
 			$res = $this->db_pdo->store_result();

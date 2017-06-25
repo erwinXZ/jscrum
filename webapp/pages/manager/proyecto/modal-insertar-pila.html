@@ -8,8 +8,8 @@
       <div class="modal-body">
             <form name="frmUser" ng-submit="insertarPila(pila)">
                 <div class="form-group">
-                    <label for="codigoInput">Codigo</label>
-                    <input type="text" class="form-control" ng-model="pila.codigo" id="codigoInput" placeholder="Codigo" requiered>
+                    <label for="codigoInput">Código</label>
+                    <input type="text" class="form-control" ng-model="pila.codigo" id="codigoInput" placeholder="Código" requiered>
                 </div>
                 <!--historia-->
                 <div class="form-group">
@@ -19,7 +19,7 @@
                 <!--importancia-->
                 <div class="form-group">
                     <label for="importanciaInput">Importancia</label>
-                    <input type="number" class="form-control" min="1" max="10" ng-model="pila.importancia" id="importanciaInput" placeholder="Importancia" required>
+                    <input type="number" class="form-control" min="1" max="5" ng-model="pila.importancia" id="importanciaInput" placeholder="Importancia" required>
                 </div>
                 <!--jornada-->
                 <div class="form-group">
@@ -28,7 +28,6 @@
                 </div>
                 
                 
-
                 <button type="submit" class="btn btn-success btn-block" >Registrar</button> 
                 <!--<h3 class="text-center text-success"> {{ pila | json}} </h3>-->
 
