@@ -76,7 +76,7 @@ $app->group('/manager',function(){
 
 		return $res->withHeader('Content-type', 'aplication/json')
 			       -> write(
-						json_encode($this->model->Manager->insertEquipoE($req->getParsedBody()))
+						json_encode($this->model->Manager->asignarEquipoE($req->getParsedBody()))
 
 				   	);
 	});

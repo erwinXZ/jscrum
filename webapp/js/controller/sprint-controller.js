@@ -1,12 +1,11 @@
 var app = angular.module('jscrumApp.sprintCtrl',["ngStorage"]);
 
 app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStorage' ,function($scope,sprintServices,$window,$sessionStorage){
-	
 
     $scope.sprint = "Sprint";
     $scope.dataSprint = $sessionStorage.sprint;
 
-    console.log(parseInt($scope.dataSprint.fecha_inicio.substring(5,7)))
+    console.log($scope.dataSprint.total_horas_persona)
 
     Highcharts.setOptions({
         chart: {
@@ -32,18 +31,17 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
 
         xAxis: {
             type: 'datetime',
-            // categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
         },
 
         series: [{
-            data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4],
+            data: [parseInt($scope.dataSprint.total_horas_persona)],
             pointStart: Date.UTC(2017, parseInt($scope.dataSprint.fecha_inicio.substring(5,7)), parseInt($scope.dataSprint.fecha_inicio.substring(8,10))),
             pointInterval: 3600 * 1000 * 24
 
         },{
             type: 'line',
             name: 'linea',
-            data: [100,80,70,60,50,40,30,20,10,10,9,0],
+            data: [parseInt($scope.dataSprint.total_horas_persona)],
             pointStart: Date.UTC(2017, parseInt($scope.dataSprint.fecha_inicio.substring(5,7)), parseInt($scope.dataSprint.fecha_inicio.substring(8,10))),
             pointInterval: 3600 * 1000 * 24
     }]

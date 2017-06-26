@@ -104,19 +104,17 @@ class  ManagerModel
 	}
 	
 
-	public function insertEquipoE($data){
-		// $data['password'] = md5($data['password']);
-		$data['password'] = $this->security->encriptar($data['password']);	
 
-		//$this->db->insertInto($this->table, $data)
-		//		 ->execute();
-		$this->db_pdo->prepare(" CALL asignarEquipoE('".$data['_email']."',
+	public function asignarEquipoE($data){
+
+		$this->db_pdo->multi_query(" CALL asignarEquipoE('".$data['_email']."',
 													'".$data['_cargo']."',
-													'".$data['_id_equipo']."')")
-					  ->execute();
-
-		return $this->response->setResponse(true);
-			 
+		 											'".$data['_id_equipo']."');");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;										 
 	}
 
 

@@ -100,7 +100,7 @@ class  TareaModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->multi_query(" CALL modificarEstado('".$data['_estaado']."',
+		$this->db_pdo->multi_query(" CALL modificarEstado('".$data['_estado']."',
 													'".$data['_id_tarea']."')");
 			$res = $this->db_pdo->store_result();
 			$res = $res->fetch_array();

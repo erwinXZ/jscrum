@@ -187,6 +187,18 @@ class  SprintModel
 			$res = array("message"=>$res,"response"=>true);
 			return $res;
 	}
+
+	public function listarMiembrosE($data){
+		$this->db_pdo->multi_query(" CALL listarMiembrosE(".$data.")");
+			$res = $this->db_pdo->store_result();
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res,"response"=>true);
+			return $res;
+	}
 	//actualizar
 	public function update($data, $id){
 

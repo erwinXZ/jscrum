@@ -64,25 +64,6 @@ class  MiembroModel
 	}
 	//registrar
 
-	// public function insert($data){
-	// 	// $data['password'] = md5($data['password']);
-	// 	$data['password'] = $this->security->encriptar($data['password']);	
-
-	// 	//$this->db->insertInto($this->table, $data)
-	// 	//		 ->execute();
-	// 	$this->db_pdo->prepare("CALL insertarMiembro('".$data['_nombre']."',
-	// 												'".$data['_apellidos']."',
-	// 												'".$data['_email']."',
-	// 												'".$data['_login']."',
-	// 												'".$data['_password']."',
-	// 												'".$data['_profesion']."',
-    //                                                 '".$data['_rol']."',
-	// 												'".$data['_destrezas']."')")
-	// 				  ->execute();
-
-	// 	return $this->response->setResponse(true);
-			 
-	// }
 
 	public function idMiembro($data){
 		$this->db_pdo->multi_query(" CALL idMiembro(".$data.")");

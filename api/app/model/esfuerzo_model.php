@@ -68,12 +68,14 @@ class  EsfuerzoModel
 
 		//$this->db->insertInto($this->table, $data)
 		//		 ->execute();
-		$this->db_pdo->prepare(" CALL quemarHoras(	'".$data['_cantidad']."',
-													'".$data['_id_tarea']."')")
-					  ->execute();
-
-		return $this->response->setResponse(true);
-			 
+		$this->db_pdo->multi_query(" CALL quemarHoras('".$data['_cantidad']."',
+													'".$data['_id_tarea']."',
+													'".$data['_id_sprint']."')");
+			$res = $this->db_pdo->store_result();
+			$res = $res->fetch_array();
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res[0],"response"=>true);
+			return $res;	
 	}
 
 	public function listarEsfuerzo($data){

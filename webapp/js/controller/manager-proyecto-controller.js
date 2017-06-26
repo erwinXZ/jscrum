@@ -59,7 +59,6 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
 
     $scope.listarPila($scope.idProyecto);
 
-
     $scope.mostrarInsertarPila = function(){
         $scope.pila = {
             id_proyecto : $scope.idProyecto

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-06-2017 a las 01:35:08
+-- Tiempo de generación: 26-06-2017 a las 16:37:52
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 7.0.8
 
@@ -26,11 +26,26 @@ DELIMITER $$
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `asginarEquipoE` (IN `_email` VARCHAR(75), IN `_cargo` VARCHAR(100), IN `_id_equipo` INT)  BEGIN
 DECLARE _id_miembro INT;
-	    IF ( SELECT EXISTS (SELECT * FROM usuario WHERE email = _email))THEN
-			SELECT 'El usuario no esta registrado';
+	    IF ( SELECT NOT EXISTS (SELECT * FROM usuario WHERE email = _email))THEN
+			SELECT 0 AS respuesta;
    		ELSE
         	SET _id_miembro = (SELECT m.id FROM usuario u INNER JOIN miembro m ON u.id = m.id_usuario WHERE u.email = _email);
 			INSERT INTO equipo_miembro(cargo, id_equipo, id_miembro) VALUES(_cargo, _id_equipo, _id_miembro);
+    END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `asignarEquipoE` (IN `_email` VARCHAR(75), IN `_cargo` VARCHAR(100), IN `_id_equipo` INT)  BEGIN
+DECLARE _id_miembro INT;
+	    IF ( SELECT NOT EXISTS (SELECT * FROM usuario WHERE email = _email))THEN
+			SELECT 0 AS respuesta;
+   		ELSE
+        SET _id_miembro = (SELECT m.id FROM usuario u INNER JOIN miembro m ON u.id = m.id_usuario WHERE u.email = _email);
+        IF ( SELECT NOT EXISTS (SELECT * FROM equipo_miembro WHERE id_equipo=_id_equipo AND id_miembro=_id_miembro))THEN
+			INSERT INTO equipo_miembro(cargo, id_equipo, id_miembro) VALUES(_cargo, _id_equipo, _id_miembro);
+			SELECT 1 AS respuesta;
+        ELSE
+			SELECT 2 AS respuesta;
+		END IF;
     END IF; 
 END$$
 
@@ -238,7 +253,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `listarEsfuerzo` (IN `_id_sprint` IN
 	IF EXISTS(SELECT EXISTS (SELECT * FROM tarea WHERE id_sprint=_id_sprint))THEN
 		SELECT table1.id_tarea, group_concat(table1.cantidad separator ',') cantidades FROM (SELECT e.id_tarea, e.cantidad FROM tarea t INNER JOIN esfuerzo e ON t.id=e.id_tarea WHERE t.id_sprint=_id_sprint
         ORDER BY e.id_tarea ASC) table1 GROUP BY id_tarea;
-        ELSE
+	ELSE
 		SELECT 0 AS respuesta;
     END IF;
 END$$
@@ -249,6 +264,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `listarInhabiles` (IN `_id_sprint` I
     ELSE
 		SELECT 0 AS respuesta;
     END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `listarMiembrosE` (IN `_id_proyecto` INT)  BEGIN
+DECLARE _id_equipo INT;
+	IF ( SELECT EXISTS (SELECT * FROM proyecto WHERE id = _id_proyecto))THEN
+		SET _id_equipo = (SELECT id_equipo FROM proyecto WHERE id=_id_proyecto);
+        SELECT * FROM equipo_miembro e INNER JOIN miembro m ON e.id_miembro=m.id INNER JOIN usuario u ON m.id_usuario=u.id WHERE e.id_equipo=_id_equipo;
+	ELSE
+		SELECT 0 as respuesta;
+	END IF; 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarPila` (IN `_id_proyecto` INT)  BEGIN
@@ -284,7 +309,7 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarSprint` (IN `_id_proyecto` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM sprint WHERE id_proyecto = _id_proyecto))THEN
-			SELECT id, codigo, total_horas, fecha_inicio, fecha_entrega, estado FROM sprint WHERE id_proyecto=_id_proyecto;
+			SELECT * FROM sprint WHERE id_proyecto=_id_proyecto;
    		ELSE
 			SELECT 0 as respuesta;
 		END IF; 
@@ -293,15 +318,6 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarTareas` (IN `_id_sprint` INT)  BEGIN
 	IF(SELECT EXISTS (SELECT * FROM tarea WHERE id_sprint=_id_sprint))THEN
 		SELECT * FROM tarea WHERE id_sprint=_id_sprint;
-    ELSE
-		SELECT 0 AS respuesta;
-    END IF;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `listar_esfuerzo` (IN `_id_sprint` INT)  BEGIN
-	IF EXISTS(SELECT EXISTS (SELECT * FROM tarea WHERE id_sprint=_id_sprint))THEN
-		SELECT * FROM tarea WHERE id_sprint=_id_sprint;
-        SELECT * FROM tarea t INNER JOIN esfuerzo e ON t.id=e.id_tarea WHERE t.id_sprint=_id_sprint;
     ELSE
 		SELECT 0 AS respuesta;
     END IF;
@@ -324,15 +340,13 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `modificarEstado` (IN `_estado` VARC
     END IF;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `quemarHoras` (IN `_cantidad` INT, IN `_id_tarea` INT)  BEGIN
-DECLARE _id_sprint INT DEFAULT 0;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `quemarHoras` (IN `_cantidad` INT, IN `_id_tarea` INT, IN `_id_sprint` INT)  BEGIN
 DECLARE _tareas_pendientes INT DEFAULT 0; 
 DECLARE _horas_pendientes INT DEFAULT 0;
 DECLARE _horas_completas INT DEFAULT 0;
 DECLARE _id_esfuerzo INT;
-SET _id_sprint = (SELECT id_sprint FROM tarea WHERE id=_id_tarea);
 	IF ( SELECT EXISTS (SELECT * FROM esfuerzo WHERE fecha_dia = CURDATE() AND id_tarea=_id_tarea))THEN 
-        SELECT 0;
+        SELECT 0 as respuesta;
    		ELSE
 			INSERT INTO esfuerzo(cantidad, fecha_dia, id_tarea) VALUES(_cantidad, CURDATE(),_id_tarea);
 			SET _id_esfuerzo = (@@identity);
@@ -345,7 +359,7 @@ SET _id_sprint = (SELECT id_sprint FROM tarea WHERE id=_id_tarea);
             SET _horas_completas = (SELECT (t.total_horas - e.cantidad) FROM tarea t INNER JOIN esfuerzo e ON t.id = e.id_tarea WHERE e.id = _id_esfuerzo);   
             SET _horas_pendientes = (SELECT (total_horas_persona - _horas_completas) FROM sprint WHERE id=_id_sprint);   
 			INSERT INTO seguimiento(tareas_persona_pendientes, 	horas_persona_pendientes, fecha_seguimiento, id_sprint) VALUES(_tareas_pendientes, _horas_pendientes, CURDATE(), _id_sprint);
-            SELECT 1;
+            SELECT 1 as respuesta;
     END IF; 
 END$$
 
@@ -431,6 +445,13 @@ CREATE TABLE `esfuerzo` (
   `fecha_dia` date NOT NULL,
   `id_tarea` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `esfuerzo`
+--
+
+INSERT INTO `esfuerzo` (`id`, `cantidad`, `fecha_dia`, `id_tarea`) VALUES
+(7, 0, '2017-06-26', 1);
 
 -- --------------------------------------------------------
 
@@ -610,6 +631,17 @@ CREATE TABLE `seguimiento` (
   `id_sprint` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
+--
+-- Volcado de datos para la tabla `seguimiento`
+--
+
+INSERT INTO `seguimiento` (`id`, `tareas_persona_pendientes`, `horas_persona_pendientes`, `fecha_seguimiento`, `id_sprint`) VALUES
+(1, 4, 16, '2017-06-26', 2),
+(2, 4, 16, '2017-06-26', 2),
+(3, 3, 12, '2017-06-26', 2),
+(4, 4, 16, '2017-06-26', 2),
+(5, 3, 12, '2017-06-26', 2);
+
 -- --------------------------------------------------------
 
 --
@@ -633,7 +665,7 @@ CREATE TABLE `sprint` (
 --
 
 INSERT INTO `sprint` (`id`, `codigo`, `total_horas`, `fecha_inicio`, `fecha_entrega`, `total_tareas`, `total_horas_persona`, `estado`, `id_proyecto`) VALUES
-(2, 'S1000', 415, '2017-05-31', '2017-06-30', 3, 12, 'En proceso', 15),
+(2, 'S1000', 415, '2017-05-31', '2017-06-30', 4, 16, 'En proceso', 15),
 (3, 'S2225', 0, '2017-06-10', '2017-09-30', 0, 0, 'En proceso', 0),
 (7, 'p-001', 43, '2017-06-21', '2017-10-01', 0, 0, 'En proceso', 15),
 (8, 's-01', 12, '2017-06-21', '2017-06-23', 0, 0, 'En proceso', 15),
@@ -657,6 +689,13 @@ CREATE TABLE `tarea` (
   `id_sprint` int(11) NOT NULL,
   `id_miembro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `tarea`
+--
+
+INSERT INTO `tarea` (`id`, `indice`, `codigo`, `descripcion`, `tipo`, `estado`, `total_horas`, `id_sprint`, `id_miembro`) VALUES
+(1, '1', 'A100', 'Interfaz de los niños de Kaya', 'Principal', 'Terminado', 4, 2, 11);
 
 -- --------------------------------------------------------
 
@@ -792,12 +831,12 @@ ALTER TABLE `equipo`
 -- AUTO_INCREMENT de la tabla `equipo_miembro`
 --
 ALTER TABLE `equipo_miembro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `esfuerzo`
 --
 ALTER TABLE `esfuerzo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `manager`
 --
@@ -827,7 +866,7 @@ ALTER TABLE `proyecto_sprint`
 -- AUTO_INCREMENT de la tabla `seguimiento`
 --
 ALTER TABLE `seguimiento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `sprint`
 --
@@ -837,7 +876,7 @@ ALTER TABLE `sprint`
 -- AUTO_INCREMENT de la tabla `tarea`
 --
 ALTER TABLE `tarea`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
