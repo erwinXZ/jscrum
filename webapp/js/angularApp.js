@@ -40,6 +40,10 @@ app.controller('mainCtrl', ['$scope','$http', function($scope,$http){
 		templateUrl: 'pages/user/user.html',
 		controller: 'usersCtrl'
 	})
+	.when('/user/proyecto/:proyecto', {
+		templateUrl: 'pages/user/proyecto/proyecto.html',
+		controller: 'managerProyectoCtrl'
+	})
 	.when('/manager', {
 		templateUrl: 'pages/manager/manager.html',
 		controller: 'managerCtrl'
