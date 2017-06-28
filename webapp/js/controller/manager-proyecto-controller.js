@@ -13,6 +13,7 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
     $scope.verProSpri2 = false;
     $scope.verProSpri3 = true;
     $scope.historiaInsert = false;
+    $scope.btnTerminado = true;
 
     $scope.verBtnInsertar = false;
     
@@ -34,7 +35,10 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
 
 			equipoServices.listarProyecto(id).then(function(){
 				$scope.proyecto= equipoServices.response;
-                // console.log($scope.proyecto)
+                console.log($scope.proyecto)
+                if($scope.proyecto.estado == "Terminado"){
+                    $scope.btnTerminado = false;
+                }
                 $sessionStorage.dataProyecto = $scope.proyecto;
 			});
     }
@@ -188,6 +192,22 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
       console.log("Sesión finalizada");
     }
 
-    
+    $scope.mostrarTerminar = function (proyecto){
+        console.log(proyecto);
+        $scope.proyectoT = proyecto;
+        $("#modal-terminar-proyecto").modal();
+
+    }
+
+    $scope.terminarProyecto = function(datos){
+        console.log(datos.id)
+        
+			equipoServices.terminarProyecto(datos.id).then(function(){
+				$scope.proTerminado = equipoServices.response;
+                console.log($scope.proTerminado)
+                 $scope.listarProyecto($scope.idProyecto);
+                 $("#modal-terminar-proyecto").modal("hide");
+			});
+    }
 
 }])

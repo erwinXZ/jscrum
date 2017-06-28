@@ -46,7 +46,8 @@
         <span>{{ data.email }}</span> 
     </section>
      <div class="container">
-                <div class="well" >
+                <div class="well well-proyecto" >
+                   <button class="btn btn-info btn-terminar-proyecto" ng-click="mostrarTerminar(proyecto)" ng-show="btnTerminado">Terminar Proyecto</button>
                     <span class="nombre-proyecto">{{ proyecto.nombre }}</span><br>
                     <p>{{proyecto.descripcion}}</p>
                     <p> <span class="objetivo"><b>Objetivo:</b></span> {{ proyecto.objetivo }}</p>
@@ -155,4 +156,5 @@
 <div ng-include="'pages/manager/proyecto/modal-insertar-pila.html'"></div>
 <div ng-include="'pages/manager/proyecto/modal-insertar-sprint.html'"></div>
 <div ng-include="'pages/manager/proyecto/modal-insertar-proyecto-sprint.html'"></div>
+<div ng-include="'pages/manager/proyecto/modal-terminar-proyecto.html'"></div>
 

@@ -441,12 +441,28 @@ var self ={
 								self.response 	= response.data
                         });
                        return d.promise;	 
+				},
+				terminarProyecto : function(id){
+					var d = $q.defer();
+                    
+                    $http({
+                      method: 'GET',
+					  	url: 'http://192.168.1.6/Web/jscrum/api/public/proyecto/actualizarEstadoProyecto/'+id,
+                    	})
+                        .then(function successCallback(response) {
+                              
+								self.response 	= response.data;
+								
+								return d.resolve()	
+                            }, function errorCallback(response) {
+                        
+                            	return d.resolve()	
+                              
+								self.response 	= response.data
+                        });
+                       return d.promise;	 
 				}
 				
-				
-				
-				
-
 
 
 	}
