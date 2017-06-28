@@ -194,7 +194,7 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
                     if($scope.tareas[0].cantidades){
                         tar = $scope.tareas;
                         tar.forEach(function(element) {
-                            console.log(element.cantidades = element.cantidades.split(","))                         
+                            console.log(element.cantidades = element.cantidades.split(",").sort(function(a,b){ return b - a}))                         
                         }, this);
                         $scope.tareas = tar;
                     }
