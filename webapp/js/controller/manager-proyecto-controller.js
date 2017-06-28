@@ -79,7 +79,10 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
 
 			equipoServices.insertarPila(pila).then(function(){
 				$scope.pilaInsertada = equipoServices.response;
-                // console.log($scope.pilaInsertada);
+                console.log($scope.pilaInsertada);
+                if($scope.pilaInsertada.message == 0){
+                    alert("Error al insertar, Codigo repetido")
+                }
                  $("#modal-insertar-pila").modal("hide");
                 //  console.log($scope.id_equipo);
                  $scope.listarPila($scope.idProyecto);

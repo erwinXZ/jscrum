@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 26-06-2017 a las 16:37:52
+-- Tiempo de generación: 28-06-2017 a las 06:49:25
 -- Versión del servidor: 10.1.13-MariaDB
 -- Versión de PHP: 7.0.8
 
@@ -24,14 +24,13 @@ DELIMITER $$
 --
 -- Procedimientos
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `asginarEquipoE` (IN `_email` VARCHAR(75), IN `_cargo` VARCHAR(100), IN `_id_equipo` INT)  BEGIN
-DECLARE _id_miembro INT;
-	    IF ( SELECT NOT EXISTS (SELECT * FROM usuario WHERE email = _email))THEN
-			SELECT 0 AS respuesta;
-   		ELSE
-        	SET _id_miembro = (SELECT m.id FROM usuario u INNER JOIN miembro m ON u.id = m.id_usuario WHERE u.email = _email);
-			INSERT INTO equipo_miembro(cargo, id_equipo, id_miembro) VALUES(_cargo, _id_equipo, _id_miembro);
-    END IF; 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `actualizarEstadoProyecto` (IN `_id_proyecto` INT)  BEGIN
+	IF ( SELECT EXISTS (SELECT * FROM proyecto WHERE id = _id_proyecto))THEN
+		UPDATE proyecto SET estado = "Terminado" WHERE id = _id_proyecto;
+        SELECT 1 AS respuesta;
+    ELSE
+		SELECT 0 AS respuesta;
+    END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `asignarEquipoE` (IN `_email` VARCHAR(75), IN `_cargo` VARCHAR(100), IN `_id_equipo` INT)  BEGIN
@@ -74,6 +73,26 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `cambiarFoto` (IN `_email` VARCHAR(7
         SELECT 1;
     ELSE
 		SELECT 0;
+    END IF;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `cantidadDias` (IN `_id_sprint` INT)  BEGIN
+DECLARE tmp_fechas DATE;
+DECLARE _fecha_entrega DATE;
+	IF(SELECT EXISTS (SELECT * FROM sprint WHERE id=_id_sprint))THEN
+		SET _fecha_entrega = (SELECT fecha_entrega FROM sprint WHERE id=_id_sprint);
+		SET tmp_fechas = (SELECT fecha_inicio FROM sprint WHERE id=_id_sprint);
+        CREATE TEMPORARY TABLE fechas(dia_habil DATE)engine=memory;
+		WHILE tmp_fechas<=_fecha_entrega DO
+			IF(SELECT NOT EXISTS (SELECT * FROM dias_inhabiles WHERE dia_inhabil=tmp_fechas))THEN
+				insert into fechas select tmp_fechas;
+			END IF;
+            SET tmp_fechas = (DATE_ADD(tmp_fechas,INTERVAL 1 DAY));
+		end while;
+		select count(dia_habil) from fechas;
+		drop temporary table if exists fechas;
+	ELSE
+		SELECT 0 AS respuesta;
     END IF;
 END$$
 
@@ -214,7 +233,7 @@ DECLARE _fecha_entrega DATE;
 			END IF;
             SET tmp_fechas = (DATE_ADD(tmp_fechas,INTERVAL 1 DAY));
 		end while;
-		select * from fechas;
+		select dia_habil from fechas;
 		drop temporary table if exists fechas;
 	ELSE
 		SELECT 0 AS respuesta;
@@ -251,8 +270,8 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarEsfuerzo` (IN `_id_sprint` INT)  BEGIN
 	IF EXISTS(SELECT EXISTS (SELECT * FROM tarea WHERE id_sprint=_id_sprint))THEN
-		SELECT table1.id_tarea, group_concat(table1.cantidad separator ',') cantidades FROM (SELECT e.id_tarea, e.cantidad FROM tarea t INNER JOIN esfuerzo e ON t.id=e.id_tarea WHERE t.id_sprint=_id_sprint
-        ORDER BY e.id_tarea ASC) table1 GROUP BY id_tarea;
+		SELECT table1.id_tarea, group_concat(table1.cantidad separator ',') cantidades FROM (SELECT e.id, e.id_tarea, e.cantidad, e.fecha_dia FROM tarea t INNER JOIN esfuerzo e ON t.id=e.id_tarea WHERE t.id_sprint=_id_sprint
+        ORDER BY e.cantidad) table1 GROUP BY table1.id_tarea;
 	ELSE
 		SELECT 0 AS respuesta;
     END IF;
@@ -270,7 +289,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `listarMiembrosE` (IN `_id_proyecto`
 DECLARE _id_equipo INT;
 	IF ( SELECT EXISTS (SELECT * FROM proyecto WHERE id = _id_proyecto))THEN
 		SET _id_equipo = (SELECT id_equipo FROM proyecto WHERE id=_id_proyecto);
-        SELECT * FROM equipo_miembro e INNER JOIN miembro m ON e.id_miembro=m.id INNER JOIN usuario u ON m.id_usuario=u.id WHERE e.id_equipo=_id_equipo;
+        SELECT m.id, u.nombre, u.apellidos, e.cargo FROM equipo_miembro e INNER JOIN miembro m ON e.id_miembro=m.id INNER JOIN usuario u ON m.id_usuario=u.id WHERE e.id_equipo=_id_equipo;
+	ELSE
+		SELECT 0 as respuesta;
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `listarMiembrosEquipo` (IN `_id_equipo` INT)  BEGIN
+	IF ( SELECT EXISTS (SELECT * FROM equipo WHERE id = _id_equipo))THEN
+        SELECT m.id, u.nombre, u.apellidos, e.cargo FROM equipo_miembro e INNER JOIN miembro m ON e.id_miembro=m.id INNER JOIN usuario u ON m.id_usuario=u.id WHERE e.id_equipo=_id_equipo;
+	ELSE
+		SELECT 0 as respuesta;
+	END IF; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `listarMiembrosEquipos` (IN `_id_manager` INT)  BEGIN
+	IF ( SELECT EXISTS (SELECT * FROM equipo WHERE id_manager = _id_manager))THEN
+        SELECT e.id, m.id, u.nombre, u.apellidos, em.cargo FROM equipo e INNER JOIN equipo_miembro em ON e.id=em.id_equipo INNER JOIN miembro m ON em.id_miembro=m.id INNER JOIN usuario u ON m.id_usuario=u.id 
+        WHERE e.id_manager=_id_manager ORDER BY e.id;
 	ELSE
 		SELECT 0 as respuesta;
 	END IF; 
@@ -307,6 +343,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `listarProyectoSprint` (IN `_id_spri
 		END IF; 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `listarSeguimiento` (IN `_id_sprint` INT)  BEGIN
+	IF (SELECT EXISTS (SELECT * FROM seguimiento WHERE id_sprint=_id_sprint))THEN
+		SELECT * FROM seguimiento WHERE id_sprint = _id_sprint;
+    ELSE
+		SELECT 0;
+    END IF;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarSprint` (IN `_id_proyecto` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM sprint WHERE id_proyecto = _id_proyecto))THEN
 			SELECT * FROM sprint WHERE id_proyecto=_id_proyecto;
@@ -317,7 +361,7 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarTareas` (IN `_id_sprint` INT)  BEGIN
 	IF(SELECT EXISTS (SELECT * FROM tarea WHERE id_sprint=_id_sprint))THEN
-		SELECT * FROM tarea WHERE id_sprint=_id_sprint;
+		SELECT * FROM tarea WHERE id_sprint=_id_sprint ORDER by indice;
     ELSE
 		SELECT 0 AS respuesta;
     END IF;
@@ -348,6 +392,7 @@ DECLARE _id_esfuerzo INT;
 	IF ( SELECT EXISTS (SELECT * FROM esfuerzo WHERE fecha_dia = CURDATE() AND id_tarea=_id_tarea))THEN 
         SELECT 0 as respuesta;
    		ELSE
+        IF ( SELECT EXISTS (SELECT * FROM esfuerzo WHERE cantidad <= _cantidad  AND fecha_dia=(CURDATE()-1) ))THEN
 			INSERT INTO esfuerzo(cantidad, fecha_dia, id_tarea) VALUES(_cantidad, CURDATE(),_id_tarea);
 			SET _id_esfuerzo = (@@identity);
             IF (_cantidad = 0)THEN
@@ -360,6 +405,9 @@ DECLARE _id_esfuerzo INT;
             SET _horas_pendientes = (SELECT (total_horas_persona - _horas_completas) FROM sprint WHERE id=_id_sprint);   
 			INSERT INTO seguimiento(tareas_persona_pendientes, 	horas_persona_pendientes, fecha_seguimiento, id_sprint) VALUES(_tareas_pendientes, _horas_pendientes, CURDATE(), _id_sprint);
             SELECT 1 as respuesta;
+		ELSE
+        SELECT 2 AS respuesta;
+        END IF;
     END IF; 
 END$$
 
@@ -376,13 +424,6 @@ CREATE TABLE `dias_inhabiles` (
   `dia_inhabil` date NOT NULL,
   `id_sprint` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `dias_inhabiles`
---
-
-INSERT INTO `dias_inhabiles` (`id`, `dia_inhabil`, `id_sprint`) VALUES
-(5, '2017-06-23', 2);
 
 -- --------------------------------------------------------
 
@@ -402,11 +443,8 @@ CREATE TABLE `equipo` (
 --
 
 INSERT INTO `equipo` (`id`, `nombre`, `jornada`, `id_manager`) VALUES
-(6, 'RootCode', '8', 7),
-(7, 'Devian', '8', 7),
-(8, 'Replace', '8', 7),
-(10, 'Manjaros', '8', 7),
-(11, 'Debian', '8', 7);
+(12, 'RootCode', '8', 11),
+(13, 'JavascriptPro', '8', 11);
 
 -- --------------------------------------------------------
 
@@ -421,18 +459,6 @@ CREATE TABLE `equipo_miembro` (
   `id_miembro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
---
--- Volcado de datos para la tabla `equipo_miembro`
---
-
-INSERT INTO `equipo_miembro` (`id`, `cargo`, `id_equipo`, `id_miembro`) VALUES
-(3, 'Diseñador de interfaces', 6, 8),
-(4, 'Responsable de funcionalidades', 6, 9),
-(7, 'Responsable de base de datos', 6, 10),
-(8, 'Responsable de vistas', 7, 11),
-(9, 'Responsable de base de datos no relacionales', 7, 12),
-(10, 'Responsable de funcionalidades y análisis', 7, 9);
-
 -- --------------------------------------------------------
 
 --
@@ -445,13 +471,6 @@ CREATE TABLE `esfuerzo` (
   `fecha_dia` date NOT NULL,
   `id_tarea` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `esfuerzo`
---
-
-INSERT INTO `esfuerzo` (`id`, `cantidad`, `fecha_dia`, `id_tarea`) VALUES
-(7, 0, '2017-06-26', 1);
 
 -- --------------------------------------------------------
 
@@ -470,7 +489,9 @@ CREATE TABLE `manager` (
 --
 
 INSERT INTO `manager` (`id`, `experiencia`, `id_usuario`) VALUES
-(7, '2', 44);
+(10, '5', 58),
+(11, '2', 61),
+(12, '3', 57);
 
 -- --------------------------------------------------------
 
@@ -490,12 +511,7 @@ CREATE TABLE `miembro` (
 --
 
 INSERT INTO `miembro` (`id`, `destrezas`, `estado`, `id_usuario`) VALUES
-(8, '', 'A', 45),
-(9, 'Android, Diseños, full stack', 'A', 46),
-(10, 'Diseño de base de datos', 'A', 47),
-(11, 'Diseño de interfaces', 'A', 48),
-(12, 'Diseño de bases de datos no relacionales', 'A', 50),
-(13, 'Desarollo de interfaces', 'A', 52);
+(15, 'Front-end, Interfaces con AngularJS', 'A', 62);
 
 -- --------------------------------------------------------
 
@@ -517,13 +533,13 @@ CREATE TABLE `pila` (
 --
 
 INSERT INTO `pila` (`id`, `codigo`, `historia`, `importancia`, `estimado_horas`, `id_proyecto`) VALUES
-(5, 'C005', 'Vizualizar el documento con una interfaz con la cual se puedan añadir observaciones', '4', 16, 6),
-(9, 'C006', 'El estudiante deberá poder listar todaslas observaciones que realizó el docente pero no podrá editarlas', '4', 16, 6),
-(11, 'C007', 'Estudiantes y docentes deberá poder acceder mediante un login con su correo y una contraceña', '3', 4, 6),
-(12, 'C885', 'Realizar el CRUD para las observaciones de un docu..', '5', 24, 6),
-(14, 'P001', 'Realizar el diseño de viguetas utilizando una librería de diseño', '5', 24, 23),
-(15, 'C-001', 'Modulo de Seguridad', '5', 24, 15),
-(16, 'C-002', 'Vistas de Login, animaciones y Diseño de logos', '4', 4, 15);
+(17, 'B001', 'El docente deberá poder realizar observaciones en un documento word y estas deben poder almacenarce en base de datos', '5', 24, 25),
+(18, 'B002', 'El docente deberá poder visualizar el documento word', '5', 16, 25),
+(19, 'B003', 'El alumno deberá poder recuperar el documento word con las observaciones realizadas por el docente', '4', 8, 25),
+(20, 'B004', 'Tanto docente como alumno deberán poder registrarse en el sistema para poder acceder', '2', 4, 25),
+(21, 'B005', 'El docente podrá modificar o eliminar observaciones del documento', '4', 16, 25),
+(22, 'B006', 'Realizar reportes de todas las observaciones realizadas en el documento', '4', 16, 25),
+(23, 'B007', 'Traspaso de documento entre docentes', '3', 10, 25);
 
 -- --------------------------------------------------------
 
@@ -548,19 +564,7 @@ CREATE TABLE `proyecto` (
 --
 
 INSERT INTO `proyecto` (`id`, `codigo`, `nombre`, `descripcion`, `objetivo`, `fecha`, `estado`, `id_manager`, `id_equipo`) VALUES
-(4, 'P001', 'JScrum', 'Aplicación de software para la gestión de de trabajo utilizando el marco Scrum', 'agilizar el desarrollo', '2017-06-10 05:33:04', 'En proceso', 7, 6),
-(6, 'P002', 'GitGrad', 'Aplicación de software en plataforma web para la revisión de documentos digitales', 'Optimizar el proceso de revisión de documentos de proyectos de grado', '2017-06-10 05:46:22', 'En proceso', 7, 6),
-(8, 'P003', 'Lab Vos Andes', 'Sistema para la gestión de laboratorio clínico', 'Administrar con eficiencia los datos del laboratio clínico', '2017-06-10 05:47:49', 'En proceso', 7, 6),
-(10, 'P011', 'Go Móvil', 'Aplicación de software de red social empresarial', 'Otorgar servicios para publicación de empresas', '2017-06-10 06:06:39', 'En proceso', 7, 7),
-(12, 'P012', 'CCBOL', 'Página web para el evento de ciencias de computación de Bolivia', 'Otorgar información y servicios necesarios para la realización del evento', '2017-06-10 06:08:43', 'En proceso', 7, 8),
-(13, 'P025', 'Sistema de diseño de losas de entrepiso', 'Aplicación para el diseño de losas de entrepiso unidireccionales y bidireccionales.', 'Automatizar todos los cálculos necesarios para el diseño de losas de entrepiso.', '2017-06-11 00:44:07', 'En proceso', 7, 8),
-(15, 'C014', 'Aplicación para enseñar matemáticas a niños de manera lógica', 'Aplicación Android para enseñar a niños matemáticas', 'Diseñar una aplicación web que permita a niños aprender matemáticas de manera lógica', '2017-06-11 04:34:28', 'En proceso', 7, 6),
-(16, 'F-01', 'Full Casas', 'Software de gestion de ventas y alquier de casa', 'Proveer al usuario un sitio completo de ofertas sobre bienes inmuebles', '2017-06-11 04:36:56', 'En proceso', 7, 7),
-(18, 'Sv-01', 'SerApp', 'App para manejo de mantenimiento de vehiculos.', 'Gestionar la informacion para presentar un reporte correcto', '2017-06-11 04:48:06', 'En proceso', 7, 7),
-(19, 'p-05', 'Simulacro E-AD', 'Simulacro de examen de admision', 'Plataforma web para dar simulacros del examen de admision USFX', '2017-06-11 04:53:28', 'En proceso', 7, 8),
-(21, '', '', '', '', '2017-06-11 14:42:37', 'En proceso', 0, 0),
-(22, 'G011', 'Noticias Sistemas', 'Aplicación Android de noticias para la carrera de Ingeniería de Sistemas', 'Notificar a los usuarios sobre todas las actividades y noticias realizadas en la carrera de Ingeniería de Sistemas', '2017-06-11 16:49:42', 'En proceso', 7, 9),
-(23, 'G004', 'Software de diseño de viguetas', 'Aplicación de escritorio que permite realizar el diseño e viguetas', 'Facilitar los cálculos implicados en el diseño de viguetas', '2017-06-12 20:32:32', 'En proceso', 7, 11);
+(25, 'P001', 'Gitgrad', 'Aplicación de escritorio para versionar documentos digitales', 'Desarrollar una aplicación que permita crear versiones de un documento word para una revisión contínua', '2017-06-28 04:08:07', 'En proceso', 11, 12);
 
 -- --------------------------------------------------------
 
@@ -584,38 +588,8 @@ CREATE TABLE `proyecto_sprint` (
 --
 
 INSERT INTO `proyecto_sprint` (`id`, `indice`, `codigo`, `historia`, `importancia`, `estimado_horas`, `id_sprint`, `id_proyecto`) VALUES
-(3, '0', 'S0001', 'Realizar Crud de observaciones', '10', 24, 2, 6),
-(6, '1.1', 'B100', 'Backlog 1', '5', 24, 2, 6),
-(9, '1.2', 'B101', 'Backlog 1.2', '5', 16, 2, 6),
-(10, '2', 'C555', 'Historia prueba', '5', 8, 2, 6),
-(13, '0', 'P001', 'zzzzzzzzz', '5', 8, 5, 15),
-(14, '0', 'P001', 'zzzzzzzzz', '5', 8, 5, 15),
-(15, '2', 'C5555', 'la concha de la lora japonesa', '2', 12, 2, 15),
-(17, '1', 'H-01', 'Esta historia no me Gusta', '1', 16, 2, 15),
-(18, '2', '3', 'Esta es una segunda Historia', '5', 16, 2, 15),
-(19, '2', 'H-02', 'Historia 2', '4', 20, 2, 15),
-(20, '3', 'H-04', 'Historia 5', '5', 16, 2, 15),
-(21, '2', 'fasdf', 'asdfadsf', '', 123, 2, 15),
-(22, '1', 'h02', 'Cualquier Cosa', '5', 20, 2, 15),
-(23, '4', 'h-05', 'Historia 5', '5', 24, 2, 15),
-(24, '3', 'H-06', 'Historia Falsa', '4', 24, 2, 15),
-(25, '5', 'h-0001', 'HIstoria Truecha', '4', 20, 2, 15),
-(26, '6', 'h-0006', 'Otra Historia', '5', 5, 0, 0),
-(27, '6', 'H-005', 'Otra Historia', '5', 5, 0, 0),
-(28, '6', 'H-007', 'NInguna', '5', 15, 2, 15),
-(29, '7', 'h-0012', 'No lo se', '5', 16, 0, 0),
-(30, '8', 'h-0008', 'asdfas', '1', 12, 0, 0),
-(31, '7', 'S-7', 'Historia 7', '5', 5, 2, 15),
-(32, '8', 'H-8', 'Nueva Historia', '5', 24, 2, 15),
-(33, '9', 'S-09', 'Historia 9', '1', 10, 2, 15),
-(34, '10', 'S-10', 'Ultima Historia', '5', 5, 2, 15),
-(35, '11', 'S-11', 'Ultima Historia', '5', 5, 2, 15),
-(36, '1', 'S-01', 'Nueva Historia', '5', 5, 7, 15),
-(37, '2', 'S-02', 'Nueva Historia 2', '5', 5, 7, 15),
-(38, '3', 'S-3', 'Historia 3', '4', 12, 7, 15),
-(39, '4', 'S-4', 'Historia 4', '3', 20, 7, 15),
-(40, '5', 'S-05', 'Pollo tiene que ir al banio', '5', 1, 7, 15),
-(41, '1', 'S-001', 'Nueva Historia de Pollo', '5', 12, 8, 15);
+(44, '1.1', 'S004', 'El docente deberá registrar observaciones embebidas al documento Word del estudiante', '5', 16, 12, 25),
+(45, '1.2', 'S005', 'El docente deberá registrar observaciones y guardarlas en la base de datos', '5', 8, 12, 25);
 
 -- --------------------------------------------------------
 
@@ -630,17 +604,6 @@ CREATE TABLE `seguimiento` (
   `fecha_seguimiento` date NOT NULL,
   `id_sprint` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `seguimiento`
---
-
-INSERT INTO `seguimiento` (`id`, `tareas_persona_pendientes`, `horas_persona_pendientes`, `fecha_seguimiento`, `id_sprint`) VALUES
-(1, 4, 16, '2017-06-26', 2),
-(2, 4, 16, '2017-06-26', 2),
-(3, 3, 12, '2017-06-26', 2),
-(4, 4, 16, '2017-06-26', 2),
-(5, 3, 12, '2017-06-26', 2);
 
 -- --------------------------------------------------------
 
@@ -665,12 +628,7 @@ CREATE TABLE `sprint` (
 --
 
 INSERT INTO `sprint` (`id`, `codigo`, `total_horas`, `fecha_inicio`, `fecha_entrega`, `total_tareas`, `total_horas_persona`, `estado`, `id_proyecto`) VALUES
-(2, 'S1000', 415, '2017-05-31', '2017-06-30', 4, 16, 'En proceso', 15),
-(3, 'S2225', 0, '2017-06-10', '2017-09-30', 0, 0, 'En proceso', 0),
-(7, 'p-001', 43, '2017-06-21', '2017-10-01', 0, 0, 'En proceso', 15),
-(8, 's-01', 12, '2017-06-21', '2017-06-23', 0, 0, 'En proceso', 15),
-(9, 'p-01', 0, '2017-06-21', '2017-06-24', 0, 0, 'En proceso', 15),
-(10, 's001', 0, '2017-06-21', '2017-06-30', 0, 0, 'En proceso', 15);
+(12, 'SP20', 24, '2017-06-28', '2017-06-28', 0, 0, 'En proceso', 25);
 
 -- --------------------------------------------------------
 
@@ -689,13 +647,6 @@ CREATE TABLE `tarea` (
   `id_sprint` int(11) NOT NULL,
   `id_miembro` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
-
---
--- Volcado de datos para la tabla `tarea`
---
-
-INSERT INTO `tarea` (`id`, `indice`, `codigo`, `descripcion`, `tipo`, `estado`, `total_horas`, `id_sprint`, `id_miembro`) VALUES
-(1, '1', 'A100', 'Interfaz de los niños de Kaya', 'Principal', 'Terminado', 4, 2, 11);
 
 -- --------------------------------------------------------
 
@@ -720,15 +671,13 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id`, `nombre`, `apellidos`, `email`, `login`, `password`, `profesion`, `rol`, `foto`) VALUES
-(41, 'erwin', 'mendez', 'erwinXYZ1@gmail.com', 'erwin', '1234', 'Estudiante', 'Administrador', 'user1.svg'),
-(44, 'Soledad', 'Nina Huanca', 'solenina@gmail.com', 'sole', '1234', 'developer', 'Manager', 'user1.svg'),
-(45, 'Diego', 'Escalante Antezana', 'diego@gmail.com', 'diego', '1234', 'Developer', 'Usuario', 'user1.svg'),
-(46, 'Kaya', 'Negron', 'kaya@gmail.com', 'kaya', '1234', 'developer', 'Usuario', 'user1.svg'),
-(47, 'Yanin', 'Oquendo', 'yanin@gmail.com', 'yanin', '1234', 'designer', 'Usuario', 'user1.svg'),
-(48, 'José', 'Chirinos', 'josecito@gmail.com', 'jose', '1234', 'Ingeniero de Sistemas', 'Usuario', 'user1.svg'),
-(50, 'Gary David', 'Guzman Muñoz', 'Elgary@gmail.com', 'gary', '1234', 'Ingeniero de sistemas', 'Manager', 'images/Elgary@gmail.com'),
-(51, '', 'f', 'eee@gmail.com', '3', '3', '3', 'Usuario', '/images/user.svg'),
-(52, 'Jeannethe', 'Miranda', 'jeannethe@gmail.com', 'jeanne', '1234', 'Contandora', 'Usuario', '/images/user.svg');
+(55, 'Erwin', 'Méndez', 'erwinXYZ1@gmail.com', 'admin', '1234', 'Ingeniero de Sistemas', 'Administrador', '/images/user.svg'),
+(57, 'Amancaya Noelia', 'Iriarte Negrón', 'kaya@gmail.com', 'Amancaya', '1234', 'Ingeniera de Sistemas', 'Manager', '/images/user.svg'),
+(58, 'Fabian', 'Janko Escalante', 'fabian@gmail.com', 'fabian', '1234', 'Ingeniero de Sistemas', 'Usuario', '/images/user.svg'),
+(59, 'Yanin', 'Oquendo Tejerina', 'yanin@gmail.com', 'yanin', '1234', 'Administrador de Empresas', 'Usuario', '/images/user.svg'),
+(60, 'Jacqueline', 'Méndez Mejía', 'jacqueline@gmail.com', 'jacqueline', '1234', 'Ingeniera de Sistemas', 'Usuario', '/images/user.svg'),
+(61, 'Gary David', 'Guzman', 'gary@gmail.com', 'gary', '1234', 'Ingeniero de Sistemas', 'Manager', '/images/user.svg'),
+(62, 'Analy', 'Polares Daza', 'analy@gmail.com', 'analy', '1234', 'Ingeniera de Sistemas', 'Usuario', '/images/user.svg');
 
 --
 -- Índices para tablas volcadas
@@ -826,62 +775,62 @@ ALTER TABLE `dias_inhabiles`
 -- AUTO_INCREMENT de la tabla `equipo`
 --
 ALTER TABLE `equipo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 --
 -- AUTO_INCREMENT de la tabla `equipo_miembro`
 --
 ALTER TABLE `equipo_miembro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 --
 -- AUTO_INCREMENT de la tabla `esfuerzo`
 --
 ALTER TABLE `esfuerzo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 --
 -- AUTO_INCREMENT de la tabla `manager`
 --
 ALTER TABLE `manager`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `miembro`
 --
 ALTER TABLE `miembro`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 --
 -- AUTO_INCREMENT de la tabla `pila`
 --
 ALTER TABLE `pila`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 --
 -- AUTO_INCREMENT de la tabla `proyecto_sprint`
 --
 ALTER TABLE `proyecto_sprint`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 --
 -- AUTO_INCREMENT de la tabla `seguimiento`
 --
 ALTER TABLE `seguimiento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `sprint`
 --
 ALTER TABLE `sprint`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT de la tabla `tarea`
 --
 ALTER TABLE `tarea`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

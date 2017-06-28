@@ -34,6 +34,15 @@ $app->group('/proyecto',function(){
 				   	);
 	});
 
+	$this->get('/actualizarEstadoProyecto/{id}',function($req, $res, $args){
+		return $res->withHeader('Content-type', 'aplication/json')
+				   ->write(
+				   		json_encode($this->model->Proyecto->actualizarEstadoProyecto($args['id']))
+				   		
+				   	);
+	});
+
+
 	$this->get('/listarProyectos/{id}',function($req, $res, $args){
 		return $res->withHeader('Content-type', 'aplication/json')
 				   ->write(

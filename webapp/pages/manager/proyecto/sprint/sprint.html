@@ -75,8 +75,8 @@
 					<div class="btn-plus" ng-click="mostrarInsertarSprintBacklog()">+</div>
 					
 							<br><br>
-					<p class="no-historia animated jello" ng-show="vistaSprintCargando">Cargando Datos ..</p>
-					<p class="no-historia animated jello" ng-show="vistaSprintNoExisten">No Existen Historia en el Sprint</p>
+					<p class="no-historia animated jello" ng-show="vistaSprintCargando">Cargando datos ..</p>
+					<p class="no-historia animated jello" ng-show="vistaSprintNoExisten">No existen tareas en el Sprint</p>
 					<div class="table-responsive">
 						<table class="table table-striped table-bordered animated zoomIn table-hover" ng-show="vistaSprintBacklog" >
             <thead>
@@ -84,10 +84,10 @@
 										<th class="text-primary">Insertar</th>
                     <th class="text-success">ID</th>
                     <th class="text-success">Código</th>
-                    <th class="text-success">Descripcion</th>
-                    <th class="text-success">tipo</th>
+                    <th class="text-success">Descripción</th>
+                    <th class="text-success">Tipo</th>
 										<th class="text-success">Estado</th>
-                    <th class="text-success">Total Horas</th>
+                    <th class="text-success">Total horas</th>
 										<td  class="text-info" ng-repeat="dia in listaDias">
 												<span >
 															{{ dia.dia_habil }}

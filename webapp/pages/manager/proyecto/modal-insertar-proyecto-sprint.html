@@ -9,7 +9,7 @@
             <form name="frmUser" ng-submit="insertarProyectoSprint(datosPS)">
                 <div class="form-group">
                     <label for="indiceInput">Índice</label>
-                    <input type="number" class="form-control" ng-model="datosPS.indice" id="indiceInput" placeholder="Índice" requiered>
+                    <input type="text" class="form-control" ng-model="datosPS.indice" id="indiceInput" placeholder="Índice" requiered>
                 </div>
                 <div class="form-group">
                     <label for="codigoInput">Código</label>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <label for="importanciaInput">Importancia</label>
-                    <input type="number" class="form-control" ng-model="datosPS.importancia" id="importanciaInput" placeholder="Importancia" requiered>
+                    <input type="number" class="form-control" min="1" max="5" ng-model="datosPS.importancia" id="importanciaInput" placeholder="Importancia" requiered>
                 </div>
                 <div class="form-group">
                     <label for="estimadasInput">Horas Estimadas</label>
