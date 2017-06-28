@@ -7,6 +7,14 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     id = data.id
     $scope.responseProyect = "";
 
+    $scope.cargandoEquipos = true;
+    $scope.verEquipos = false;
+    $scope.noExisteEquipos = false;
+
+    // $scope.cargandoProyectos = true;
+    $scope.verProyectos = false;
+    $scope.noExisteProyectos = false;
+
     $scope.perfil = false;
     $scope.nombreEquipo = false;
 
@@ -28,20 +36,41 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     }
     $scope.idManager(id)
     $scope.listar = function(id){
-        
-            // console.log(id);
+            $scope.cargandoEquipos = true;
+            $scope.verEquipos = false;
+            $scope.noExisteEquipos = false;
+            console.log(id);
 			equipoServices.listar(id).then(function(){
+                $scope.cargandoEquipos = false;
 				$scope.equipos = equipoServices.response.message;
+                if($scope.equipos[0].respuesta){
+                    console.log("no tienes equipos")
+                    $scope.noExisteEquipos = true;
+                }else{
+                    $scope.verEquipos = true;
+                }
+                
 			});
 
     }
     $scope.listarProyectos = function(equipo){
             $scope.nombreEquipo = true;
            $scope.equipoProyecto = equipo;
-           console.log(equipo);
+        //    console.log(equipo);
+            $scope.cargandoProyectos = true;
+            $scope.verProyectos = false;
+            $scope.noExisteProyectos = false;
+        
 			equipoServices.listarProyectos(equipo.id).then(function(){
 				$scope.responseProyecto = equipoServices.response.message;
-                console.log(equipoServices.response)
+                // console.log(equipoServices.response)
+                $scope.cargandoProyectos = false;
+                if($scope.responseProyecto[0].respuesta){
+                    console.log("no tienes equipos")
+                    $scope.noExisteProyectos = true;
+                }else{
+                    $scope.verProyectos = true;
+                }
 			});
     }
     
