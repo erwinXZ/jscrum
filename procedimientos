@@ -1,4 +1,4 @@
-CREATE  PROCEDURE `actualizarEstadoProyecto` (IN `_id_proyecto` INT)  BEGIN
+CREATE PROCEDURE `actualizarEstadoProyecto` (IN `_id_proyecto` INT)  BEGIN
 	IF ( SELECT EXISTS (SELECT * FROM proyecto WHERE id = _id_proyecto))THEN
 		UPDATE proyecto SET estado = "Terminado" WHERE id = _id_proyecto;
         SELECT 1 AS respuesta;
@@ -7,7 +7,7 @@ CREATE  PROCEDURE `actualizarEstadoProyecto` (IN `_id_proyecto` INT)  BEGIN
     END IF;
 END$$
 
-CREATE  PROCEDURE `asignarEquipoE` (IN `_email` VARCHAR(75), IN `_cargo` VARCHAR(100), IN `_id_equipo` INT)  BEGIN
+CREATE PROCEDURE `asignarEquipoE` (IN `_email` VARCHAR(75), IN `_cargo` VARCHAR(100), IN `_id_equipo` INT)  BEGIN
 DECLARE _id_miembro INT;
 	    IF ( SELECT NOT EXISTS (SELECT * FROM usuario WHERE email = _email))THEN
 			SELECT 0 AS respuesta;
@@ -22,7 +22,7 @@ DECLARE _id_miembro INT;
     END IF; 
 END$$
 
-CREATE  PROCEDURE `asignarRol` (IN `_id` INT, IN `_rol` VARCHAR(45))  BEGIN
+CREATE PROCEDURE `asignarRol` (IN `_id` INT, IN `_rol` VARCHAR(45))  BEGIN
 IF ( SELECT EXISTS (SELECT * FROM usuario WHERE id= _id))THEN
 	UPDATE usuario SET rol = _rol WHERE id = _id;
     SELECT 1 as respuesta;
@@ -31,7 +31,7 @@ ELSE
 END IF;
 END$$
 
-CREATE  PROCEDURE `asignarTarea` (IN `_indice` VARCHAR(5), IN `_codigo` VARCHAR(10), IN `_descripcion` TEXT, IN `_tipo` VARCHAR(10), IN `_total_horas` INT, IN `_id_sprint` INT, IN `_id_miembro` INT)  BEGIN
+CREATE PROCEDURE `asignarTarea` (IN `_indice` VARCHAR(5), IN `_codigo` VARCHAR(10), IN `_descripcion` TEXT, IN `_tipo` VARCHAR(10), IN `_total_horas` INT, IN `_id_sprint` INT, IN `_id_miembro` INT)  BEGIN
 	IF (SELECT NOT EXISTS(SELECT * FROM tarea WHERE codigo=_codigo AND id_sprint=_id_sprint))THEN
 		INSERT INTO tarea(indice, codigo, descripcion, tipo, total_horas, id_sprint, id_miembro) VALUES(_indice, _codigo, _descripcion, _tipo, _total_horas, _id_sprint, _id_miembro);
 		UPDATE sprint SET total_tareas = total_tareas + 1, total_horas_persona = total_horas_persona + _total_horas WHERE id=_id_sprint;
@@ -41,7 +41,7 @@ CREATE  PROCEDURE `asignarTarea` (IN `_indice` VARCHAR(5), IN `_codigo` VARCHAR(
     END IF;
 END$$
 
-CREATE  PROCEDURE `cambiarFoto` (IN `_email` VARCHAR(75))  BEGIN
+CREATE PROCEDURE `cambiarFoto` (IN `_email` VARCHAR(75))  BEGIN
 	IF ( SELECT EXISTS (SELECT * FROM usuario WHERE email = _email))THEN
 		UPDATE usuario SET foto = CONCAT('images/',_email) WHERE email=_email;
         SELECT 1;
@@ -50,7 +50,7 @@ CREATE  PROCEDURE `cambiarFoto` (IN `_email` VARCHAR(75))  BEGIN
     END IF;
 END$$
 
-CREATE  PROCEDURE `cantidadDias` (IN `_id_sprint` INT)  BEGIN
+CREATE PROCEDURE `cantidadDias` (IN `_id_sprint` INT)  BEGIN
 DECLARE tmp_fechas DATE;
 DECLARE _fecha_entrega DATE;
 	IF(SELECT EXISTS (SELECT * FROM sprint WHERE id=_id_sprint))THEN
@@ -70,12 +70,12 @@ DECLARE _fecha_entrega DATE;
     END IF;
 END$$
 
-CREATE  PROCEDURE `crearEquipo` (IN `_nombre` VARCHAR(45), IN `_jornada` VARCHAR(2), IN `_id_manager` INT)  BEGIN
+CREATE PROCEDURE `crearEquipo` (IN `_nombre` VARCHAR(45), IN `_jornada` VARCHAR(2), IN `_id_manager` INT)  BEGIN
 	INSERT INTO equipo(nombre, jornada, id_manager) VALUES(_nombre, _jornada, _id_manager);
     SELECT 1 as respuesta;
 END$$
 
-CREATE  PROCEDURE `crearPila` (IN `_codigo` VARCHAR(10), IN `_historia` TEXT, IN `_importancia` VARCHAR(2), IN `_estimado_horas` INT, IN `_id_proyecto` INT)  BEGIN
+CREATE PROCEDURE `crearPila` (IN `_codigo` VARCHAR(10), IN `_historia` TEXT, IN `_importancia` VARCHAR(2), IN `_estimado_horas` INT, IN `_id_proyecto` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM pila WHERE codigo = _codigo AND id_proyecto = _id_proyecto))THEN 
 			SELECT 0 as respuesta;
    		ELSE
@@ -84,7 +84,7 @@ CREATE  PROCEDURE `crearPila` (IN `_codigo` VARCHAR(10), IN `_historia` TEXT, IN
     END IF; 
 END$$
 
-CREATE  PROCEDURE `crearProyecto` (IN `_codigo` VARCHAR(10), IN `_nombre` VARCHAR(100), IN `_descripcion` TEXT, IN `_objetivo` TEXT, IN `_id_manager` INT, IN `_id_equipo` INT)  BEGIN
+CREATE PROCEDURE `crearProyecto` (IN `_codigo` VARCHAR(10), IN `_nombre` VARCHAR(100), IN `_descripcion` TEXT, IN `_objetivo` TEXT, IN `_id_manager` INT, IN `_id_equipo` INT)  BEGIN
 	IF ( SELECT EXISTS (SELECT * FROM proyecto WHERE codigo = _codigo))THEN
 		SELECT 0;
 	ELSE
@@ -93,7 +93,7 @@ CREATE  PROCEDURE `crearProyecto` (IN `_codigo` VARCHAR(10), IN `_nombre` VARCHA
     END IF;
 END$$
 
-CREATE  PROCEDURE `crearSprint` (IN `_codigo` VARCHAR(10), IN `_fecha_entrega` DATE, IN `_id_proyecto` INT)  BEGIN
+CREATE PROCEDURE `crearSprint` (IN `_codigo` VARCHAR(10), IN `_fecha_entrega` DATE, IN `_id_proyecto` INT)  BEGIN
 IF ( SELECT EXISTS (SELECT * FROM sprint WHERE codigo = _codigo))THEN
 	SELECT 0;
 ELSE
@@ -102,7 +102,7 @@ ELSE
 END IF;
 END$$
 
-CREATE  PROCEDURE `graficoHoras` (IN `_id_sprint` INT)  BEGIN
+CREATE PROCEDURE `graficoHoras` (IN `_id_sprint` INT)  BEGIN
 	IF (SELECT EXISTS (SELECT * FROM seguimiento WHERE id_sprint=_id_sprint))THEN
 		SELECT sp.total_horas, sp.total_tareas, se.tareas_persona_pendientes, se.horas_persona_pendientes, se.fecha_seguimiento
         FROM seguimiento se INNER JOIN sprint sp ON sp.id=se.id_sprint WHERE sp.id=_id_sprint;
@@ -111,7 +111,7 @@ CREATE  PROCEDURE `graficoHoras` (IN `_id_sprint` INT)  BEGIN
     END IF;
 END$$
 
-CREATE  PROCEDURE `idManager` (IN `_id_usuario` INT)  BEGIN
+CREATE PROCEDURE `idManager` (IN `_id_usuario` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM usuario WHERE id=_id_usuario))THEN
 			IF ( SELECT EXISTS (SELECT * FROM manager WHERE id_usuario = _id_usuario))THEN 
 				SELECT m.id FROM usuario u INNER JOIN manager m ON u.id=m.id_usuario WHERE m.id_usuario=_id_usuario;
@@ -123,7 +123,7 @@ CREATE  PROCEDURE `idManager` (IN `_id_usuario` INT)  BEGIN
     END IF;
 END$$
 
-CREATE  PROCEDURE `idMiembro` (IN `_id_usuario` INT)  BEGIN
+CREATE PROCEDURE `idMiembro` (IN `_id_usuario` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM usuario WHERE id=_id_usuario))THEN
 			IF ( SELECT EXISTS (SELECT * FROM miembro WHERE id_usuario = _id_usuario))THEN 
 				SELECT m.id FROM usuario u INNER JOIN miembro m ON u.id=m.id_usuario WHERE m.id_usuario=_id_usuario;
@@ -135,7 +135,7 @@ CREATE  PROCEDURE `idMiembro` (IN `_id_usuario` INT)  BEGIN
     END IF;
 END$$
 
-CREATE  PROCEDURE `insertarDiaInhabil` (IN `_dia_inhabil` DATE, IN `_id_sprint` INT)  BEGIN
+CREATE PROCEDURE `insertarDiaInhabil` (IN `_dia_inhabil` DATE, IN `_id_sprint` INT)  BEGIN
 IF ( SELECT EXISTS (SELECT * FROM dias_inhabiles WHERE dia_inhabil = _dia_inhabil AND id_sprint = _id_sprint))THEN
 	SELECT 0;
 ELSE
@@ -144,7 +144,7 @@ ELSE
 	END IF;
 END$$
 
-CREATE  PROCEDURE `insertarManager` (IN `_experiencia` VARCHAR(100), IN `_id_usuario` INT)  BEGIN
+CREATE PROCEDURE `insertarManager` (IN `_experiencia` VARCHAR(100), IN `_id_usuario` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM usuario WHERE id = _id_usuario))THEN 
 			IF ( SELECT NOT EXISTS (SELECT * FROM manager WHERE id_usuario = _id_usuario))THEN 
 				INSERT INTO manager(experiencia, id_usuario) VALUES (_experiencia, _id_usuario);
@@ -157,7 +157,7 @@ CREATE  PROCEDURE `insertarManager` (IN `_experiencia` VARCHAR(100), IN `_id_usu
     END IF;
 END$$
 
-CREATE  PROCEDURE `insertarMiembro` (IN `_destrezas` VARCHAR(100), IN `_id_usuario` INT)  BEGIN
+CREATE PROCEDURE `insertarMiembro` (IN `_destrezas` VARCHAR(100), IN `_id_usuario` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM usuario WHERE id = _id_usuario))THEN 
 			IF ( SELECT NOT EXISTS (SELECT * FROM miembro WHERE id_usuario = _id_usuario))THEN 
 				INSERT INTO miembro(destrezas, id_usuario) VALUES (_destrezas, _id_usuario);
@@ -170,7 +170,7 @@ CREATE  PROCEDURE `insertarMiembro` (IN `_destrezas` VARCHAR(100), IN `_id_usuar
     END IF; 
 END$$
 
-CREATE  PROCEDURE `insertarProyectoSprint` (IN `_indice` VARCHAR(3), IN `_codigo` VARCHAR(10), IN `_historia` TEXT, IN `_importancia` VARCHAR(2), IN `_estimado_horas` INT, IN `_id_sprint` INT, IN `_id_proyecto` INT)  BEGIN
+CREATE PROCEDURE `insertarProyectoSprint` (IN `_indice` VARCHAR(3), IN `_codigo` VARCHAR(10), IN `_historia` TEXT, IN `_importancia` VARCHAR(2), IN `_estimado_horas` INT, IN `_id_sprint` INT, IN `_id_proyecto` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM proyecto_sprint WHERE codigo = _codigo))THEN 
 			SELECT 0 AS respuesta;
    		ELSE
@@ -180,7 +180,7 @@ CREATE  PROCEDURE `insertarProyectoSprint` (IN `_indice` VARCHAR(3), IN `_codigo
     END IF; 
 END$$
 
-CREATE  PROCEDURE `insertarUsuario` (IN `_nombre` VARCHAR(45), IN `_apellidos` VARCHAR(75), IN `_email` VARCHAR(75), IN `_login` VARCHAR(55), IN `_password` VARCHAR(35), IN `_profesion` VARCHAR(40))  BEGIN
+CREATE PROCEDURE `insertarUsuario` (IN `_nombre` VARCHAR(45), IN `_apellidos` VARCHAR(75), IN `_email` VARCHAR(75), IN `_login` VARCHAR(55), IN `_password` VARCHAR(35), IN `_profesion` VARCHAR(40))  BEGIN
 DECLARE _retorno VARCHAR(40);
 	    IF ( SELECT EXISTS (SELECT * FROM usuario WHERE login = _login))THEN 
             SELECT 2 as respuesta;
@@ -194,7 +194,7 @@ DECLARE _retorno VARCHAR(40);
     END IF;
 END$$
 
-CREATE  PROCEDURE `listarDias` (IN `_id_sprint` INT)  BEGIN
+CREATE PROCEDURE `listarDias` (IN `_id_sprint` INT)  BEGIN
 DECLARE tmp_fechas DATE;
 DECLARE _fecha_entrega DATE;
 	IF(SELECT EXISTS (SELECT * FROM sprint WHERE id=_id_sprint))THEN
@@ -214,7 +214,7 @@ DECLARE _fecha_entrega DATE;
     END IF;
 END$$
 
-CREATE  PROCEDURE `listarEquipos` (IN `_id_manager` INT)  BEGIN
+CREATE PROCEDURE `listarEquipos` (IN `_id_manager` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM equipo WHERE id_manager = _id_manager))THEN 
 			SELECT * FROM equipo WHERE id_manager = _id_manager;
    		ELSE
@@ -222,7 +222,7 @@ CREATE  PROCEDURE `listarEquipos` (IN `_id_manager` INT)  BEGIN
 		END IF; 
 END$$
 
-CREATE  PROCEDURE `listarEquiposMi` (IN `_id_miembro` INT)  BEGIN
+CREATE PROCEDURE `listarEquiposMi` (IN `_id_miembro` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM equipo_miembro WHERE id_miembro = _id_miembro))THEN
 			SELECT  e.id, e.nombre, e.jornada, em.id AS id_equipo, em.cargo FROM equipo e INNER JOIN equipo_miembro em ON e.id=em.id_equipo WHERE em.id_miembro = _id_miembro;
    		ELSE
@@ -230,7 +230,7 @@ CREATE  PROCEDURE `listarEquiposMi` (IN `_id_miembro` INT)  BEGIN
 		END IF; 
 END$$
 
-CREATE  PROCEDURE `listarEquiposProyectos` (IN `_id_manager` INT)  BEGIN
+CREATE PROCEDURE `listarEquiposProyectos` (IN `_id_manager` INT)  BEGIN
  IF ( SELECT EXISTS (SELECT * FROM equipo WHERE id_manager = _id_manager))THEN 
 			IF ( SELECT EXISTS (SELECT * FROM proyecto WHERE id_equipo = _id_manager))THEN 
 				SELECT * FROM equipo e INNER JOIN proyecto p ON e.id=p.id_equipo WHERE e.id_manager = _id_manager;
@@ -242,17 +242,22 @@ CREATE  PROCEDURE `listarEquiposProyectos` (IN `_id_manager` INT)  BEGIN
     END IF; 
 END$$
 
-CREATE  PROCEDURE `listarEsfuerzo` (IN `_id_sprint` INT)  BEGIN
+CREATE PROCEDURE `listarEsfuerzo` (IN `_id_sprint` INT)  BEGIN
+DECLARE _id_tarea INT;
 	IF (SELECT EXISTS (SELECT * FROM tarea WHERE id_sprint=_id_sprint))THEN
-		SELECT  table1.id, table1.indice, table1.codigo, table1.descripcion, table1.tipo, table1.estado, table1.total_horas, table1.id_miembro,  table1.id, table1.cantidad, table1.fecha_dia, table1.id_tarea, group_concat(table1.cantidad separator ',') cantidades 
-        FROM (SELECT t.id, t.indice, t.codigo, t.descripcion, t.tipo, t.estado, t.total_horas, t.id_miembro, e.id_tarea, e.cantidad, e.fecha_dia FROM tarea t INNER JOIN esfuerzo e ON t.id=e.id_tarea WHERE t.id_sprint=_id_sprint
-        ORDER BY e.cantidad) table1 GROUP BY table1.id_tarea;
+		IF (SELECT EXISTS (SELECT * FROM tarea t INNER JOIN esfuerzo e ON t.id=e.id_tarea WHERE id_sprint=_id_sprint))THEN
+			SELECT  table1.id, table1.indice, table1.codigo, table1.descripcion, table1.tipo, table1.estado, table1.total_horas, table1.id_miembro,  table1.id, table1.cantidad, table1.fecha_dia, table1.id_tarea, group_concat(table1.cantidad separator ',') cantidades 
+			FROM (SELECT t.id, t.indice, t.codigo, t.descripcion, t.tipo, t.estado, t.total_horas, t.id_miembro, e.id_tarea, e.cantidad, e.fecha_dia FROM tarea t INNER JOIN esfuerzo e ON t.id=e.id_tarea WHERE t.id_sprint=_id_sprint
+			ORDER BY e.cantidad) table1 GROUP BY table1.id_tarea;
+		ELSE
+			SELECT * FROM tarea WHERE id_sprint=_id_sprint;
+        END IF;
 	ELSE
 		SELECT 0 AS respuesta;
     END IF;
 END$$
 
-CREATE  PROCEDURE `listarInhabiles` (IN `_id_sprint` INT)  BEGIN
+CREATE PROCEDURE `listarInhabiles` (IN `_id_sprint` INT)  BEGIN
 	IF (SELECT EXISTS (SELECT * FROM dias_inhabiles WHERE id_sprint=_id_sprint))THEN
 		SELECT * FROM dias_inhabiles WHERE id_sprint=_id_sprint;
     ELSE
@@ -260,7 +265,7 @@ CREATE  PROCEDURE `listarInhabiles` (IN `_id_sprint` INT)  BEGIN
     END IF;
 END$$
 
-CREATE  PROCEDURE `listarMiembrosE` (IN `_id_proyecto` INT)  BEGIN
+CREATE PROCEDURE `listarMiembrosE` (IN `_id_proyecto` INT)  BEGIN
 DECLARE _id_equipo INT;
 	IF ( SELECT EXISTS (SELECT * FROM proyecto WHERE id = _id_proyecto))THEN
 		SET _id_equipo = (SELECT id_equipo FROM proyecto WHERE id=_id_proyecto);
@@ -270,7 +275,7 @@ DECLARE _id_equipo INT;
 	END IF; 
 END$$
 
-CREATE  PROCEDURE `listarMiembrosEquipo` (IN `_id_equipo` INT)  BEGIN
+CREATE PROCEDURE `listarMiembrosEquipo` (IN `_id_equipo` INT)  BEGIN
 	IF ( SELECT EXISTS (SELECT * FROM equipo_miembro WHERE id_equipo = _id_equipo))THEN
         SELECT m.id, u.nombre, u.apellidos, e.cargo, m.destrezas FROM equipo_miembro e INNER JOIN miembro m ON e.id_miembro=m.id INNER JOIN usuario u ON m.id_usuario=u.id WHERE e.id_equipo=_id_equipo;
 	ELSE
@@ -278,7 +283,7 @@ CREATE  PROCEDURE `listarMiembrosEquipo` (IN `_id_equipo` INT)  BEGIN
 	END IF; 
 END$$
 
-CREATE  PROCEDURE `listarMiembrosEquipos` (IN `_id_manager` INT)  BEGIN
+CREATE PROCEDURE `listarMiembrosEquipos` (IN `_id_manager` INT)  BEGIN
 	IF ( SELECT EXISTS (SELECT * FROM equipo WHERE id_manager = _id_manager))THEN
         SELECT e.id, m.id, u.nombre, u.apellidos, em.cargo FROM equipo e INNER JOIN equipo_miembro em ON e.id=em.id_equipo INNER JOIN miembro m ON em.id_miembro=m.id INNER JOIN usuario u ON m.id_usuario=u.id 
         WHERE e.id_manager=_id_manager ORDER BY e.id;
@@ -287,7 +292,7 @@ CREATE  PROCEDURE `listarMiembrosEquipos` (IN `_id_manager` INT)  BEGIN
 	END IF; 
 END$$
 
-CREATE  PROCEDURE `listarPila` (IN `_id_proyecto` INT)  BEGIN
+CREATE PROCEDURE `listarPila` (IN `_id_proyecto` INT)  BEGIN
 	IF ( SELECT EXISTS (SELECT * FROM pila WHERE id_proyecto = _id_proyecto))THEN 
 		SELECT * FROM pila WHERE id_proyecto = _id_proyecto
 		ORDER BY importancia DESC;
@@ -296,7 +301,7 @@ CREATE  PROCEDURE `listarPila` (IN `_id_proyecto` INT)  BEGIN
     END IF; 
 END$$
 
-CREATE  PROCEDURE `listarProyectos` (IN `_id_equipo` INT)  BEGIN
+CREATE PROCEDURE `listarProyectos` (IN `_id_equipo` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM equipo WHERE id = _id_equipo))THEN 
 			IF ( SELECT EXISTS (SELECT * FROM proyecto WHERE id_equipo = _id_equipo))THEN 
 				SELECT * FROM proyecto WHERE id_equipo = _id_equipo
@@ -309,7 +314,7 @@ CREATE  PROCEDURE `listarProyectos` (IN `_id_equipo` INT)  BEGIN
     END IF; 
 END$$
 
-CREATE  PROCEDURE `listarProyectoSprint` (IN `_id_sprint` INT, IN `_id_proyecto` INT)  BEGIN
+CREATE PROCEDURE `listarProyectoSprint` (IN `_id_sprint` INT, IN `_id_proyecto` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM proyecto_sprint WHERE id_sprint = _id_sprint AND id_proyecto = _id_proyecto))THEN
 			SELECT * FROM proyecto_sprint WHERE id_sprint = _id_sprint AND id_proyecto = _id_proyecto
             ORDER BY CAST(indice AS UNSIGNED);
@@ -318,7 +323,7 @@ CREATE  PROCEDURE `listarProyectoSprint` (IN `_id_sprint` INT, IN `_id_proyecto`
 		END IF; 
 END$$
 
-CREATE  PROCEDURE `listarSeguimiento` (IN `_id_sprint` INT)  BEGIN
+CREATE PROCEDURE `listarSeguimiento` (IN `_id_sprint` INT)  BEGIN
 	IF (SELECT EXISTS (SELECT * FROM seguimiento WHERE id_sprint=_id_sprint))THEN
 		SELECT * FROM seguimiento WHERE id_sprint = _id_sprint;
     ELSE
@@ -326,7 +331,7 @@ CREATE  PROCEDURE `listarSeguimiento` (IN `_id_sprint` INT)  BEGIN
     END IF;
 END$$
 
-CREATE  PROCEDURE `listarSprint` (IN `_id_proyecto` INT)  BEGIN
+CREATE PROCEDURE `listarSprint` (IN `_id_proyecto` INT)  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM sprint WHERE id_proyecto = _id_proyecto))THEN
 			SELECT * FROM sprint WHERE id_proyecto=_id_proyecto;
    		ELSE
@@ -334,7 +339,7 @@ CREATE  PROCEDURE `listarSprint` (IN `_id_proyecto` INT)  BEGIN
 		END IF; 
 END$$
 
-CREATE  PROCEDURE `listarTareas` (IN `_id_sprint` INT)  BEGIN
+CREATE PROCEDURE `listarTareas` (IN `_id_sprint` INT)  BEGIN
 	IF(SELECT EXISTS (SELECT * FROM tarea WHERE id_sprint=_id_sprint))THEN
 		SELECT * FROM tarea WHERE id_sprint=_id_sprint ORDER by indice;
     ELSE
@@ -342,7 +347,7 @@ CREATE  PROCEDURE `listarTareas` (IN `_id_sprint` INT)  BEGIN
     END IF;
 END$$
 
-CREATE  PROCEDURE `login` (IN `_login` VARCHAR(55), IN `_password` VARCHAR(35))  BEGIN
+CREATE PROCEDURE `login` (IN `_login` VARCHAR(55), IN `_password` VARCHAR(35))  BEGIN
 	    IF ( SELECT EXISTS (SELECT * FROM usuario WHERE login = _login AND password = _password))THEN 
 			SELECT id, nombre, apellidos, email, login, rol, foto FROM usuario WHERE login = _login;
    		ELSE
@@ -350,7 +355,7 @@ CREATE  PROCEDURE `login` (IN `_login` VARCHAR(55), IN `_password` VARCHAR(35)) 
     END IF; 
 END$$
 
-CREATE  PROCEDURE `modificarEstado` (IN `_estado` VARCHAR(15), IN `_id_tarea` INT)  BEGIN
+CREATE PROCEDURE `modificarEstado` (IN `_estado` VARCHAR(15), IN `_id_tarea` INT)  BEGIN
 	IF(SELECT EXISTS (SELECT * FROM tarea WHERE id=_id_tarea) )THEN
 		UPDATE tarea SET estado=_estado WHERE id=_id_tarea;
         SELECT 1 AS respuesta;
@@ -359,7 +364,7 @@ CREATE  PROCEDURE `modificarEstado` (IN `_estado` VARCHAR(15), IN `_id_tarea` IN
     END IF;
 END$$
 
-CREATE  PROCEDURE `quemarHoras` (IN `_cantidad` INT, IN `_id_tarea` INT, IN `_id_sprint` INT)  BEGIN
+CREATE PROCEDURE `quemarHoras` (IN `_cantidad` INT, IN `_id_tarea` INT, IN `_id_sprint` INT)  BEGIN
 DECLARE _tareas_pendientes INT DEFAULT 0; 
 DECLARE _horas_pendientes INT DEFAULT 0;
 DECLARE _horas_completas INT DEFAULT 0;
