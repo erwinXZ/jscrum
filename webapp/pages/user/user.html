@@ -22,7 +22,6 @@
 	        <li class="dropdown">
 	          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Información<span class="caret"></span></a>
 	          <ul class="dropdown-menu">
-	            <li><a href="#/help/user">Ayuda</a></li>
 	            <li><a href="#/about/user">Acerca de</a></li>
 	            <li><a href="#/" ng-click="removeItem()">Salir</a></li>
 	          </ul>
@@ -54,19 +53,18 @@
     </section>
 
 <br>
-    <div class="container">
+        <div class="container">
 
         <span class="text-primary titulo-equipo">Equipos</span> 
         <div class="row row-equipo">
 
-            
-            
             <div class="col-md-4">
 
-      
-                <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos">
-                     <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo )" >Proyectos</button>
- 
+                <p class="no-historia animated tada" ng-show="cargandoEquipos">Cargando Datos ...</p>
+                <p class="no-historia animated tada" ng-show="noExisteEquipos">No tienes Equipos</p>
+                <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos" ng-show="verEquipos">
+                     <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo)" >Proyectos</button>
+                     <button class="btn btn-info" ng-click="mostrarMiembros(equipo)" ><span class="glyphicon glyphicon-user"></span></button>
                     <span class="nombre-equipo">{{ equipo.nombre }}</span> 
                     <p>
                          <span class="glyphicon glyphicon-time"></span> 
@@ -82,7 +80,10 @@
                     {{ equipoProyecto.nombre }}
                     </blockquote>
                     
-                <div class="well cardPro" ng-click="verProyecto(proyecto)" ng-repeat=" proyecto in responseProyecto">
+
+                <p class="no-historia animated tada" ng-show="cargandoProyectos">Cargando Datos ...</p>
+                <p class="no-historia animated tada" ng-show="noExisteProyectos">No existen Proyectos</p>
+                <div class="well cardPro" ng-click="verProyecto(proyecto)" ng-repeat=" proyecto in responseProyecto" ng-show="verProyectos">
                     <span class="nombre-proyecto">{{ proyecto.nombre }}</span><br>
                     <p>{{proyecto.descripcion}}</p>
                     <p> <span class="objetivo">Objetivo :</span> {{ proyecto.objetivo }}</p>
@@ -94,3 +95,6 @@
         </div>
     </div>
 </div>
+
+
+<div ng-include="'pages/user/modal-miembro.html'"></div>

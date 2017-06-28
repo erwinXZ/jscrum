@@ -74,6 +74,10 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
             renderTo: 'container',
             type: 'area'
         },
+        
+        title: {
+        text: 'Gráfico Burn-Down'
+        },
 
         xAxis: {
             type: 'datetime',
@@ -119,6 +123,10 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
     var chart1 = new Highcharts.Chart({
         chart: {
             renderTo: 'container2',
+        },
+
+        title: {
+        text: 'Gráfico Tareas'
         },
 
         xAxis: {

@@ -56,7 +56,7 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     $scope.listarProyectos = function(equipo){
             $scope.nombreEquipo = true;
            $scope.equipoProyecto = equipo;
-        //    console.log(equipo);
+           console.log(equipo);
             $scope.cargandoProyectos = true;
             $scope.verProyectos = false;
             $scope.noExisteProyectos = false;

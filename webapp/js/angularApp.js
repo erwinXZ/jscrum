@@ -32,20 +32,16 @@ app.controller('mainCtrl', ['$scope','$http', function($scope,$http){
 		templateUrl: 'pages/registro.html',
 		controller: 'registroCtrl'
 	})
+	.when('/about/admin', {
+		templateUrl: 'pages/admin/about.html',
+		controller: 'adminCtrl'
+	})
 	.when('/about/manager', {
 		templateUrl: 'pages/manager/about.html',
 		controller: 'managerCtrl'
 	})
-	.when('/help/manager', {
-		templateUrl: 'pages/manager/help.html',
-		controller: 'managerCtrl'
-	})
 	.when('/about/user', {
 		templateUrl: 'pages/user/about.html',
-		controller: 'managerCtrl'
-	})
-	.when('/help/user', {
-		templateUrl: 'pages/user/help.html',
 		controller: 'managerCtrl'
 	})
 	.when('/admin', {
