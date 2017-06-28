@@ -56,6 +56,10 @@ app.controller('mainCtrl', ['$scope','$http', function($scope,$http){
 		templateUrl: 'pages/manager/proyecto/sprint/sprint.html',
 		controller: 'sprintCtrl'
 	})
+	.when('/user/proyecto/sprint', {
+		templateUrl: 'pages/user/proyecto/sprint/sprint.html',
+		controller: 'sprintCtrl'
+	})
 	.otherwise({ 
 		redirectTo: '/' 
 	});
