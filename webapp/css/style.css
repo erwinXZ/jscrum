@@ -222,3 +222,11 @@ footer span{
 	right: 20px;
     position: absolute;
 }
+/*proyecto*/
+.well-proyecto{
+	position: relative;
+}
+.btn-terminar-proyecto{
+	position: absolute;
+    right: 15px;
+}
