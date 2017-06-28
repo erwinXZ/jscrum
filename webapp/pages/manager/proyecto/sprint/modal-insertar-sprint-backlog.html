@@ -1,0 +1,55 @@
+<div class="modal fade" id="modal-insertar-sprint-backlog" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Insertar Sprint Backlog</h4>
+      </div>
+      <div class="modal-body">
+            <form name="frmUser" ng-submit="insertarSprintBacklog(sprintBacklog)">
+                <div class="form-group">
+                    <label for="indiceInput">Indice</label>
+                    <input type="text" class="form-control" ng-model="sprintBacklog.indice" id="indiceInput" placeholder="Indice" requiered>
+                </div>
+                <!--historia-->
+                <div class="form-group">
+                    <label for="codigoInput">Codigo</label>
+                    <input type="text" class="form-control" ng-model="sprintBacklog.codigo" id="codigoInput" placeholder="Codigo" required>
+                </div>
+                <!--importancia-->
+                <div class="form-group">
+                    <label for="importanciaInput">Tarea</label>
+                    <input type="text" class="form-control" ng-model="sprintBacklog.descripcion" id="descripcionInput" placeholder="Descripcion" required>
+                </div>
+                <!--tipo-->
+                <div class="form-group">
+                    <label for="tipoSelect">Tipo</label>
+                    <select name="tipoSelect" class="form-control" id="tipoSelect" ng-model="sprintBacklog.tipo">
+                        <option value="Principal">Principal</option>
+                        <option value="Soporte">Soporte</option>
+                    </select>
+                </div>    
+                <!--jornada-->
+                <div class="form-group">
+                    <label for="horasInput">Total de Horas</label>
+                    <input type="number" class="form-control" min="1"  ng-model="sprintBacklog.total_horas" id="horasInput" placeholder="Horas Estimadas" required>
+                </div>
+
+                <!--lista de equipo-->
+                <div class="form-group">
+                    <label for="miembroInput">Encargado</label>    
+                    <select name="repeatSelect" class="form-control" id="repeatSelect" ng-model="sprintBacklog.id_miembro">
+                        <option ng-repeat="option in listaEquipo"  value="{{option.id}}">{{option.nombre }}  {{ option.apellidos }}</option> 
+                    </select>
+                </div>    
+                
+                <button type="submit" class="btn btn-success btn-block" >Registrar</button> 
+                <!--<h3 class="text-center text-success"> {{ sprintBacklog | json}} </h3>-->
+
+            </form>
+
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

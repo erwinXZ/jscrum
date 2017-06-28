@@ -50,6 +50,16 @@ $app->group('/sprint',function(){
 				   	);
 	});
 
+	$this->get('/listarSeguimiento/{id}',function($req, $res, $args){
+		return $res->withHeader('Content-type', 'aplication/json')
+				   ->write(
+				   		json_encode($this->model->Sprint->listarSeguimiento($args['id']))
+				   		
+				   	);
+	});
+
+	
+
 	$this->get('/graficoHoras/{id}',function($req, $res, $args){
 		return $res->withHeader('Content-type', 'aplication/json')
 				   ->write(

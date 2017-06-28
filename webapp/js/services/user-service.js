@@ -9,7 +9,7 @@ var self ={
 					console.log(datos);
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.1.10/Web/jscrum/api/public/usuario/',
+					  	url: 'http://192.168.1.6/Web/jscrum/api/public/usuario/',
                         // url: 'http://localhost/gitgrad/APIPOLLO/public/observation/read/',
                         data:{
 								_nombre:datos.name,
@@ -40,7 +40,7 @@ var self ={
 					console.log(datos);
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.1.10/Web/jscrum/api/public/usuario/login/',
+					  	url: 'http://192.168.1.6/Web/jscrum/api/public/usuario/login/',
                         // url: 'http://localhost/gitgrad/APIPOLLO/public/observation/read/',
                         data:{
 								_login:datos.login,
@@ -69,7 +69,7 @@ var self ={
 				
                     $http({
                       method: 'GET',
-					  	url: 'http://192.168.1.10/Web/jscrum/api/public/usuario/',
+					  	url: 'http://192.168.1.6/Web/jscrum/api/public/usuario/',
                     	})
                         .then(function successCallback(response) {
                                 // ok
@@ -93,7 +93,7 @@ var self ={
 				
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.1.10/Web/jscrum/api/public/usuario/rol/',
+					  	url: 'http://192.168.1.6/Web/jscrum/api/public/usuario/rol/',
 						  data:{
 								_id:user.id,
 								_rol:user.rol
@@ -121,7 +121,7 @@ var self ={
 				
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.1.10/Web/jscrum/api/public/usuario/updatePhoto/',
+					  	url: 'http://192.168.1.6/Web/jscrum/api/public/usuario/updatePhoto/',
 						  data:{
 								_email:user.email,
 						}
@@ -148,7 +148,7 @@ var self ={
 				
                     $http({
                       method: 'POST',
-					  	url: 'http://192.168.1.10/Web/jscrum/api/public/usuario/insertarMiembro/',
+					  	url: 'http://192.168.1.6/Web/jscrum/api/public/usuario/insertarMiembro/',
 						  data:{
 								_id_usuario:user.id,
 								_destrezas:user.des

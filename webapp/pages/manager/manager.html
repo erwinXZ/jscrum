@@ -53,14 +53,12 @@
             <div class="btn-plus" ng-click="mostrarInsertarEquipo()">+</div>
         <div class="row row-equipo">
 
-            
-            
             <div class="col-md-4">
 
       
                 <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos">
-                     <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo )" >Proyectos</button>
- 
+                     <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo)" >Proyectos</button>
+                     <button class="btn btn-success" ng-click="mostrarMiembros(equipo)" >Miembros</button>
                     <span class="nombre-equipo">{{ equipo.nombre }}</span> 
                     <p>
                          <span class="glyphicon glyphicon-time"></span> 
@@ -94,3 +92,4 @@
 
 <div ng-include="'pages/manager/modal-insertar.html'"></div>
 <div ng-include="'pages/manager/modal-insertar-equipo.html'"></div>
+<div ng-include="'pages/manager/modal-miembro.html'"></div>

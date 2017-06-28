@@ -103,6 +103,20 @@ class  EquipoModel
 			$res = array("message"=>$res,"response"=>true);
 			return $res;	
 	}
+
+	public function listarME($data){
+		$this->db_pdo->multi_query(" CALL listarMiembrosEquipo(".$data.")");
+			$res = $this->db_pdo->store_result();
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			mysqli_close($this->db_pdo);
+			$res = array("message"=>$res,"response"=>true);
+			return $res;	
+	}
+
+	
 	//actualizar
 	public function update($data, $id){
 

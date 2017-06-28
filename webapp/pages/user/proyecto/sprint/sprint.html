@@ -38,6 +38,15 @@
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>
+
+	<section class="div-perfil" ng-show="isReplyFormOpen" >
+        <figure style="background-image:url(images/{{ data.foto }})">
+
+        </figure>
+        <p>{{ data.nombre }} - {{ data.rol }}</p>
+        <span>{{ data.email }}</span> 
+    </section>
+		
     <div class="container">
         <h1>Avance</h1>
         <h1>{{ sprint }}</h1>

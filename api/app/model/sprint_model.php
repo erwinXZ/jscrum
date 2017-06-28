@@ -122,13 +122,25 @@ class  SprintModel
 			}
 			$res = $arreglo;
 			$res = array("message"=>$res,"response"=>true);
+			return $res;
+	}
+
+	public function listarSeguimiento($data){
+		$this->db_pdo->multi_query(" CALL listarSeguimiento(".$data.")");
+			$res = $this->db_pdo->store_result();
+
+			while($fila = $res->fetch_assoc()){
+				$arreglo[] = $fila;
+			}
+			$res = $arreglo;
+			$res = array("message"=>$res,"response"=>true);
 			
 			// $res = $res->fetch_array();
 			// mysqli_close($this->db_pdo);
 			
-			return $res;
-			 
+			return $res;	
 	}
+	
 	
 
 	public function listarSprint($data){

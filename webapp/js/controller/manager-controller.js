@@ -154,7 +154,6 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     $scope.verProyecto =function(proyecto){
         console.log(proyecto)
         $window.location.href = '#/manager/proyecto/'+proyecto.id;
-
     }
 
     $scope.removeItem = function(){
@@ -162,6 +161,48 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
       console.log("Sesión finalizada");
     }
 
+    $scope.mostrarMiembros = function(equipo){
+        console.log(equipo.id );
+        $scope.equipo = {
+            id_manager:$scope.id_m 
+        }
+        proyecto = {
+            id_equipo:equipo.id,
+            id_manager:equipo.id_manager
+        };
 
+        $scope.proyect = proyecto;
+        $("#modal-miembro").modal();
 
+    }
+
+    // $scope.listarMiembrosEquipo = function(id){
+    //         equipoServices.listarMiembrosEquipo(id).then(function(){
+
+    //             $scope.miembros = equipoServices.response.message;
+    //             // console.log($scope.horas)
+    //             if($scope.miembros[0].respuesta){
+    //                 console.log("No existen Miembros");
+    //             }else{
+    //                 console.log($scope.miembros)
+    //             }
+	// 		});
+            
+    // }
+
+    $scope.asignarEquipoM = function(equipo){
+			console.log(equipo);
+            $scope.id_equipo ={
+                id:equipo.id_equipo
+            } 
+			equipoServices.asignarEquipoM(equipo).then(function(){
+				$scope.responseM = equipoServices.response;
+                console.log($scope.responseM);
+                 $("#modal-miembro").modal("hide");
+                 console.log($scope.id_equipo);
+                $scope.listar($scope.id_m);
+			});
+    }
+
+   
 }])

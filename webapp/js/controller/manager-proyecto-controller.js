@@ -14,9 +14,6 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
     $scope.verProSpri3 = true;
     $scope.historiaInsert = false;
     
-        // console.log($scope.idProyecto);  
-
-    //fecha
     	
          $scope.convertDate = function(date){
             var myDate = new Date(date);
@@ -36,6 +33,7 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
 			equipoServices.listarProyecto(id).then(function(){
 				$scope.proyecto= equipoServices.response;
                 // console.log($scope.proyecto)
+                $sessionStorage.dataProyecto = $scope.proyecto;
 			});
     }
     $scope.listarProyecto($scope.idProyecto);
@@ -167,8 +165,6 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
                 $("#modal-insertar-proyecto-sprint").modal("hide");
                
 			});
-         
-         
     }
 
     $scope.listarSprint($scope.idProyecto)
@@ -184,4 +180,7 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
       $sessionStorage.$reset();
       console.log("Sesión finalizada");
     }
+
+    
+
 }])
