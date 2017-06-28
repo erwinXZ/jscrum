@@ -16,6 +16,8 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
     $scope.verTareas = false;
     $scope.cargandoTareas =  true;
 
+    $scope.vistaTablaTareas = false;
+
     $scope.diaEsfuerzo = {};
     $scope.diaEsfuerzo.id_sprint =  $scope.dataSprint.id;
 
@@ -74,10 +76,6 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
             renderTo: 'container',
             type: 'area'
         },
-        
-        title: {
-        text: 'Gráfico Burn-Down'
-        },
 
         xAxis: {
             type: 'datetime',
@@ -125,10 +123,6 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
             renderTo: 'container2',
         },
 
-        title: {
-        text: 'Gráfico Tareas'
-        },
-
         xAxis: {
             type: 'datetime',
             title: {
@@ -170,49 +164,44 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
 
       }, 2000);
 
-      $scope.listarSprintBacklog = function(id){
-            sprintServices.listarSprintBacklog(id).then(function(){
-              $scope.vistaSprintCargando = false;
-				$scope.listaSprintBacklog = sprintServices.response.message;
-                // console.log($scope.listaSprintBacklog);
-                if($scope.listaSprintBacklog[0].respuesta){
-                    $scope.vistaSprintNoExisten = true;
-                }else{
-                    $scope.vistaSprintBacklog = true;
+    //   $scope.listarSprintBacklog = function(id){
+    //         sprintServices.listarSprintBacklog(id).then(function(){
+    //           $scope.vistaSprintCargando = false;
+	// 			$scope.listaSprintBacklog = sprintServices.response.message;
+    //             // console.log($scope.listaSprintBacklog);
+    //             if($scope.listaSprintBacklog[0].respuesta){
+    //                 $scope.vistaSprintNoExisten = true;
+    //             }else{
+    //                 $scope.vistaSprintBacklog = true;
                      
-                }
-			});
-    }
+    //             }
+	// 		});
+    // }
 
     $scope.listarEsfuerzo = function(id){
         sprintServices.listarEsfuerzo(id).then(function(){
-				$scope.listaEsfuerzo = sprintServices.response.message;
-                console.log($scope.listaSprintBacklog)
-                console.log($scope.listaEsfuerzo);
-                var tareas = [];
-                var auxTarea =[]
-                var auxTarea = $scope.listaSprintBacklog;
-                var auxEsfuerzo = $scope.listaEsfuerzo;
-
-                auxTarea.forEach(function(auxTarea) {
-                   
-                    auxEsfuerzo.forEach(function(auxEsfuerzo) {
-                    
-                        if(auxTarea.id == auxEsfuerzo.id_tarea ){
-                            
-
-                            auxTarea.cant=auxEsfuerzo.cantidades.split(",").sort(function(a,b){ return b - a});
-
-                            console.log(auxTarea.cant[0])
-                        }
-                    }, this);
+				$scope.tareas = sprintServices.response.message;
+                 $scope.vistaSprintCargando = false;
+                $scope.cargandoTareas = false;
+                // console.log($scope.tareas) 
+                if($scope.tareas[0].respuesta){
+                    console.log("no existe tareas");
+                    $scope.vistaSprintNoExisten = true;
+                }else{
+                    $scope.vistaTablaTareas = true;
+             
+                    // console.log($scope.tareas)
+                    if($scope.tareas[0].cantidades){
+                        tar = $scope.tareas;
+                        tar.forEach(function(element) {
+                            console.log(element.cantidades = element.cantidades.split(","))                         
+                        }, this);
+                        $scope.tareas = tar;
+                    }
+                     
+                }
                 
-                }, this);
-                
-                console.log(auxTarea)
-                $scope.tareas = auxTarea;
-                $scope.verTareas  = true;
-                $scope.cargandoTareas =  false;
+
 		});
     }
 
@@ -228,10 +217,9 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
 			});
     }
     $scope.listarDias($scope.dataSprint.id) 
-    $scope.listarSprintBacklog($scope.dataSprint.id);
-    setTimeout(function() {
-        $scope.listarEsfuerzo($scope.dataSprint.id);    
-    }, 2000);
+
+    $scope.listarEsfuerzo($scope.dataSprint.id);    
+
    
     $scope.mostrarInsertarSprintBacklog = function(){
         $scope.sprintBacklog = {
@@ -244,7 +232,7 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
     }
     $scope.listarEquipo = function(id){
         sprintServices.listarEquipo(id).then(function(){
-              $scope.vistaSprintCargando = false;
+             
 				$scope.listaEquipo = sprintServices.response.message;
                 // console.log($scope.listaEquipo);
     	});
@@ -263,17 +251,17 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
                 // console.log($scope.listaEquipo);
                  $("#modal-insertar-sprint-backlog").modal("hide");
                   
-                      $scope.listarSprintBacklog($scope.dataSprint.id);
-                    setTimeout(function() {
-                        $scope.listarEsfuerzo($scope.dataSprint.id);    
-                    }, 2000);
+                    //   $scope.listarSprintBacklog($scope.dataSprint.id);
+                    
+                    $scope.listarEsfuerzo($scope.dataSprint.id);    
+
                     $scope.listarEquipo($scope.proyectoId);
     	});
     }
     //insertar esfuerzo
 
     $scope.mostrarInsertarEsfuerzo = function(sprintBacklog){
-        console.log(sprintBacklog)
+        // console.log(sprintBacklog)
         
         $scope.diaEsfuerzo.id_tarea = sprintBacklog.id;
         
@@ -283,17 +271,19 @@ app.controller('sprintCtrl', ['$scope','sprintServices','$window','$sessionStora
     }
 
     $scope.insertarEsfuerzo = function(esfuerzo){
+        console.log(esfuerzo)
         sprintServices.insertarEsfuerzo(esfuerzo).then(function(){
 
 				$scope.repuestaEsfuerzo = sprintServices.response.message;
                 console.log($scope.repuestaEsfuerzo);
                 if($scope.repuestaEsfuerzo == 0 ){ alert("Error, la hora ya fue insertada")}
+                if($scope.repuestaEsfuerzo == 2 ){ alert("Error, la hora es mayor")}
                  $("#modal-insertar-esfuerzo").modal("hide");
                   
-                      $scope.listarSprintBacklog($scope.dataSprint.id);
-                    setTimeout(function() {
-                        $scope.listarEsfuerzo($scope.dataSprint.id);    
-                    }, 2000);
+                    //   $scope.listarSprintBacklog($scope.dataSprint.id);
+                    
+                    $scope.listarEsfuerzo($scope.dataSprint.id);    
+
                     $scope.listarEquipo($scope.proyectoId);
     	});
     }
