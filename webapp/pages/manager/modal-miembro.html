@@ -6,28 +6,46 @@
         <h4 class="modal-title">Miembros</h4>
       </div>
       <div class="modal-body">
-        <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos">
-                    <!--<span class="nombre-equipo">{{ equipo.nombre }}</span> 
-                    <p>  
-                         <span>{{ equipo.jornada }}</span>
-                    </p>-->
-        </div>
+            <h3 class="text-info">Lista de Miembros</h3>
+            <p class="no-historia animated tada" ng-show="cargandoMiembro">Cargando Datos ...</p>
+            <p class="no-historia animated tada" ng-show="noExisteMiebros">No Existen Miembros ...</p>
+            <table class="table table-striped table-hover" ng-show="verMiembros">
+            <thead>
+                <tr>
+                    <th class="text-success">ID</th>
+                    <th class="text-success">Nombre</th>
+                    <th class="text-success">Apellidos</th>
+                    <th class="text-success">Cargo </th>
+                    <th class="text-success">Destrezas </th>
+                    
 
-            <form name="frmUser" ng-submit="asignarEquipoM(equipo)">
-                                <div class="form-group">
-                                    <label for="emailInput">Email</label>
-                                    <input type="email" class="form-control"  id="emailInput" placeholder="Email" requiered>
-                                </div>
-                                <div class="form-group">
-                                    <label for="cargoInput">Cargo</label>
-                                    <input type="text" class="form-control" ng-model="equipo.cargo" id="cargoInput" placeholder="Cargo" requiered>
-                                </div>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="miembro in miembrosE">
+                    <td>{{ $index + 1 }}</td>
+                    <td>{{ miembro.nombre }}</td>
+                    <td>{{ miembro.apellidos }}</td>
+                    <td>{{ miembro.cargo }} </td>
+                    <td>{{ miembro.destrezas }}</td>
 
-                                <button type="submit" class="btn btn-success btn-block" >Registrar nuevo miembro</button>
+                </tr>
+            </tbody>
+             </table> 
 
- 
-                                <!--<h3 class="text-center text-success"> {{ proyect | json}} </h3>-->
-                </form>
+            <form name="frmMiembro" ng-submit="asignarMiembroE(miembroA)">
+                <div class="form-group">
+                  <label for="emailInput">Email</label>
+                  <input type="email" class="form-control"  id="emailInput" ng-model="miembroA.email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                   <label for="cargoInput">Cargo</label>
+                   <input type="text" class="form-control" ng-model="miembroA.cargo" id="cargoInput" placeholder="Cargo" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block" >Registrar nuevo miembro</button>
+                <!--<h3 class="text-center text-success"> {{ miembroA | json}} </h3>-->
+                <p class="no-historia animated tada" ng-show="cargadoInsertMiembro">Insertando ...</p>
+            </form>
 
       </div>
 

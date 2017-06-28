@@ -358,7 +358,6 @@ var self ={
                        return d.promise;	 
 	
 				},
-
 				asignarEquipoM : function(datos){
 					var d = $q.defer();
 					console.log(datos);
@@ -368,7 +367,7 @@ var self ={
                         data:{
 								_email:datos.email,
 								_cargo:datos.cargo,
-								_id_equipo:datos.idEquipo,
+								_id_equipo:datos.id_equipo,
 						}
                     	})
                         .then(function successCallback(response) {
@@ -402,7 +401,49 @@ var self ={
 								self.response 	= response.data
                         });
                        return d.promise;	 
+				},
+				listarME : function(id){
+					var d = $q.defer();
+                    
+                    $http({
+                      method: 'GET',
+					  	url: 'http://192.168.1.6/Web/jscrum/api/public/equipo/listarMiembrosEquipo/'+id,
+                    	})
+                        .then(function successCallback(response) {
+                              
+								self.response 	= response.data;
+								
+								return d.resolve()	
+                            }, function errorCallback(response) {
+                        
+                            	return d.resolve()	
+                              
+								self.response 	= response.data
+                        });
+                       return d.promise;	 
+				},
+				listarME : function(id){
+					var d = $q.defer();
+                    
+                    $http({
+                      method: 'GET',
+					  	url: 'http://192.168.1.6/Web/jscrum/api/public/equipo/listarMiembrosEquipo/'+id,
+                    	})
+                        .then(function successCallback(response) {
+                              
+								self.response 	= response.data;
+								
+								return d.resolve()	
+                            }, function errorCallback(response) {
+                        
+                            	return d.resolve()	
+                              
+								self.response 	= response.data
+                        });
+                       return d.promise;	 
 				}
+				
+				
 				
 				
 

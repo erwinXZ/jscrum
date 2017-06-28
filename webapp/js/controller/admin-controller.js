@@ -2,7 +2,7 @@ var app = angular.module('jscrumApp.adminCtrl',["ngStorage"]);
 
 app.controller('adminCtrl', ['$scope','$window','$sessionStorage','userServices',function($scope,$window,$sessionStorage,userServices){
 	$scope.user = {};
-    $scope.data = $sessionStorage.data;
+    $scope.data1 = $sessionStorage.data;
     data = $scope.data;
     $scope.user.visible = false;
     $scope.user.respuesta = "";
@@ -75,8 +75,6 @@ app.controller('adminCtrl', ['$scope','$window','$sessionStorage','userServices'
         var rolMod = $scope.data.model;
         userMod.rol = rolMod;
         userServices.modificar(userMod).then(function(){
-		    // $scope.response2 = userServices.response;
-            // console.log($scope.response);
             $("#modificarModal").modal("hide");
              $scope.listar();
 		});
@@ -87,8 +85,6 @@ app.controller('adminCtrl', ['$scope','$window','$sessionStorage','userServices'
             userServices.insertarManager(userMod).then(function(){
                     $scope.resMan = userServices.response;
                     console.log($scope.resMan);
-                    // $("#modificarModal").modal("hide");
-                    // $scope.listar();
                 });
         }
 
@@ -96,8 +92,6 @@ app.controller('adminCtrl', ['$scope','$window','$sessionStorage','userServices'
                 userServices.insertarUsuario(userMod).then(function(){
                     $scope.resUser = userServices.response;
                     console.log($scope.resUser);
-                    // $("#modificarModal").modal("hide");
-                    // $scope.listar();
                 });
         }
 

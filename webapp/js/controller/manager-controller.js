@@ -10,6 +10,12 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
     $scope.perfil = false;
     $scope.nombreEquipo = false;
 
+    $scope.miembroA = {};
+    $scope.cargandoMiembro = true;
+    $scope.noExisteMiebros = false;
+    $scope.verMiembros = false;
+
+    $scope.cargadoInsertMiembro = false;
     $scope.idManager = function(id){
         
 			equipoServices.idManager(id).then(function(){
@@ -99,12 +105,7 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
         $scope.equipo = {
             id_manager:$scope.id_m 
         }
-        // proyecto = {
-        //     id_equipo:equipo.id,
-        //     id_manager:equipo.id_manager
-        // };
 
-        // $scope.proyect = proyecto;
         $("#modal-insertar-equipo").modal();
 
     }
@@ -112,41 +113,13 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
  $scope.insertarEquipo = function(equipo){
         
 			console.log(equipo);
-            // console.log($scope.user.visible);
-			// datos = $scope.datos
-            // $scope.user.visible = true;
-            // $scope.id_equipo ={
-            //     id:proyecto.id_equipo
-            // } 
+
 			equipoServices.insertarEquipo(equipo).then(function(){
 				$scope.responseE = equipoServices.response;
                 console.log($scope.responseE);
                  $("#modal-insertar-equipo").modal("hide");
                  console.log($scope.id_equipo);
                 $scope.listar($scope.id_m);
-                // if($scope.response.message == "0"){
-                //     $scope.user.visible = false;
-                //     console.log($scope.user.visible);
-
-                //     $scope.user.respuesta = "El correo ya fue registrado, intente otro";
-                    
-
-                // }
-                // if($scope.response.message == "1"){
-                //     $scope.user.visible = false;
-                //     console.log($scope.user.visible);
-                //     console.log("INsertado correctament");
-                //     $scope.user.respuesta = "Registro Relizado Correctamente";
-                //     setTimeout(function() {
-                //         $window.location.href = '#/form1.html';
-                //     }, 2000);
-                // }
-                // if($scope.response.message == "2"){
-                //     $scope.user.visible = false;
-                //     $scope.user.respuesta = "El usuario ya fue registrado, intente otro";
-                //     console.log($scope.user.visible);
-                //     console.log("Usuario incorrecto");
-                // }
 			});
     }
 
@@ -163,45 +136,50 @@ app.controller('managerCtrl', ['$scope','$window','$sessionStorage','equipoServi
 
     $scope.mostrarMiembros = function(equipo){
         console.log(equipo.id );
-        $scope.equipo = {
-            id_manager:$scope.id_m 
-        }
-        proyecto = {
-            id_equipo:equipo.id,
-            id_manager:equipo.id_manager
-        };
-
-        $scope.proyect = proyecto;
+        $scope.noExisteMiebros = false;
+        $scope.verMiembros = false;
+        $scope.cargandoMiembro = true ;
+             equipoServices.listarME(equipo.id ).then(function(){
+                 $scope.cargandoMiembro = false ;
+                 $scope.miembrosE = equipoServices.response.message;
+                 if($scope.miembrosE[0].respuesta){
+                     $scope.noExisteMiebros = true;
+                 }else{
+                     $scope.verMiembros = true;
+                 }
+                // console.log($scope.miembrosE)
+			});
+            $scope.miembroA.id_equipo = equipo.id ;
         $("#modal-miembro").modal();
 
     }
 
-    // $scope.listarMiembrosEquipo = function(id){
-    //         equipoServices.listarMiembrosEquipo(id).then(function(){
 
-    //             $scope.miembros = equipoServices.response.message;
-    //             // console.log($scope.horas)
-    //             if($scope.miembros[0].respuesta){
-    //                 console.log("No existen Miembros");
-    //             }else{
-    //                 console.log($scope.miembros)
-    //             }
-	// 		});
-            
-    // }
-
-    $scope.asignarEquipoM = function(equipo){
-			console.log(equipo);
-            $scope.id_equipo ={
-                id:equipo.id_equipo
-            } 
-			equipoServices.asignarEquipoM(equipo).then(function(){
+    $scope.asignarMiembroE = function(miembroA){
+			$scope.cargadoInsertMiembro = true;
+                equipoServices.asignarEquipoM(miembroA).then(function(){
 				$scope.responseM = equipoServices.response;
                 console.log($scope.responseM);
-                 $("#modal-miembro").modal("hide");
-                 console.log($scope.id_equipo);
-                $scope.listar($scope.id_m);
-			});
+                $scope.cargadoInsertMiembro = false;
+                if($scope.responseM.message == 0){
+                    alert("No Existe Usuario")
+                }
+                if($scope.responseM.message == 2){
+                    alert("Usuario ya añadido al equipo")
+                    console.log(miembroA)
+                }
+                if($scope.responseM.message == 1){
+                    alert("Usuario Correctamente Insertado")
+                    equipoN = {}
+                    equipoN.id = miembroA.id_equipo
+                    $scope.mostrarMiembros(equipoN);
+                }
+                //  $("#modal-miembro").modal("hide");
+                //  console.log($scope.id_equipo);
+                // $scope.listar($scope.id_m);
+			});    
+            
+
     }
 
    

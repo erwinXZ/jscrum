@@ -27,13 +27,7 @@
 	            <li><a href="#/" ng-click="removeItem()">Salir</a></li>
 	          </ul>
 	        </li>
-	        <!--<li class="dropdown">
-	          <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Información<span class="caret"></span></a>
-	          <ul class="dropdown-menu">
-	            <li><a href="#/">Ayuda</a></li>
-	            <li><a href="#/">Acerca de</a></li>
-	          </ul>
-	        </li>-->
+
 	      </ul>
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
@@ -58,7 +52,7 @@
       
                 <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos">
                      <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo)" >Proyectos</button>
-                     <button class="btn btn-success" ng-click="mostrarMiembros(equipo)" >Miembros</button>
+                     <button class="btn btn-info" ng-click="mostrarMiembros(equipo)" >+ <span class="glyphicon glyphicon-user"></span></button>
                     <span class="nombre-equipo">{{ equipo.nombre }}</span> 
                     <p>
                          <span class="glyphicon glyphicon-time"></span> 
