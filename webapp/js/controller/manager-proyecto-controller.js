@@ -13,6 +13,8 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
     $scope.verProSpri2 = false;
     $scope.verProSpri3 = true;
     $scope.historiaInsert = false;
+
+    $scope.verBtnInsertar = false;
     
     	
          $scope.convertDate = function(date){
@@ -127,7 +129,7 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
         $scope.sprintId = datos.id;
         // console.log($scope.sprintId)
         console.log(datos)
-
+        $scope.verBtnInsertar = false;
 			equipoServices.listarProyectoSprint(datos).then(function(){
 				$scope.listaProyectoSprint = equipoServices.response.message;
                 // console.log($scope.listaProyectoSprint.response.message)
@@ -137,12 +139,14 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
                     $scope.verProSpri = false;
                     $scope.verProSpri2 = true;
                     $scope.verProSpri3 = false;
+                    $scope.verBtnInsertar = false;
                     
                 }else{
                     // console.log($scope.listaProyectoSprint);
                     $scope.verProSpri = true;
                     $scope.verProSpri2 = false;
-                    $scope.verProSpri3 = false
+                    $scope.verProSpri3 = false;
+                    $scope.verBtnInsertar = true;
                 }
 			});
     }

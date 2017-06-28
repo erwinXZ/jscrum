@@ -49,8 +49,9 @@
 
             <div class="col-md-4">
 
-      
-                <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos">
+                <p class="no-historia animated tada" ng-show="cargandoEquipos">Cargando Datos ...</p>
+                <p class="no-historia animated tada" ng-show="noExisteEquipos">No tienes Equipos</p>
+                <div class="well card-proyecto card-proyecto" ng-repeat="equipo in equipos" ng-show="verEquipos">
                      <button class="btn btn-success btn-m-pro" ng-click="listarProyectos(equipo)" >Proyectos</button>
                      <button class="btn btn-info" ng-click="mostrarMiembros(equipo)" >+ <span class="glyphicon glyphicon-user"></span></button>
                     <span class="nombre-equipo">{{ equipo.nombre }}</span> 
@@ -70,8 +71,9 @@
                     </blockquote>
                     
 
-
-                <div class="well cardPro" ng-click="verProyecto(proyecto)" ng-repeat=" proyecto in responseProyecto">
+                <p class="no-historia animated tada" ng-show="cargandoProyectos">Cargando Datos ...</p>
+                <p class="no-historia animated tada" ng-show="noExisteProyectos">No existen Proyectos</p>
+                <div class="well cardPro" ng-click="verProyecto(proyecto)" ng-repeat=" proyecto in responseProyecto" ng-show="verProyectos">
                     <span class="nombre-proyecto">{{ proyecto.nombre }}</span><br>
                     <p>{{proyecto.descripcion}}</p>
                     <p> <span class="objetivo">Objetivo :</span> {{ proyecto.objetivo }}</p>
