@@ -187,6 +187,12 @@ app.controller('managerProyectoCtrl', ['$scope','$filter','$window','$sessionSto
         $window.location.href = '#/maneger/proyecto/sprint';
     }
 
+    // $scope.verAvance1 = function(sprint){
+    //     console.log(sprint);
+    //    $sessionStorage.sprint = sprint;
+    //     $window.location.href = '#/user/proyecto/sprint';
+    // }
+
     $scope.removeItem = function(){
       $sessionStorage.$reset();
       console.log("Sesión finalizada");

@@ -86,33 +86,8 @@ class  EsfuerzoModel
 				$arreglo[] = $fila;
 			}
 			$res1 = $arreglo;
-			// $res1 = array("message"=>$res1,"response"=>true);
-			
-		// $this->db_pdo->multi_query(" CALL listarTareas(".$data.")");
-		// 	$res2 = $this->db_pdo->store_result();
-		// 	while($fila1 = $res2->fetch_assoc()){
-		// 		$arreglo1[] = $fila1;
-		// 	}
-		// 	$res2 = $arreglo1;
-		// 	// $res2 = array("message"=>$res2,"response"=>true);
-
-			$auxEsfuerzo = $res1;
-		// 	$auxTarea = $res2;
-
-		// 	foreach($auxTarea as $valor2){
-				foreach($auxEsfuerzo as $valor1){
-					// if ($valor2[id] == $valor1[id_tarea]){
-						$valor1[cant] = explode(",", $valor1[cantidades]);
-						// $valor1[cant] = $valor1[cantidades];
-						$valor2[cant]=asort($valor1[cant]);
-					}
-		// 		}
-
-		// 	}
-
-		// 	$res = $auxTarea;
-
-			return $auxEsfuerzo;
+			$res1 = array("message"=>$res1,"response"=>true);
+			return $res1;
 	}
 
 
